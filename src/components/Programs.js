@@ -29,7 +29,7 @@ const Programs = () => {
       features: [
         "8 Learning Levels", 
         "Solve Math in Seconds",
-        "Great for Olympiads and competitive Exams",
+        "Great for competitive Exams",
         "For Ages 10+"
       ],
       icon: <Award color="white" size={32} />,

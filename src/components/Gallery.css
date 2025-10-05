@@ -142,3 +142,19 @@
     transform: translateX(-50%);
   }
 }
+
+
+
+/* Gallery.css */
+.gallery-image-mobile {
+  max-width: 110%;
+  height: auto;
+  border-radius: 15px;
+}
+@media (max-width: 600px) {
+  .gallery-image-mobile {
+    width: 110vw;
+    height: auto;
+    border-radius: 10px;
+  }
+}

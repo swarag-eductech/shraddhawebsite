@@ -35,8 +35,8 @@
   color: white;
 }
 
-/* Hero Section */
-.hero-section {
+/* Hero Section - Scoped for FranchiseTeacherParent */
+.franchise-teacher-parent-hero-section {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -50,19 +50,19 @@
   justify-content: center;
 }
 
-.hero-overlay {
+.franchise-teacher-parent-hero-overlay {
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(0, 0, 0, 0.4);
   z-index: 1;
 }
 
-.hero-content {
+.franchise-teacher-parent-hero-content {
   position: relative;
   z-index: 2;
 }
 
-.hero-badge {
+.franchise-teacher-parent-hero-badge {
   background: rgba(255, 255, 255, 0.9) !important;
   color: #fd7e14 !important;
   padding: 8px 16px;
@@ -72,7 +72,7 @@
   display: inline-block;
 }
 
-.hero-title {
+.franchise-teacher-parent-hero-title {
   font-size: 2.8rem;
   font-weight: 800;
   margin-bottom: 1.5rem;
@@ -80,14 +80,14 @@
   margin-top: 5.5rem; /* Add this for downward spacing */
 }
 
-.hero-title .highlight {
+.franchise-teacher-parent-hero-title .highlight {
   
   color: #fd7e14;
   padding: 4px 12px;
   border-radius: 8px;
 }
 
-.hero-subtitle {
+.franchise-teacher-parent-hero-subtitle {
   font-size: 1.2rem;
   margin-bottom: 2rem;
   opacity: 0.9;
@@ -96,7 +96,7 @@
   font-weight: 700;
 }
 
-.hero-stats {
+.franchise-teacher-parent-hero-stats {
   display: flex;
   justify-content: center;
   align-items: stretch;
@@ -105,7 +105,7 @@
   margin: 2rem 0;
 }
 
-.stat-item {
+.franchise-teacher-parent-stat-item {
   border-radius: 18px;
   padding: 18px 22px;
   min-width: 160px;
@@ -114,13 +114,16 @@
   flex-direction: column;
   align-items: center;
   transition: transform 0.2s;
+  /* Add transparent border */
+  border: 2px solid rgba(255,255,255,0.18);
+  background: rgba(0,0,0,0.18);
 }
 
-.stat-item:hover {
+.franchise-teacher-parent-stat-item:hover {
   transform: translateY(-4px) scale(1.03);
 }
 
-.stat-number {
+.franchise-teacher-parent-stat-number {
   font-size: 1.2rem;
   font-weight: 700;
   margin-bottom: 8px;
@@ -129,7 +132,7 @@
   gap: 6px;
 }
 
-.stat-number .text-success {
+.franchise-teacher-parent-stat-number .text-success {
   color: #28c76f !important;
   animation: popIn 0.7s cubic-bezier(.68,-0.55,.27,1.55);
 }
@@ -140,7 +143,7 @@
   100% { transform: scale(1); }
 }
 
-.stat-label {
+.franchise-teacher-parent-stat-label {
   font-size: 0.95rem;
   opacity: 0.95;
   font-weight: 400;
@@ -184,59 +187,38 @@
 
 /* Responsive for mobile */
 @media (max-width: 600px) {
-  .hero-stats-sm {
-    gap: 1rem;
-    margin: 1.2rem 0 0.5rem 0;
-    flex-direction: column;
-    align-items: center;
+  .franchise-teacher-parent-hero-section {
+    padding: 60px 0;
+    min-height: 260px;
   }
-  .hero-stats-sm .stat-item {
+  .franchise-teacher-parent-hero-title {
+    font-size: 1.8rem;
+  }
+  .franchise-teacher-parent-hero-stats {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .franchise-teacher-parent-stat-item {
     min-width: 0;
     max-width: 100%;
     margin-bottom: 0.7em;
+    padding: 12px 8px;
   }
-  .hero-stats-sm .stat-number {
+  .franchise-teacher-parent-stat-number {
     font-size: 1rem;
   }
-  .hero-stats-sm .stat-label {
+  .franchise-teacher-parent-stat-label {
     font-size: 0.78rem;
   }
 }
 
-@media (max-width: 900px) {
-  .hero-stats {
-    gap: 12px;
-  }
-  .stat-item {
-    min-width: 140px;
-    padding: 14px 10px;
-    font-size: 0.98rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .hero-stats {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    gap: 10px;
-    padding-bottom: 8px;
-  }
-  .stat-item {
-    min-width: 130px;
-    padding: 12px 8px;
-    font-size: 0.95rem;
-    margin-bottom: 0;
-  }
-}
-
-@media (max-width: 576px) {
-  .hero-stats {
-    gap: 8px;
-  }
-  .stat-item {
-    min-width: 120px;
-    padding: 10px 6px;
-    font-size: 0.92rem;
+@media (min-width: 992px) {
+  .franchise-teacher-parent-hero-section {
+    height: 580px !important;
+    max-height: 580px !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    padding: 100px 0 !important;
   }
 }
 
@@ -663,4 +645,24 @@
     width: 100%;
     margin: 10px 0;
   }
+
+  .section-title {
+    font-size: 1.2rem;
+  }
+  .announcement-content {
+    flex-direction: column;
+    text-align: center;
+    color: white;
+  }
+  .hero-buttons .btn {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+  }
+  .cta-buttons .btn {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+  }
 }
+

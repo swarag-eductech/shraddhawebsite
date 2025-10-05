@@ -199,6 +199,20 @@ const Header = () => {
           ]
         }
       ] 
+    },
+    // Add Our Teachers as a separate year section
+    {
+      year: "Our Teachers",
+      events: [
+        {
+          type: "teachers",
+          name: "Our Teachers",
+          icon: faChalkboardTeacher,
+          subEvents: [
+            { name: "Teachers Achievement Images", slug: "teachers-achievement-images" }
+          ]
+        }
+      ]
     }
   ];
 

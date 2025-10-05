@@ -121,7 +121,13 @@ const DemoAndContact = () => {
           </div>
           <div className="demo-image">
             {studentImg ? (
-              <img src={studentImg} alt="Happy students learning" />
+              <picture>
+                <source
+                  srcSet={studentImg.replace(/\.png$/, '.webp')}
+                  type="image/webp"
+                />
+                <img src={studentImg} alt="Happy students learning" width="400" height="250" loading="lazy" />
+              </picture>
             ) : (
               <p>Loading image...</p>
             )}

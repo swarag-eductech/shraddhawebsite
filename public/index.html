@@ -96,6 +96,17 @@
       onload="this.media='all'"
     />
     
+    <!-- Preload critical hero image for LCP -->
+    <link 
+      rel="preload" 
+      as="image" 
+      href="https://i.ibb.co/7xbSHV2Y/MG-5740-11zonsmall.webp"
+      fetchpriority="high"
+    />
+    
+    <!-- DNS prefetch for image CDN -->
+    <link rel="dns-prefetch" href="//i.ibb.co">
+    
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

@@ -112,27 +112,26 @@ const FranchiseBusinessSchool = () => {
         
         {/* Enhanced Hero Section with Emotional Hook */}
         <section 
-          className="hero-section position-relative overflow-hidden"
+          className="franchise-business-school-hero-section position-relative overflow-hidden"
           style={{
-            background: 'linear-gradient(135deg, #ea580c 0%, #f97316 50%, #dc2626 100%)',
+            background: 'linear-gradient(135deg, #ff9f43 0%, #fd7e14 100%)', // Match AbacusPage hero
             color: 'white',
-            minHeight: '56vh',
+            minHeight: '300px',
+            padding: '80px 0',
             display: 'flex',
             alignItems: 'center'
           }}
         >
-          <div className="hero-overlay" style={{
-            background: 'rgba(0,0,0,0.3)',
+          <div className="franchise-business-school-hero-overlay" style={{
             position: 'absolute',
             top: 0,
             left: 0,
             right: 0,
             bottom: 0
           }}></div>
-          
           <Container className="position-relative" style={{ zIndex: 2 }}>
             <Row className="align-items-center justify-content-center text-center">
-              <Col lg={10} xl={8} className="mx-auto">
+              <Col lg={10} xl={8} className="franchise-business-school-hero-content mx-auto">
                 {/* Trust Badges */}
                 <div className="mb-3">
                   <span className="hero-badge me-2">

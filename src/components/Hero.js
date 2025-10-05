@@ -17,8 +17,26 @@ const Hero = () => {
         if (!querySnapshot.empty) {
           const urls = querySnapshot.docs
             .map((doc) => doc.data().url)
-            .filter((url) => url && typeof url === 'string' && url.trim() !== '');
+            .filter((url) => url && typeof url === 'string' && url.trim() !== '')
+            // Prioritize WebP images
+            .map(url => {
+              // Convert to WebP if not already
+              if (url.includes('.jpg') || url.includes('.png')) {
+                return url.replace(/\.(jpg|png)$/i, '.webp');
+              }
+              return url;
+            });
           setImages(urls);
+          
+          // Preload first image immediately for LCP
+          if (urls.length > 0) {
+            const link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = 'image';
+            link.href = urls[0];
+            link.fetchPriority = 'high';
+            document.head.appendChild(link);
+          }
         } else {
           setImages([]);
         }
@@ -33,25 +51,35 @@ const Hero = () => {
   useEffect(() => {
     if (images.length === 0) return;
     
-    // Critical: Load first image immediately
+    // Critical: Load first image with high priority
     const img = new window.Image();
-    img.onload = () => setFirstImageLoaded(true);
+    img.fetchPriority = 'high';
+    img.onload = () => {
+      setFirstImageLoaded(true);
+      // Start slideshow only after first image loads
+      if (images.length > 1) {
+        setTimeout(() => {
+          setCurrentIndex(1);
+        }, 4000);
+      }
+    };
     img.onerror = () => setFirstImageLoaded(true);
     img.src = images[0];
     
-    // Non-critical: Use requestIdleCallback for preloading remaining images
+    // Preload remaining images with lower priority
     const preloadRemainingImages = () => {
-      images.slice(1).forEach((src) => {
+      images.slice(1).forEach((src, index) => {
         const preloadImg = new window.Image();
+        preloadImg.fetchPriority = 'low';
         preloadImg.src = src;
       });
     };
     
-    // Use requestIdleCallback or setTimeout fallback
+    // Use requestIdleCallback for non-critical preloading
     if ('requestIdleCallback' in window) {
-      requestIdleCallback(() => preloadRemainingImages(), { timeout: 2000 });
+      requestIdleCallback(() => preloadRemainingImages(), { timeout: 1000 });
     } else {
-      setTimeout(preloadRemainingImages, 1000);
+      setTimeout(preloadRemainingImages, 500);
     }
   }, [images]);
 

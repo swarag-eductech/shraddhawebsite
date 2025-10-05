@@ -187,53 +187,45 @@ const FranchiseTeacherParent = () => {
 
         {/* Enhanced Hero Section */}
         <section 
-          className="hero-section"
+          className="franchise-teacher-parent-hero-section"
           style={{
             backgroundImage: heroImage ? `url(${heroImage})` : 'linear-gradient(135deg, #fd7e14 0%, #ff9f43 100%)',
-            backgroundRepeat: "no-repeat", // Ensure image does not repeat
-            backgroundSize: "cover",       // Ensure image covers the section
-            backgroundPosition: "center"   // Center the image
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center"
           }}
         >
-          <div className="hero-overlay"></div>
+          <div className="franchise-teacher-parent-hero-overlay"></div>
           <Container>
             <Row className="align-items-center justify-content-center text-center">
-              <Col lg={10} className="hero-content">
-                <Badge bg="light" text="dark" className="hero-badge">
+              <Col lg={10} className="franchise-teacher-parent-hero-content">
+                <Badge className="franchise-teacher-parent-hero-badge mb-3" style={{ fontSize: '0.9rem' }}>
                   <FaShieldAlt className="me-2" />
                   Perfect for Teachers & Parents
                 </Badge>
                 
-                <h1 className="hero-title" style={{ fontFamily: 'sans-serif' }}>
-                  {/* Font type: set in CSS, e.g. font-family: 'Montserrat', Arial, sans-serif; */}
+                <h1 className="franchise-teacher-parent-hero-title">
                   Start Your Learning Center from <span className="highlight">Home</span>
                 </h1>
-                
-                <img
-                  src={heroImage}
-                  alt="Franchise Hero"
-                  style={{ display: "none" }}
-                  loading="eager" // If you have a visible hero image, use eager (or remove loading attr)
-                />
 
-                <div className="hero-stats hero-stats-sm">
-                  <div className="stat-item">
-                    <div className="stat-number hero-stat-white">
+                <div className="franchise-teacher-parent-hero-stats">
+                  <div className="franchise-teacher-parent-stat-item">
+                    <div className="franchise-teacher-parent-stat-number hero-stat-white">
                       Flexible Hours
                     </div>
-                    <div className="stat-label hero-stat-white">Teach when you want, fit your lifestyle</div>
+                    <div className="franchise-teacher-parent-stat-label hero-stat-white">Teach when you want, fit your lifestyle</div>
                   </div>
-                  <div className="stat-item">
-                    <div className="stat-number hero-stat-white">
+                  <div className="franchise-teacher-parent-stat-item">
+                    <div className="franchise-teacher-parent-stat-number hero-stat-white">
                       Complete Training
                     </div>
-                    <div className="stat-label hero-stat-white">Get certified & start with confidence</div>
+                    <div className="franchise-teacher-parent-stat-label hero-stat-white">Get certified & start with confidence</div>
                   </div>
-                  <div className="stat-item">
-                    <div className="stat-number hero-stat-white">
+                  <div className="franchise-teacher-parent-stat-item">
+                    <div className="franchise-teacher-parent-stat-number hero-stat-white">
                       Work From Home
                     </div>
-                    <div className="stat-label hero-stat-white">No commute, earn from your own space</div>
+                    <div className="franchise-teacher-parent-stat-label hero-stat-white">No commute, earn from your own space</div>
                   </div>
                 </div>
 
@@ -393,37 +385,6 @@ const FranchiseTeacherParent = () => {
                   </Card>
                 </Col>
               ))}
-            </Row>
-          </Container>
-        </section>
-
-        {/* Student Image Example */}
-        <section className="student-image-section">
-          <Container>
-            <Row className="text-center mb-5">
-              <Col lg={8} className="mx-auto">
-                <h2 className="section-title">See Our Students in Action</h2>
-                <p className="section-subtitle">Happy learners at our franchise centers</p>
-              </Col>
-            </Row>
-
-            <Row className="justify-content-center">
-              <Col lg={8} className="text-center">
-                <img
-                  src="https://i.ibb.co/9HNMjkTd/student.png"
-                  alt="Happy students learning"
-                  width="400"
-                  height="250"
-                  loading="lazy"
-                  srcSet="
-                    https://i.ibb.co/9HNMjkTd/student-200.png 200w,
-                    https://i.ibb.co/9HNMjkTd/student-400.png 400w,
-                    https://i.ibb.co/9HNMjkTd/student.png 800w
-                  "
-                  sizes="(max-width: 600px) 200px, (max-width: 1200px) 400px, 800px"
-                  className="img-fluid rounded"
-                />
-              </Col>
             </Row>
           </Container>
         </section>

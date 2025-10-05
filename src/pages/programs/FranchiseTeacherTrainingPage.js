@@ -123,19 +123,27 @@ const FranchiseTeacherTrainingPage = () => {
       </div>
 
       {/* HERO SECTION */}
-      <section className="hero-section" style={{ padding: "50px 0" }}>
-        <Container>
-          <Row className="align-items-center justify-content-center text-center">
-            <Col lg={10}>
+      <section 
+        className="franchise-hero-section" 
+        style={{ 
+          background: 'linear-gradient(135deg, #ff9f43 0%, #fd7e14 100%)', 
+          color: 'white', 
+          padding: '80px 0',
+          minHeight: '300px',
+          display: 'flex',
+          alignItems: 'center'
+        }}
+      >
+        <div className="container h-100">
+          <div className="row h-100 justify-content-center align-items-center">
+            <div className="col-lg-10 text-center mx-auto">
               <Badge bg="light" text="dark" className="hero-badge mb-3">
                 <i className="bi bi-trophy-fill me-2"></i>
-                 Franchise Opportunity for Teachers
+                Franchise Opportunity for Teachers
               </Badge>
-              <h1 className="hero-title">
+              <h1 className="hero-title fw-bold mb-3">
                 Transform Your Teaching Career Into a Thriving Business
               </h1>
-             
-              {/* Stats in one line, responsive scroll on mobile */}
               <div className="hero-stats-row d-flex justify-content-center flex-wrap gap-4 mt-4">
                 <div className="stat-item text-center">
                   <div className="stat-number small-hero-stat-number">600+</div>
@@ -150,11 +158,9 @@ const FranchiseTeacherTrainingPage = () => {
                   <div className="stat-label small-hero-stat-label">Income Increase</div>
                 </div>
               </div>
-              
-              
-            </Col>
-          </Row>
-        </Container>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* WHY TEACHERS CHOOSE US - Horizontal Scrolling Section */}
