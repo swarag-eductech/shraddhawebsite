@@ -59,7 +59,14 @@ const Gallery = () => {
               width="1600"
               height="550"
               className="gallery-image-mobile"
-              style={{ background: "#f8f8f8", borderRadius: "12px", boxShadow: "0 5px 15px rgba(0,0,0,0.15)" }}
+              style={{ 
+                background: "#f8f8f8", 
+                borderRadius: "12px", 
+                boxShadow: "0 5px 15px rgba(0,0,0,0.15)",
+                width: "100%",
+                height: "550px",
+                objectFit: "cover"
+              }}
             />
           </picture>
         </div>
@@ -71,7 +78,7 @@ const Gallery = () => {
 };
 
 export default Gallery;
-                  
+
 
 
 
