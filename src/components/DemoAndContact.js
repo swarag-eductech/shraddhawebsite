@@ -126,7 +126,16 @@ const DemoAndContact = () => {
                   srcSet={studentImg.replace(/\.png$/, '.webp')}
                   type="image/webp"
                 />
-                <img src={studentImg} alt="Happy students learning" width="400" height="250" loading="lazy" />
+                <img 
+                  src={studentImg} 
+                  alt="Happy students learning" 
+                  width="400" 
+                  height="300"
+                  loading="lazy"
+                  style={{
+                   
+                  }}
+                />
               </picture>
             ) : (
               <p>Loading image...</p>

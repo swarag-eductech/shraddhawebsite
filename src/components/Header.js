@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './Header.css';
@@ -600,6 +600,9 @@ const Header = () => {
           </div>
         </div>
       </nav>
+
+      {/* Define your routes here or in your main App.js */}
+    
     </header>
   );
 };

@@ -52,6 +52,7 @@ const NationalLevelCompetition2024 = lazy(() => import('./pages/gallery/National
 const AnnualMeet2025 = lazy(() => import('./pages/gallery/AnnualMeet2025'));
 const StateLevelCompetition2025 = lazy(() => import('./pages/gallery/StateLevelCompetition2025'));
 const NationalLevelCompetition2025 = lazy(() => import('./pages/gallery/NationalLevelCompetition2025'));
+const TeachersAchievementImages = lazy(() => import("./pages/gallery/TeachersAchievementImages"));
 
 function App() {
   const [showWelcome, setShowWelcome] = useState(true);
@@ -251,6 +252,15 @@ function App() {
           <Route path="/gallery/StateLevelCompetition2025" element={
             <Suspense fallback={<div className="loading-spinner-container"><div className="loading-spinner"></div></div>}>
               <StateLevelCompetition2025 />
+              <Footer />
+              <WhatsAppButton />
+            </Suspense>
+          } />
+
+          {/* Teachers Achievement Images Gallery */}
+          <Route path="/gallery/Our Teachers/teachers-achievement-images" element={
+            <Suspense fallback={<div className="loading-spinner-container"><div className="loading-spinner"></div></div>}>
+              <TeachersAchievementImages />
               <Footer />
               <WhatsAppButton />
             </Suspense>
