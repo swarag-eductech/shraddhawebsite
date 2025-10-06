@@ -51,9 +51,54 @@ const WorkshopsPage = () => (
 			/>
 		</Helmet>
 
+		{/* --- Page-specific CSS --- */}
+		<style>
+			{`
+				.workshops-hero-section {
+					background: linear-gradient(135deg, #ff9f43 0%, #fd7e14 100%) !important;
+					color: white !important;
+					min-height: 60vh !important;
+					padding: 80px 0 !important;
+					position: relative;
+					overflow: hidden;
+				}
+				.workshops-hero-section .hero-overlay {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					background: rgba(0,0,0,0.15);
+					z-index: 1;
+				}
+				.workshops-hero-section .hero-title {
+					font-size: 2.5rem;
+					font-weight: 700;
+					color: #fff;
+					text-shadow: 0 3px 6px rgba(0,0,0,0.3);
+				}
+				.workshops-hero-section .hero-badge {
+					background: rgba(255,255,255,0.15);
+					color: #fff;
+					padding: 12px 24px;
+					border-radius: 50px;
+					font-weight: 600;
+					font-size: 1rem;
+					border: 1px solid rgba(255,255,255,0.2);
+					box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+				}
+				.workshops-hero-section .hero-subtitle {
+					color: rgba(255,255,255,0.95);
+					font-size: 1.2rem;
+					max-width: 700px;
+					margin: 0 auto;
+					font-weight: 500;
+				}
+			`}
+		</style>
 		{/* --- Hero Section --- */}
 		<section
-			className="hero-section position-relative overflow-hidden"
+			className="workshops-hero-section position-relative overflow-hidden"
 			style={{
 				background: "linear-gradient(135deg, #ff9f43 0%, #fd7e14 100%)", // Match AbacusPage.js hero color
 				color: "white",

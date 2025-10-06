@@ -274,13 +274,10 @@ const Header = () => {
                 className="main-logo pulse-effect"
                 width="180"
                 height="50"
+                fetchPriority="high"
+                loading="eager"
+                decoding="sync"
                 style={{ objectFit: "contain" }}
-                srcSet="
-                  https://i.ibb.co/1fTC665J/logo3-100.png 100w,
-                  https://i.ibb.co/1fTC665J/logo3-180.png 180w,
-                  https://i.ibb.co/1fTC665J/logo3.png 360w
-                "
-                sizes="(max-width: 600px) 100px, (max-width: 1200px) 180px, 360px"
               />
             </div>
           </Link>

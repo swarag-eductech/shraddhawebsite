@@ -151,7 +151,13 @@ function App() {
               <WhatsAppButton />
             </Suspense>
           } />
-          <Route path="/contact" element={<><DemoAndContact /><Footer /><WhatsAppButton /></>} />
+          <Route path="/contact" element={
+            <Suspense fallback={<div className="loading-spinner-container"><div className="loading-spinner"></div></div>}>
+              <DemoAndContact />
+              <Footer />
+              <WhatsAppButton />
+            </Suspense>
+          } />
 
           {/* Book Demo Page Route */}
           <Route path="/book-demo" element={
