@@ -283,7 +283,7 @@ const FTrainingPage = () => {
               />
             </div>
             <Card.Body className="d-flex flex-column">
-              <h5 className="fw-bold mb-3">
+              <h5 className="fw-bold mb-3" style={{ color: "#ff9f43" }}>
                 {["Teacher", "Housewife", "Entrepreneur", "Coaching Institute"][idx] || "Beneficiary"}
               </h5>
               <p className="audience-description flex-grow-1">
