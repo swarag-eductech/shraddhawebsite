@@ -37,8 +37,6 @@ const BookDemoPage = lazy(() => import("./pages/BookDemoPage"));
 const AboutFranchisePage = lazy(() => import("./pages/Aboutusprograms/AboutFranchisePage"));
 const FranchiseTeacherParent = lazy(() => import("./pages/FranchiseFolder/FranchiseTeacherParent"));
 const FranchiseBusinessSchool = lazy(() => import("./pages/FranchiseFolder/FranchiseBusinessSchool"));
-const TeacherTraining = lazy(() => import("./pages/TrainingFolder/TeacherTraining"));
-const SchoolTraining = lazy(() => import("./pages/TrainingFolder/SchoolTraining"));
 
 // Gallery pages - lazy load all of them
 const StateLevelCompetition2022 = lazy(() => import('./pages/gallery/StateLevelCompetition2022'));
@@ -127,21 +125,7 @@ function App() {
             </Suspense>
           } />
 
-          {/* Training Pages */}
-          <Route path="/training/teacher-training" element={
-            <Suspense fallback={<div className="loading-spinner-container"><div className="loading-spinner"></div></div>}>
-              <TeacherTraining />
-              <Footer />
-              <WhatsAppButton />
-            </Suspense>
-          } />
-          <Route path="/training/school-training" element={
-            <Suspense fallback={<div className="loading-spinner-container"><div className="loading-spinner"></div></div>}>
-              <SchoolTraining />
-              <Footer />
-              <WhatsAppButton />
-            </Suspense>
-          } />
+         
 
           {/* Gallery & Contact */}
           <Route path="/gallery" element={
