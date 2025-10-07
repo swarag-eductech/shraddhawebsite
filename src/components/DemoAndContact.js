@@ -129,11 +129,17 @@ const DemoAndContact = () => {
                 <img 
                   src={studentImg} 
                   alt="Happy students learning" 
-                  width="400" 
-                  height="300"
+                  width={180}
+                  height={180}
                   loading="lazy"
                   style={{
-                   
+                    width: "220px",
+                    height: "220px",
+                    objectFit: "cover",
+                    borderRadius: "12px",
+                    boxShadow: "0 5px 15px rgba(0,0,0,0.12)",
+                    display: "block",
+                    margin: "0 auto"
                   }}
                 />
               </picture>
