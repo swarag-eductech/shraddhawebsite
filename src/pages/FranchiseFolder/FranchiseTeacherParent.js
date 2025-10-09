@@ -409,8 +409,8 @@ const FranchiseTeacherParent = () => {
                 </div>
                 
                 <div className="cta-guarantee">
-                  <FaShieldAlt className="me-2" />
-                  Complete training • Ongoing support • Proven success
+                 
+                  • Complete training • Ongoing support • Proven success
                 </div>
               </Col>
             </Row>

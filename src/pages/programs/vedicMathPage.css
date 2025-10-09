@@ -750,3 +750,89 @@
     display: block;
   }
 }
+
+/* Marquee Styles */
+.marquee-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.marquee-slide {
+  flex: 0 0 85%;
+  max-width: 350px;
+  scroll-snap-align: center;
+}
+
+@media (min-width: 768px) {
+  .marquee-slide {
+    flex: 0 0 350px;
+  }
+}
+
+.marquee-track::-webkit-scrollbar {
+  display: none;
+}
+
+.testimonial-card {
+  height: 100%;
+  transition: transform 0.2s;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Language selector styles */
+.language-btn-group {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.lang-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lang-btn.active {
+  background: #fd7e14;
+  color: white;
+  border-color: #fd7e14;
+}
+
+.marquee-animate {
+  display: flex;
+  animation: marquee-scroll 18s linear infinite;
+  will-change: transform;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* For mobile, ensure the track is wide enough for animation */
+@media (max-width: 768px) {
+  .marquee-track {
+    min-width: 200vw;
+  }
+}

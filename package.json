@@ -17,6 +17,7 @@
     "aos": "^2.3.4",
     "bootstrap": "^5.3.7",
     "canvas-confetti": "^1.9.3",
+    "chrome-devtools-mcp": "^0.6.0",
     "firebase": "^12.1.0",
     "framer-motion": "^12.23.12",
     "lottie-react": "^2.4.1",

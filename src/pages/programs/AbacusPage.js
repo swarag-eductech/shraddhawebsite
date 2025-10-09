@@ -175,7 +175,7 @@ const AbacusPage = () => {
         </Container>
 
         <div className="marquee-wrapper">
-          <div className="marquee-track">
+          <div className="marquee-track marquee-animate">
             {testimonials.map((testimonial, index) => (
               <div key={`${testimonial.id}-${index}`} className="marquee-slide">
                 <div className="testimonial-card bg-white p-4 rounded-3 shadow-sm h-100 text-center mx-2">

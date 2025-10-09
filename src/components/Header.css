@@ -180,6 +180,14 @@
 /* ================== */
 .navbar-nav .nav-item.dropdown {
   position: relative;
+  
+}
+.navbar-nav .nav-link {
+  font-size: 1rem; /* Adjust this value as needed, e.g., 17px or 1.2rem */
+  font-weight: 550; /* Optional: makes the font slightly bolder */
+  padding: 0.5rem 1rem;
+  text-transform: capitalize; /* Optional: for consistent casing */
+  transition: color 0.2s ease-in-out;
 }
 
 .navbar-nav .dropdown-menu {
@@ -492,6 +500,7 @@
   justify-content: center;
   gap: 15px;
   margin-top: 20px;
+  margin-bottom: 12px;
 }
 
 .social-icons a {
@@ -503,16 +512,45 @@
   border-radius: 20%;
   font-size: 20px;
   text-decoration: none;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
 }
 
-/* Brand Colors */
+.social-icons a .fab,
+.social-icons a .fa {
+  font-size: 1.35rem;
+  color: #fd7e14;
+  transition: color 0.2s, transform 0.2s;
+}
+
+/* Make icon bigger on hover, but keep brand color */
+.social-icons a:hover .fab,
+.social-icons a:focus .fab,
+.social-icons a:hover .fa,
+.social-icons a:focus .fa {
+  transform: scale(1.35);
+}
+
+/* Brand Colors (keep color on hover) */
 .social-icons a .fa-facebook-f { color: #1877F2; }
 .social-icons a .fa-instagram { color: #E4405F; }
 .social-icons a .fa-youtube   { color: #FF0000; }
 .social-icons a .fa-whatsapp  { color: #25D366; }
 
-.dropdown-menu .dropdown-item span {
-  font-weight: 500; /* or normal */
+.social-icons a:hover .fa-facebook-f,
+.social-icons a:focus .fa-facebook-f {
+  color: #1877F2;
+}
+.social-icons a:hover .fa-instagram,
+.social-icons a:focus .fa-instagram {
+  color: #E4405F;
+}
+.social-icons a:hover .fa-youtube,
+.social-icons a:focus .fa-youtube {
+  color: #FF0000;
+}
+.social-icons a:hover .fa-whatsapp,
+.social-icons a:focus .fa-whatsapp {
+  color: #25D366;
 }
 
 /* Header.css - Add these styles */
@@ -1107,3 +1145,66 @@
     background: #fff !important;
   }
 }
+
+/* Ensure the logo container and the logo itself have no background color */
+.logo-container,
+.main-logo {
+  background-color: transparent !important;
+}
+
+/* If the logo has a simple white background and you want to try to remove it with CSS */
+.main-logo {
+  mix-blend-mode: multiply; /* This works well for black/dark logos on a white background */
+}
+
+/* --- MOBILE MENU FIX STARTS HERE --- */
+
+@media (max-width: 991.98px) {
+  /* Make the expanded menu a full-screen panel */
+  .navbar-collapse.show {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    z-index: 1050;
+    padding-top: 70px; /* Create space for the logo and close button */
+    padding-left: 20px;
+    padding-right: 20px;
+    overflow-y: auto;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(0);
+  }
+
+  /* When the menu is closed, hide it off-screen */
+  .navbar-collapse.collapsing,
+  .navbar-collapse:not(.show) {
+    transform: translateX(100%);
+  }
+
+  /* Position the close button inside the opened menu */
+  .mobile-menu-close {
+    position: fixed;
+    top: 15px;
+    right: 20px;
+    z-index: 1051; /* Ensure it's above the menu panel */
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #333;
+  }
+
+  /* Ensure the main header bar is transparent when menu is open to avoid the "gap" */
+  .main-header .navbar {
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
+
+  /* Keep the logo visible */
+  .navbar-brand {
+    z-index: 1051;
+  }
+}
+
+/* --- MOBILE MENU FIX ENDS HERE --- */

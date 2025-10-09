@@ -12,8 +12,11 @@ const WhatsAppButton = () => {
       className="whatsapp-button"
       target="_blank"
       rel="noopener noreferrer"
+      aria-label="Chat with Shraddha Institute on WhatsApp"
+      title="Chat with Shraddha Institute on WhatsApp"
     >
-      <FaWhatsapp className="whatsapp-icon" />
+      <FaWhatsapp className="whatsapp-icon" aria-hidden="true" />
+      <span className="whatsapp-text"></span>
     </a>
   );
 };

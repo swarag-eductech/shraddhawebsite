@@ -410,3 +410,25 @@
   font-family: inherit;
 }
 
+.marquee-animate {
+  display: flex;
+  animation: marquee-scroll 14s linear infinite;
+  will-change: transform;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* For mobile, ensure the track is wide enough for animation */
+@media (max-width: 768px) {
+  .marquee-track {
+    min-width: 200vw;
+  }
+}
+

@@ -6,8 +6,6 @@ import { db } from "../../firebase"; // adjust path if needed
 import './vedicMathPage.css';
 
 const VedicMathPage = () => {
-  const [translateX, setTranslateX] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState('english');
   const [successStories, setSuccessStories] = useState([]);
 
@@ -69,32 +67,6 @@ const VedicMathPage = () => {
     { value: "94%", label: "Accuracy Improvement", icon: <AwardFill size={32} color="#fd7e14" /> },
     { value: "900+", label: "Happy Students", icon: <LightningFill size={32} color="#fd7e14" /> }
   ];
-
-  // ✅ Continuous auto-scroll (marquee effect for both desktop and mobile)
-  useEffect(() => {
-    if (isPaused) return;
-    const interval = setInterval(() => {
-      setTranslateX(prev => prev - 1);
-    }, 50);
-    return () => clearInterval(interval);
-  }, [isPaused]);
-
-  // ✅ Reset after full cycle
-  useEffect(() => {
-    // Marquee width logic for both desktop and mobile
-    const testimonialWidth = window.innerWidth <= 576 ? 260 : 350;
-    const totalWidth = testimonialWidth * successStories.length;
-    if (Math.abs(translateX) >= totalWidth) {
-      setTranslateX(0);
-    }
-  }, [translateX, successStories.length]);
-
-  const pauseRotation = () => setIsPaused(true);
-  const resumeRotation = () => setIsPaused(false);
-
-  const getInfiniteTestimonials = () => {
-    return [...successStories, ...successStories, ...successStories];
-  };
 
   return (
     <div className="vedic-math-page">
@@ -204,74 +176,63 @@ const VedicMathPage = () => {
       </section>
 
       {/* Success Stories from Firestore */}
-      <section className="success-stories-section py-5 bg-light-orange">
-        <Container>
-          <Row className="justify-content-center mb-5">
-            <Col lg={10} className="text-center">
-              <Badge bg="orange" className="mb-3 px-3 py-2 fs-6">SUCCESS STORIES</Badge>
-              <h2 className="display-5 fw-bold mb-3 text-dark">
-                Transforming <span className="text-orange">Lives Through Math</span>
-              </h2>
-              <p className="lead text-muted">Real results from students, parents, and teachers who have experienced the Vedic Math difference</p>
-            </Col>
-          </Row>
+      <section className="testimonial-marquee py-5 bg-light-orange">
+        <Container className="text-center mb-5">
+          <Badge bg="orange" className="mb-3 px-3 py-2 fs-6">SUCCESS STORIES</Badge>
+          <h2 className="display-5 fw-bold mb-3 text-dark">
+            Transforming <span className="text-orange">Lives Through Math</span>
+          </h2>
+          <p className="lead text-muted">
+            Real results from students, parents, and teachers who have experienced the Vedic Math difference
+          </p>
 
           {/* Language Selector */}
-          <Row className="justify-content-center mb-4">
-            <Col lg={6} className="text-center">
-              <div className="language-selector">
-                <span className="me-3 text-muted small" style={{ fontWeight: '600', fontSize: '1.08rem', letterSpacing: '0.5px' }}>🌐 Select Language:</span>
-                <div className="language-btn-group">
-                  {['english','hindi','marathi','kannada'].map(lang => (
-                    <button
-                      key={lang}
-                      className={`lang-btn ${selectedLanguage === lang ? 'active' : ''}`}
-                      onClick={() => setSelectedLanguage(lang)}
-                    >
-                      {lang === 'english' ? 'English' :
-                       lang === 'hindi' ? 'हिंदी' :
-                       lang === 'marathi' ? 'मराठी' :
-                       'ಕನ್ನಡ'}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </Col>
-          </Row>
-
-          {/* Testimonial Carousel */}
-          <div className="continuous-testimonial-container" onMouseEnter={pauseRotation} onMouseLeave={resumeRotation}>
-            {/* Desktop & Mobile marquee carousel */}
-            <div>
-              <div
-                className="testimonial-track"
-                style={{
-                  transform: `translateX(${translateX}px)`,
-                  display: 'flex',
-                  gap: window.innerWidth <= 576 ? '1rem' : '2rem',
-                  transition: isPaused ? 'transform 0.3s ease' : 'none',
-                  width: 'max-content'
-                }}
-              >
-                {getInfiniteTestimonials().map((story, index) => (
-                  <div key={`${story.id}-${index}`} className="testimonial-slide">
-                    <div className="success-story-card bg-white p-4 rounded-4 shadow-sm">
-                      <div className="d-flex justify-content-center mb-3">
-                        <img src={story.image} alt={story.name} className="rounded-circle" />
-                      </div>
-                      <div className="mb-2">
-                        <h4 className="h5 fw-bold mb-2 text-center">{story.name}</h4>
-                      </div>
-                      <p className="mb-3 text-center" style={{ fontStyle: 'italic', fontSize: '0.95rem', lineHeight: '1.6' }}>
-                        "{story.content?.[selectedLanguage]}"
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+          <div className="language-selector mb-4">
+            <span className="me-3 text-muted small" style={{fontWeight: '600'}}>
+              🌐 Select Language:
+            </span>
+            <div className="language-btn-group">
+              {["english", "hindi", "marathi", "kannada"].map((lang) => (
+                <button
+                  key={lang}
+                  className={`lang-btn ${selectedLanguage === lang ? "active" : ""}`}
+                  onClick={() => setSelectedLanguage(lang)}
+                >
+                  {lang === "english" ? "English" :
+                   lang === "hindi" ? "हिंदी" :
+                   lang === "marathi" ? "मराठी" :
+                   "ಕನ್ನಡ"}
+                </button>
+              ))}
             </div>
           </div>
         </Container>
+
+        <div className="marquee-wrapper">
+          <div className="marquee-track marquee-animate">
+            {successStories.map((story, index) => (
+              <div key={`${story.id}-${index}`} className="marquee-slide">
+                <div className="testimonial-card bg-white p-4 rounded-3 shadow-sm h-100 text-center mx-2">
+                  <div className="mb-3">
+                    <img
+                      src={story.image}
+                      alt={story.name}
+                      className="rounded-circle img-fluid"
+                      style={{ width: "80px", height: "80px", objectFit: "cover" }}
+                    />
+                  </div>
+                  <h4 className="h5 fw-bold mb-2">{story.name}</h4>
+                  <p className="mb-3">
+                    "{story.content?.[selectedLanguage]}"
+                  </p>
+                  <div className="text-orange fs-5">
+                    {"★".repeat(story.rating || 5)}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
     </div>
   );

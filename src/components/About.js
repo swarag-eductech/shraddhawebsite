@@ -21,8 +21,8 @@ const About = () => {
   ];
 
   const infoLines = [
-    "Proud Partners with 60+ Schools across India",
-    "Facilitated 500+ Abacus & Vedic Maths Workshops across 20+ Cities",
+    "Proud Partners with 60+ Schools across India ",
+    "Facilitated 500+ Abacus & Vedic Maths Workshops across 20+ Cities ",
     "Empowered 15,000+ Students through Transformative Educational Programs",
   ];
 
@@ -37,7 +37,7 @@ const About = () => {
         {/* Section Title */}
         <header>
           <h2 className="section-title2 animate-fade-in" itemProp="name">
-            About <span className="institute-name">Shraddha Institute</span>
+             <span className="institute-name"> About Shraddha Institute</span>
           </h2>
         </header>
 

@@ -29,9 +29,9 @@ const FranchiseBusinessSchool = () => {
       text: 'Empower your students with world-class calculation skills, improved concentration, and confidence in mathematics.',
       stat: '2x Faster Calculations',
       features: [
-        'Boosts mental math & accuracy',
-        'Enhances memory & focus',
-        'Loved by parents & students'
+        'Boosts mental math',
+        'Enhances memory',
+        'Loved by parents'
       ]
     },
     {
@@ -64,7 +64,7 @@ const FranchiseBusinessSchool = () => {
       features: [
         'Utilize current resources',
         'No extra classrooms needed',
-        'Quick launch & easy management'
+        'Quick launch'
       ]
     }
   ];
@@ -108,11 +108,11 @@ const FranchiseBusinessSchool = () => {
         />
       </Helmet>
 
-      <div className={`franchise-business-page ${isVisible ? 'page-visible' : ''}`}>
+      <div className={`franchise-business-page franchise-business-root ${isVisible ? 'page-visible' : ''}`}>
         
         {/* Enhanced Hero Section with Emotional Hook */}
         <section 
-          className="franchise-business-school-hero-section position-relative overflow-hidden"
+          className="franchise-business-hero-section position-relative overflow-hidden"
           style={{
             background: 'linear-gradient(135deg, #ff9f43 0%, #fd7e14 100%)', // Match AbacusPage hero
             color: 'white',
@@ -122,7 +122,7 @@ const FranchiseBusinessSchool = () => {
             alignItems: 'center'
           }}
         >
-          <div className="franchise-business-school-hero-overlay" style={{
+          <div className="franchise-business-hero-overlay" style={{
             position: 'absolute',
             top: 0,
             left: 0,
@@ -131,21 +131,21 @@ const FranchiseBusinessSchool = () => {
           }}></div>
           <Container className="position-relative" style={{ zIndex: 2 }}>
             <Row className="align-items-center justify-content-center text-center">
-              <Col lg={10} xl={8} className="franchise-business-school-hero-content mx-auto">
+              <Col lg={10} xl={8} className="franchise-business-hero-content mx-auto">
                 {/* Trust Badges */}
-                <div className="mb-3">
-                  <span className="hero-badge me-2">
+                <div className="franchise-business-hero-badges mb-3">
+                  <span className="franchise-business-hero-badge me-2">
                     <FaStar className="me-1" />
                     200+ Schools
                   </span>
-                  <span className="hero-badge">
+                  <span className="franchise-business-hero-badge">
                     <IoIosTrendingUp className="me-1" />
                     Since 2013
                   </span>
                 </div>
 
                 {/* Short, Attractive Headline */}
-                <h1 className="hero-title mb-3 fw-bold" style={{ fontSize: "2.2rem", marginTop:"-2rem" }}>
+                <h1 className="franchise-business-hero-title mb-3 fw-bold" style={{ fontSize: "2.2rem", marginTop:"-2rem" }}>
                   <span style={{ color: "#fff" }}>
                     Boost Admissions. Build Reputation.
                   </span>
@@ -154,23 +154,23 @@ const FranchiseBusinessSchool = () => {
                     Abacus & Vedic Math for Schools
                   </span>
                 </h1>
-                <p className="lead mt-2 mb-3" style={{ fontSize: "1.15rem", color: "#fff", fontWeight: 500 }}>
+                <p className="franchise-business-hero-lead lead mt-2 mb-3" style={{ fontSize: "1.15rem", color: "#fff", fontWeight: 500 }}>
                   <span style={{ color: "#ffd700", fontWeight: 700 }}>
                     Easy to start. Loved by parents. Proven results.
                   </span>
                 </p>
 
                 {/* Value Proposition Highlights */}
-                <div className="hero-stats-row">
-                  <div className="stat-item text-center">
+                <div className="franchise-business-hero-stats-row">
+                  <div className="franchise-business-stat-item text-center">
                     <FaChartLine size={38} className="text-warning mb-1" />
                     <h6 className="text-white mb-0">+40% Revenue</h6>
                   </div>
-                  <div className="stat-item text-center">
+                  <div className="franchise-business-stat-item text-center">
                     <FaUsers size={38} className="text-warning mb-1" />
                     <h6 className="text-white mb-0">+300% Admissions</h6>
                   </div>
-                  <div className="stat-item text-center">
+                  <div className="franchise-business-stat-item text-center">
                     <FaAward size={38} className="text-warning mb-1" />
                     <h6 className="text-white mb-0">Zero Risk</h6>
                   </div>
@@ -181,7 +181,7 @@ const FranchiseBusinessSchool = () => {
         </section>
 
         {/* Problem-Solution Section */}
-        <section className="py-5 bg-light">
+        <section className="franchise-business-problem-solution py-5 bg-light">
           <Container>
             <Row className="text-center mb-5">
               <Col lg={8} className="mx-auto">
@@ -215,7 +215,7 @@ const FranchiseBusinessSchool = () => {
         </section>
 
         {/* Transformational Benefits Section */}
-        <section className="benefits-section py-5">
+        <section className="franchise-business-benefits-section py-5">
           <Container>
             <div className="text-center mb-5">
               <Badge bg="orange" className="px-3 py-2 mb-3 fs-6">
