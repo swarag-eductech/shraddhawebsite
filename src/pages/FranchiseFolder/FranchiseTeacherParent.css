@@ -288,6 +288,19 @@
   font-size: 0.98rem;
 }
 
+/* Add more space above the section title after hero */
+.audience-section .section-title {
+  margin-top: 3rem !important;   /* Increase top margin */
+  margin-bottom: 1.2rem !important;
+}
+
+/* If you want to ensure spacing on all screens */
+@media (max-width: 991.98px) {
+  .audience-section .section-title {
+    margin-top: 2rem !important;
+  }
+}
+
 /* Benefits Section */
 .benefits-section {
   background: white;
@@ -406,6 +419,19 @@
   border-radius: 8px;
   font-size: 0.9rem;
   font-weight: 600;
+}
+
+/* Add more space above the earnings section title */
+.earnings-section .section-title {
+  margin-top: 3rem !important;
+  margin-bottom: 1.2rem !important;
+}
+
+/* Responsive adjustment for mobile/tablet */
+@media (max-width: 991.98px) {
+  .earnings-section .section-title {
+    margin-top: 2rem !important;
+  }
 }
 
 /* Steps Section */

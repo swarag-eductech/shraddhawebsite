@@ -56,7 +56,6 @@ const About = () => {
                 <li
                   key={i}
                   className="mission-vision-line"
-                  style={{ transitionDelay: `${i * 0.15 + 0.3}s` }}
                 >
                   <FaCheckCircle className="check-icon" aria-hidden="true" />
                   <span>{line}</span>
@@ -78,7 +77,6 @@ const About = () => {
                 <li
                   key={i}
                   className="impact-line"
-                  style={{ transitionDelay: `${i * 0.15 + 0.3}s` }}
                 >
                   <FaCheckCircle className="check-icon" aria-hidden="true" />
                   <span>{line}</span>

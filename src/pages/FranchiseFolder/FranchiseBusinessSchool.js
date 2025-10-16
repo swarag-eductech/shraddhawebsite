@@ -96,18 +96,21 @@ const FranchiseBusinessSchool = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Transform Your School | Premium Education Franchise Partnership</title>
-        <meta
-          name="description"
-          content="Partner with Shraddha Institute to transform your school into a center of excellence. Multiple revenue streams, teacher development, and premium branding."
-        />
-        <meta
-          name="keywords"
-          content="school transformation, education franchise, premium partnership, teacher development, multiple revenue streams, school branding"
-        />
-      </Helmet>
-
+      {/* Desktop-only spacing for the hero stats row (no effect on mobile) */}
+     <style>{`
+       @media (min-width: 992px) {
+         .franchise-business-hero-stats-row {
+           display: flex;
+           gap: 4.2rem; /* increase horizontal gap between stat items on desktop */
+           justify-content: center;
+         }
+         .franchise-business-hero-stats-row .franchise-business-stat-item {
+           flex: 0 0 auto;
+           margin: 0 0.4rem;
+         }
+       }
+     `}</style>
+      
       <div className={`franchise-business-page franchise-business-root ${isVisible ? 'page-visible' : ''}`}>
         
         {/* Enhanced Hero Section with Emotional Hook */}

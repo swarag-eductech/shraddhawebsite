@@ -1,297 +1,212 @@
-@media (max-width: 576px) {
-  .about-section-bg {
-    padding: 1.2rem 0.5rem;
-  }
-  .about-wrapper {
-    padding: 0.5rem;
-  }
-  .section-title2 {
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-  .about-row {
-    flex-direction: column;
-    gap: 1.2rem;
-  }
-  .about-col {
-    padding: 0 !important;
-    min-width: 0;
-  }
-  .impact-title {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    padding-bottom: 0.3rem;
-  }
-  .mission-vision-list, .impact-list {
-    gap: 0.5rem;
-  }
-  .mission-vision-line, .impact-line {
-    font-size: 1.08rem;
-    margin-bottom: 1.1rem;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.6rem;
-    line-height: 1.7;
-  }
-  .check-icon {
-    font-size: 1rem;
-    margin-right: 8px;
-    margin-top: 0;
-  }
-}
-/* Background */
-.about-section-bg {
-  padding: 4rem 0;
+/* Base variables from your theme */
+:root {
+  --accent: #d95821;
+  --text-dark: #2c3e50;
+  --muted: black;
+  --white: #ffffff;
+  --bg-light: #f8f9fa;
 }
 
-/* Centered content container */
+/* Section Layout */
+.about-section-bg {
+  background-color: var(--white);
+  padding: clamp(2rem, 5vw, 4rem) 1rem;
+  overflow: hidden;
+}
+
 .about-wrapper {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
-  font-family:  sans-serif;
 }
 
-/* Section title */
-.section-title2 {
-  font-weight: 700;
-  font-size: 2.5rem;
-  color: #fd7e14; /* This makes the entire heading orange */
+/* Section Title */
+.about-wrapper header {
   text-align: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
 }
 
-.institute-name {
-  color: #fd7e14;
+.section-title2 .institute-name {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 800;
+  color: var(--accent); /* orange color */
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.5rem;
 }
 
-.section-subtitle {
-  font-size: 1.5rem;
-  color: #333;
-  text-align: center;
-  margin-bottom: 3rem;
-  font-weight: 600;
+/* Underline for the title */
+.section-title2 .institute-name::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background-color: var(--accent);
+  border-radius: 2px;
 }
 
-/* Layout row - side by side */
+/* Two-column layout */
 .about-row {
   display: flex;
-  justify-content: space-between;
-  gap: 3rem;
+  flex-wrap: wrap;
+  gap: 2rem;
 }
 
-/* Two equal columns */
 .about-col {
-  flex: 1;
-  min-width: 0;
-
- 
- 
-  padding: 32px 28px;
-  margin-bottom: 24px;
-  transition: box-shadow 0.2s;
+  flex: 1 1 400px; /* Flexbox for responsive columns */
+  padding: 1.5rem;
+  opacity: 0; /* Hidden for entry animation */
 }
 
-
-.mission-col {
-  padding-right: 0;
-  border-right: none;
-}
-
-.impact-col {
-  padding-left: 0;
-}
-
-/* Titles */
+/* Column Titles */
 .impact-title {
-  font-weight: 600;
-  font-size: 1.8rem;
-  color: #ff6600;
+  font-size: clamp(1.5rem, 3vw, 1.8rem);
+  font-weight: 700;
+  color: var(--accent);
   margin-bottom: 1.5rem;
+  position: relative;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid #ff9933;
+  border-bottom: 2px solid #eee;
 }
 
-/* Bullet Lists */
-/* Ensure bullet icon and text are always aligned at the top, with consistent spacing */
+/* List Styling */
 .mission-vision-list,
 .impact-list {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Consistent vertical gap between list items */
 }
 
+/* --- This is the key fix for alignment --- */
 .mission-vision-line,
 .impact-line {
-  display: flex;
-  align-items: flex-start; /* This is the key: aligns icon to the top of the text */
-  gap: 12px;               /* Creates consistent space between icon and text */
-  margin-bottom: 1.2rem;
-}
-
-.check-icon {
-  color: #fd7e14;
-  font-size: 1.1rem;
-  margin-top: 5px;       /* Fine-tunes vertical position to match text */
-  flex-shrink: 0;        /* Prevents icon from shrinking */
-}
-
-.mission-vision-line span,
-.impact-line span {
-  display: inline-block;
+  display: grid;
+  grid-template-columns: 24px 1fr; /* 1. Icon column (fixed width), 2. Text column (takes rest of space) */
+  align-items: start; /* Align icon and text to the top of the line */
+  gap: 1rem; /* Consistent horizontal gap between icon and text */
+  font-size: 1.05rem;
   line-height: 1.6;
-  color: #555;
+  color: var(--muted);
+  opacity: 0; /* Initially hidden for animation */
 }
 
-/* Animations (if used) */
-.animate-fade-in {
-  animation: about-fade-in 1s;
+/* Definitive fix: force icon/text alignment for About lists */
+.mission-vision-list li,
+.impact-list li {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 1.1rem !important;
+  font-size: 1.0rem;
+  font-weight: 200;
+  line-height: 1.7;
+  color: var(--muted);
+  margin: 0;
+  padding: 0;
+  /* Remove opacity if not animating */
+  opacity: 1;
 }
-@keyframes about-fade-in {
+
+.mission-vision-list li .check-icon,
+.impact-list li .check-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  width: 28px;
+  height: 28px;
+  padding: 3px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(217, 88, 33, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mission-vision-list li span,
+.impact-list li span {
+  display: block;
+  margin: 0;
+  padding: 0;
+  font-size: inherit;
+  font-weight: 350 !important; /* lighter font weight */
+  color: var(--text-dark);
+  word-break: break-word;
+  /* Ensure text always starts at the same horizontal position */
+  text-align: left;
+}
+
+/* Remove any grid or conflicting styles */
+.mission-vision-line,
+.impact-line {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 1.1rem !important;
+  padding: 0;
+  margin: 0;
+  opacity: 1 !important;
+}
+
+/* --- Animations --- */
+.animate-fade-in {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.8s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.8s ease-out forwards;
+}
+
+/* Staggered animation for list items */
+.animate-slide-in-left .mission-vision-line,
+.animate-slide-in-right .impact-line {
+  animation: slideUpFadeIn 0.6s ease-out forwards;
+}
+
+.mission-vision-list li:nth-child(1),
+.impact-list li:nth-child(1) { animation-delay: 0.3s; }
+
+.mission-vision-list li:nth-child(2),
+.impact-list li:nth-child(2) { animation-delay: 0.45s; }
+
+.mission-vision-list li:nth-child(3),
+.impact-list li:nth-child(3) { animation-delay: 0.6s; }
+
+/* Keyframe Definitions */
+@keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-.animate-slide-in-left {
-  animation: about-slide-in-left 0.8s;
-}
-@keyframes about-slide-in-left {
-  from { opacity: 0; transform: translateX(-40px);}
-  to { opacity: 1; transform: translateX(0);}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
-.animate-slide-in-right {
-  animation: about-slide-in-right 0.8s;
-}
-@keyframes about-slide-in-right {
-  from { opacity: 0; transform: translateX(40px);}
-  to { opacity: 1; transform: translateX(0);}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
-/* Responsive */
+@keyframes slideUpFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustments for mobile */
 @media (max-width: 768px) {
   .about-row {
     flex-direction: column;
-    gap: 2rem;
-  }
-  
-  .mission-col {
-    padding-right: 0;
-    border-right: none;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 2rem;
-  }
-  
-  .impact-col {
-    padding-left: 0;
-    padding-top: 2rem;
-  }
-  
-  .section-title {
-    font-size: 2rem;
-  }
-  
-  .section-subtitle {
-    font-size: 1.3rem;
-  }
-}
-
-@media (max-width: 900px) {
-  .about-row {
-    flex-direction: column;
-    gap: 0;
+    gap: 1rem;
   }
   .about-col {
-    max-width: 100%;
-    margin-bottom: 24px;
-  }
-}
-
-.about-section-bg {
-  background-color: #fdfaf6;
-  padding: 60px 0;
-}
-
-.about-wrapper {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.section-title2 {
-  text-align: center;
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin-bottom: 40px;
-  color: #333;
-}
-
-.institute-name {
-  color: #fd7e14;
-}
-
-.about-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
-  justify-content: center;
-}
-
-/* --- TRANSPARENCY CHANGE STARTS HERE --- */
-
-.about-col {
-  flex: 1 1 400px;
-  min-width: 300px;
-  background: transparent; /* Makes the background transparent */
-  box-shadow: none;        /* Removes the border/shadow effect */
-  padding: 20px;
-  border: none;            /* Explicitly remove any border */
-}
-
-/* --- TRANSPARENCY CHANGE ENDS HERE --- */
-
-.impact-title {
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #fd7e14;
-  margin-bottom: 25px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #ffc999;
-}
-
-.mission-vision-list,
-.impact-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.mission-vision-line,
-.impact-line {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 1.2rem;
-}
-
-.check-icon {
-  color: #fd7e14;
-  font-size: 1.1rem;
-  margin-top: 5px;
-  flex-shrink: 0;
-}
-
-.mission-vision-line span,
-.impact-line span {
-  line-height: 1.6;
-  color: #555;
-}
-
-/* Mobile View Styles */
-@media (max-width: 991px) {
-  .about-row {
-    flex-direction: column;
-    gap: 20px;
+    padding: 1rem 0.5rem;
   }
 }
