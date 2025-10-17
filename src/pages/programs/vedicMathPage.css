@@ -836,3 +836,14 @@
     min-width: 200vw;
   }
 }
+
+.btn-outline-orange {
+  border: 2px solid #fd7e14;
+  color: #fd7e14;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-orange:hover {
+  background-color: #fd7e14;
+  color: #fff;
+}

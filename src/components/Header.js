@@ -252,7 +252,7 @@ const Header = () => {
           {/* centered announcement text */}
           <div
             className="announcement-content d-flex justify-content-center align-items-center w-100 animate__animated animate__fadeInLeft"
-            style={{ paddingRight: '48rem', boxSizing: 'border-box' }}
+            style={{ transform: 'translateX(-23.5rem)', boxSizing: 'border-box' }}
           >
              <span className="sparkle-wrapper" aria-hidden="true" >
                <span className="sparkle">✨</span>

@@ -225,9 +225,22 @@ const VedicMathPage = () => {
                   <p className="mb-3">
                     "{story.content?.[selectedLanguage]}"
                   </p>
-                  <div className="text-orange fs-5">
-                    {"★".repeat(story.rating || 5)}
-                  </div>
+                 <div className="text-orange fs-5 mb-3">
+  {"★".repeat(story.rating || 5)}
+</div>
+
+{/* Google Review Link (new) */}
+{story.googleLink && (
+  <a
+    href={story.googleLink}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="btn btn-sm btn-outline-orange fw-semibold"
+  >
+    View Full Google Review →
+  </a>
+)}
+
                 </div>
               </div>
             ))}

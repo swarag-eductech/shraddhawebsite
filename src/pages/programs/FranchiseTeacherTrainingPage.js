@@ -357,14 +357,14 @@ const FranchiseTeacherTrainingPage = () => {
                         <p className="italic mb-3 mt-2" style={{ minHeight: 60, fontSize: "1rem" }}>"{testimonialText}"</p>
                         <div className="mb-2">
                           <a
-                            href="https://maps.app.goo.gl/8PwoeLTMV5KDffWc8"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-orange"
-                            style={{ fontWeight: 600, textDecoration: "underline", fontSize: "0.95rem" }}
-                          >
-                            View Google Map Review
-                          </a>
+      href={testimonial.googlelink}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-orange"
+      style={{ fontWeight: 600, textDecoration: "underline", fontSize: "0.95rem" }}
+    >
+      View Google Review
+    </a>
                         </div>
                         <div className="d-flex justify-content-center mb-2">
                           {[...Array(5)].map((_, i) => (
