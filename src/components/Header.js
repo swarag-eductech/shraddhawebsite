@@ -242,8 +242,7 @@ const Header = () => {
     return expandedEventTypes[`${year}-${eventType}`];
   };
 
-  // Duplicate the events list to create a seamless scrolling effect for the marquee
-  const marqueeItems = upcomingEvents.length > 0 ? [...upcomingEvents, ...upcomingEvents] : [];
+  
 
   return (
     <header className={`main-header ${scrolled ? 'scrolled' : ''}`}>

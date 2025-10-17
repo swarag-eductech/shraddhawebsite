@@ -12,18 +12,8 @@ const Hero = () => {
   const [loaded, setLoaded] = useState([]); // track loaded state per image
   const intervalRef = useRef(null);
 
-  // New: left content wrapper to sit on white area
-  const leftContentStyle = {
-    position: 'relative',
-    zIndex: 6,
-    maxWidth: '520px',
-    padding: '18px 8px', // less padding for mobile
-    marginLeft: 'clamp(8px, 2vw, 24px)', // smaller margin for mobile
-    marginTop: '16px', // less top margin for mobile
-    textAlign: 'center', // center text for mobile
-    width: '100%',
-    boxSizing: 'border-box'
-  };
+ 
+  
   const headingMainColor = { color: '#2c3e50' }; // dark text on white
   const headingAccent = { color: '#d95821' };    // orange accent
 
