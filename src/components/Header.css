@@ -1208,3 +1208,145 @@
 }
 
 /* --- MOBILE MENU FIX ENDS HERE --- */
+
+/* Blinking NEW badge */
+.new-blink {
+  display: inline-block;
+  background-color: #ff0000;
+  color: white;
+  font-weight: bold;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  margin-left: 8px;
+  border-radius: 4px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
+}
+
+/* Marquee effect for upcoming events */
+.upcoming-event-marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+.upcoming-event-marquee-content {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scroll-left 40s linear infinite;
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+.event-date-pill {
+  background-color: #007bff;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-right: 8px;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+}
+.event-location {
+  margin-left: 10px;
+  font-size: 0.8rem;
+  color: #555;
+  display: inline-flex;
+  align-items: center;
+}
+
+.upcoming-event-item {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 50px; /* space between events */
+}
+
+/* Social icons: normalize size and spacing so icons aren't huge */
+.social-icons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  /* keep existing positioning rules in Header.js (absolute right) */
+}
+
+.social-icons a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;                /* uniform button size */
+  height: 34px;
+  border-radius: 50%;
+  background: transparent;    /* keep transparent unless you want a bg color */
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.12s ease, background-color 0.12s ease;
+  box-sizing: border-box;
+}
+
+.social-icons a i {
+  font-size: 14px;            /* control icon glyph size */
+  line-height: 1;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Hover/tap affordance */
+.social-icons a:hover,
+.social-icons a:focus {
+  transform: translateY(-2px);
+  /* optional: background: rgba(0,0,0,0.04); */
+}
+
+/* Slightly smaller on narrow screens */
+@media (max-width: 576px) {
+  .social-icons a {
+    width: 28px;
+    height: 28px;
+  }
+  .social-icons a i {
+    font-size: 12px;
+  }
+}
+
+/* Ensure announcement and navbar sit flush on all screens */
+.announcement-bar {
+  margin-bottom: 0 !important;
+  z-index: 1050; /* keep above content but below fixed nav if any */
+}
+
+/* Remove any top margin on the navbar following announcement */
+.announcement-bar + nav.navbar,
+.main-header nav.navbar {
+  margin-top: 0 !important;
+  border-top: 0 !important; /* remove thin border that can look like gap */
+  box-shadow: none !important; /* if shadow looks like gap, remove it */
+}
+
+/* Small vertical breathing between announcement and nav (optional tweak)
+   If you prefer a tiny separation, change 0 to 4px. */
+.main-header .navbar {
+  padding-top: 0.15rem;
+  padding-bottom: 0.15rem;
+}
+
+/* Ensure social icons still align properly */
+.social-icons {
+  z-index: 1060; /* keep icons above announcement background */
+}
+
+
+
+
+

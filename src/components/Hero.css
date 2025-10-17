@@ -452,6 +452,30 @@
   }
 }
 
+/* Mobile: ensure hero fills area with white background and no top/bottom gap */
+@media (max-width: 991.98px) {
+  .hero-section {
+    background-color: #ffffff !important; /* force white behind slider */
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    min-height: 60vh; /* keep your existing mobile height */
+  }
+
+  /* ensure slider and overlay don't show neighboring backgrounds */
+  .hero-slider,
+  .hero-bg-slide,
+  .hero-gradient-overlay {
+    background-color: #ffffff !important;
+  }
+
+  /* remove extra margins from hero container so no orange band appears */
+  .hero-section .container-fluid,
+  .hero-section .row {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
 /* Mobile-only: make subtitle text black without affecting desktop */
 @media (max-width: 767px) {
   .hero-subtitle-primary {
@@ -708,6 +732,105 @@
   }
 }
 
+/* Strong desktop-only rules to force two-line subtitle and prevent collisions */
+@media (min-width: 992px) {
+  .desktop-only .desktop-subtitle {
+    max-width: 520px !important;        /* allow the subtitle to occupy enough width */
+    display: block !important;
+    text-align: left !important;
+    margin: 0 !important;
+    line-height: 1.45 !important;
+    font-size: clamp(1.05rem, 1.4vw, 1.2rem) !important;
+    color: #444 !important;
+    white-space: normal !important;
+    overflow: visible !important;
+  }
+
+  .desktop-only .desktop-subtitle-line {
+    display: block !important;          /* force each <span> into its own line on desktop */
+    width: 100% !important;
+  }
+
+  .desktop-only .desktop-subtitle-line + .desktop-subtitle-line {
+    margin-top: 0.25rem !important;
+  }
+
+  /* ensure the desktop container aligns left and has space */
+  .desktop-only {
+    text-align: left !important;
+    align-items: flex-start !important;
+  }
+}
+
+/* Force desktop subtitle rendering into two lines and prevent overrides.
+   Applies only on large screens (>= 992px). */
+@media (min-width: 992px) {
+  /* Very specific selector to beat other rules */
+  header.hero-section .d-none.d-lg-block .desktop-only .desktop-subtitle,
+  header.hero-section .desktop-only .desktop-subtitle {
+    max-width: 520px !important;
+    display: block !important;
+    text-align: left !important;
+    margin: 0 !important;
+    line-height: 1.45 !important;
+    font-size: clamp(1.05rem, 1.4vw, 1.2rem) !important;
+    color: #444 !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+  }
+
+  header.hero-section .d-none.d-lg-block .desktop-only .desktop-subtitle-line,
+  header.hero-section .desktop-only .desktop-subtitle-line {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  header.hero-section .d-none.d-lg-block .desktop-only .desktop-subtitle-line + .desktop-subtitle-line,
+  header.hero-section .desktop-only .desktop-subtitle-line + .desktop-subtitle-line {
+    margin-top: 0.25rem !important;
+  }
+
+  /* Ensure parent container alignment for desktop */
+  header.hero-section .d-none.d-lg-block .desktop-only {
+    text-align: left !important;
+    align-items: flex-start !important;
+  }
+}
+
+/* FINAL SOLUTION: Ultra high-specificity desktop subtitle rules */
+@media (min-width: 992px) {
+  /* Target the desktop layout specifically with maximum specificity */
+  header.hero-section .d-none.d-lg-block .hero-content-left .hero-subtitle-container .hero-subtitle-primary.desktop-subtitle {
+   
+    display: block !important;
+    text-align: left !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.5 !important;
+    font-size: clamp(1rem, 1.3vw, 1.15rem) !important;
+    color: #444 !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    word-wrap: break-word !important;
+  }
+
+  /* Force each subtitle line to be a block element */
+  header.hero-section .d-none.d-lg-block .hero-content-left .desktop-subtitle-line {
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: 0.1rem !important;
+  }
+
+  /* Remove any conflicting inline styles from desktop buttons */
+  header.hero-section .d-none.d-lg-block .hero-content-left .hero-buttons {
+    justify-content: flex-start !important;
+    margin: 1rem 0 0 0 !important;
+    max-width: none !important;
+    width: auto !important;
+  }
+}
+
 /* Add more space between badges for all screens */
 .trust-badges {
   gap: 1.2rem !important; /* increase horizontal gap between badges */
@@ -737,4 +860,91 @@
   .trust-badge-item {
     margin-bottom: 0 !important;
   }
+}
+
+/* Desktop: force subtitle to use two controlled lines without affecting mobile */
+@media (min-width: 992px) {
+  .desktop-subtitle {
+    max-width: 420px !important;   /* room for exactly two lines */
+    text-align: left !important;
+    display: block !important;
+    margin: 0;
+    line-height: 1.45 !important;
+    color: #444 !important;
+    font-size: clamp(1.05rem, 1.4vw, 1.2rem) !important;
+  }
+
+  .desktop-subtitle-line {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .desktop-subtitle-line + .desktop-subtitle-line {
+    margin-top: 0.25rem;
+  }
+}
+
+/* ULTIMATE SOLUTION: Force desktop subtitle into exactly two lines */
+@media (min-width: 992px) {
+  /* Target with maximum specificity and force the layout */
+  header.hero-section .d-none.d-lg-block .desktop-only .hero-subtitle-container .desktop-subtitle.hero-subtitle-primary strong .desktop-subtitle-line {
+    width: 300% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Ensure the subtitle container itself allows proper line breaking */
+  header.hero-section .d-none.d-lg-block .desktop-only .hero-subtitle-container {
+    max-width: 450px !important;
+    width: 100% !important;
+  }
+
+  header.hero-section .d-none.d-lg-block .desktop-only .desktop-subtitle.hero-subtitle-primary {
+    max-width: 650px !important;
+    text-align: left !important;
+    display: block !important;
+    font-size: 1.1rem !important;
+    line-height: 1.5 !important;
+    color: #444 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    white-space: normal !important;
+  }
+
+  /* Force each line to break */
+  header.hero-section .d-none.d-lg-block .desktop-only .desktop-subtitle.hero-subtitle-primary strong {
+    display: block !important;
+    font-weight: 600 !important;
+  }
+
+  /* Add line break after first span */
+  header.hero-section .d-none.d-lg-block .desktop-only .desktop-subtitle-line:first-child::after {
+    content: "\A" !important;
+    white-space: pre !important;
+  }
+}
+
+/* Franchise page: controlled two-line hero title */
+.franchise-hero-title {
+  width: 100%;
+  max-width: 980px;                    /* limit line length for good measure */
+  margin: 0 auto;                      /* center within column */
+  text-align: center;                  /* center text */
+  line-height: 1.03;                   /* tight line-height for stacked look */
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  /* responsive size tuned for large hero */
+  font-size: clamp(1.6rem, 3.6vw, 3.4rem);
+}
+
+.franchise-hero-title-line {
+  display: block;                      /* force explicit lines */
+}
+
+/* Slightly larger on very large screens */
+@media (min-width: 1400px) {
+  .franchise-hero-title { font-size: clamp(2.2rem, 2.8vw, 4.2rem); }
 }

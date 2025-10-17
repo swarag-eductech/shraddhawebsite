@@ -26,9 +26,10 @@
 }
 
 .section-title2 .institute-name {
+  /* color changed to requested #ff8c00 */
+  color: #ff8c00;
   font-size: clamp(1.8rem, 4vw, 2.5rem);
   font-weight: 800;
-  color: var(--accent); /* orange color */
   position: relative;
   display: inline-block;
   padding-bottom: 0.5rem;
@@ -43,7 +44,7 @@
   transform: translateX(-50%);
   width: 80px;
   height: 4px;
-  background-color: var(--accent);
+  background-color: #ff8c00; /* match underline color */
   border-radius: 2px;
 }
 
@@ -62,9 +63,10 @@
 
 /* Column Titles */
 .impact-title {
+  /* use faint black for Mission & Vision heading */
   font-size: clamp(1.5rem, 3vw, 1.8rem);
   font-weight: 700;
-  color: var(--accent);
+  color: #ff8c00; /* changed to faint black */
   margin-bottom: 1.5rem;
   position: relative;
   padding-bottom: 0.5rem;
@@ -210,3 +212,5 @@
     padding: 1rem 0.5rem;
   }
 }
+
+

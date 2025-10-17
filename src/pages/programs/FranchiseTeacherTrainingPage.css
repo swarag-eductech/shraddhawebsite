@@ -1,5 +1,125 @@
 /* FranchiseTeacherTrainingPage.css */
 
+/* Page-scoped overrides to prevent collisions with global hero styles */
+.franchise-teacher-training-page {
+  /* ensure a local stacking context so global rules (z-index) don't bleed in */
+  position: relative;
+  isolation: isolate;
+}
+
+/* Hero section on this page: always use the page-specific background and sizing */
+.franchise-teacher-training-page .franchise-hero-section {
+  background: linear-gradient(135deg, #ff9f43 0%, #fd7e14 100%) !important;
+  color: #ffffff !important;
+  padding: 100px 0 !important;
+  min-height: 300px !important;
+  display: flex !important;
+  align-items: center !important;
+  z-index: 2;
+}
+
+/* Make sure any global .hero-section rules won't override this page */
+.franchise-teacher-training-page .hero-section { background: none !important; }
+
+/* Title: override global .hero-title sizing and force controlled wrapping on this page */
+.franchise-teacher-training-page .hero-title {
+  font-size: clamp(1.0rem, 3.0vw, 3.0rem) !important;
+  line-height: 1.06 !important;
+  font-weight: 500 !important;
+  text-align: center !important;
+  margin: 0 0 0.75rem 0 !important;
+  color: #ffffff !important;
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* If you deliberately split the title into lines, ensure each line is block */
+.franchise-teacher-training-page .franchise-hero-title-line,
+.franchise-teacher-training-page .hero-title > .franchise-hero-title-line {
+  display: block;
+}
+
+/* Hero stats and badges should not inherit hero page rules */
+.franchise-teacher-training-page .trust-badges,
+.franchise-teacher-training-page .hero-stats-row,
+.franchise-teacher-training-page .stat-item {
+  color: inherit !important;
+  background: transparent !important;
+}
+
+/* Buttons inside this page's hero: use compact, centered styling */
+.franchise-teacher-training-page .hero-buttons {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 0.75rem !important;
+  margin-top: 1rem !important;
+}
+
+.franchise-teacher-training-page .hero-buttons .btn {
+  min-width: 160px;
+  padding: 0.6rem 1.4rem;
+  border-radius: 26px;
+  font-size: 0.95rem;
+}
+
+/* Ensure slider fallback/background doesn't show other page colors */
+.franchise-teacher-training-page .hero-slider,
+.franchise-teacher-training-page .hero-bg-slide,
+.franchise-teacher-training-page .hero-gradient-overlay {
+  background: transparent !important;
+}
+
+/* Marquee / announcement on this page: keep isolated */
+.franchise-teacher-training-page .announcement-bar {
+  background: #ffe5b4;               /* light orange background */
+  color: #222 !important;           /* readable dark text */
+  padding: 8px 0;                   /* comfortable vertical space */
+  z-index: 1060;                    /* above most page content */
+  position: relative;               /* contained in page flow */
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+}
+
+.franchise-teacher-training-page .announcement-scroll {
+  color: #222 !important;
+  white-space: nowrap;
+  animation: scroll 30s linear infinite;
+  padding: 0 12px;
+  display: block;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Testimonials / cards: avoid global card overrides bleeding in */
+.franchise-teacher-training-page .testimonials-section .card,
+.franchise-teacher-training-page .benefit-card,
+.franchise-teacher-training-page .earning-card {
+  background: #fff !important;
+  color: #222 !important;
+}
+
+/* Small responsive tweaks for the page */
+@media (max-width: 991.98px) {
+  .franchise-teacher-training-page .franchise-hero-section {
+    padding: 60px 0 !important;
+    min-height: 260px !important;
+  }
+  .franchise-teacher-training-page .hero-title {
+    font-size: clamp(1.4rem, 6vw, 2.2rem) !important;
+  }
+  .franchise-teacher-training-page .hero-buttons .btn {
+    min-width: 140px;
+  }
+}
+
+/* Safety: bump specificity for any stubborn global overrides */
+.franchise-teacher-training-page .hero-title,
+.franchise-teacher-training-page .franchise-hero-section,
+.franchise-teacher-training-page .hero-buttons .btn {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 /* Announcement Bar */
 .announcement-bar {
   background: #ffe5b4;

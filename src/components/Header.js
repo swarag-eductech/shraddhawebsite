@@ -46,7 +46,16 @@ const Header = () => {
         const docRef = doc(db, "websiteAssets", "header");
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          setLogoUrl(docSnap.data().logo);
+          const logo = docSnap.data().logo;
+          setLogoUrl(logo);
+
+          // ✅ Preload logo with high fetch priority
+          const link = document.createElement("link");
+          link.rel = "preload";
+          link.as = "image";
+          link.href = `${logo}?w=360&f=webp&q=auto`;
+          link.fetchPriority = "high";
+          document.head.appendChild(link);
         }
       } catch (error) {
         console.error("Error fetching logo:", error);
@@ -55,17 +64,26 @@ const Header = () => {
 
     // Only show one upcoming event: National Level Competition 2026
     const fetchUpcomingEvents = async () => {
-      setUpcomingEvents([
-        {
-          id: "national-2026",
-          title: "National Level Competition 2026",
-          date: new Date(2026, 6, 15), // July 15, 2026
-          location: "To Be Announced",
-          type: "competition",
-          registrationLink: ""
-        }
-      ]);
-    };
+  setUpcomingEvents([
+    {
+      id: "national-vijapur-2025",
+      title: "National Level Competition - Vijapur",
+      date: new Date(2025, 11, 28), // Months are 0-indexed (11 = December)
+      location: "Vijapur",
+      type: "competition",
+      registrationLink: ""
+    },
+    {
+      id: "national-pune-2026",
+      title: "National Level Competition - Pune",
+      date: new Date(2026, 0, 18), // January
+      location: "Pune",
+      type: "competition",
+      registrationLink: ""
+    }
+  ]);
+};
+
 
     fetchLogo();
     fetchUpcomingEvents();
@@ -76,11 +94,15 @@ const Header = () => {
   const formatEventDate = (date) => {
     if (!date) return 'Date TBA';
     try {
-      const eventDate = date.toDate ? date.toDate() : new Date(date);
-      return eventDate.toLocaleDateString('en-US', { 
-        day: 'numeric', 
-        month: 'short' 
-      });
+      // handle Firestore Timestamp and other inputs reliably
+      let eventDate = null;
+      if (date && typeof date.toDate === 'function') {
+        eventDate = date.toDate();
+      } else {
+        eventDate = date instanceof Date ? date : new Date(date);
+      }
+      if (!eventDate || isNaN(eventDate.getTime())) return 'Date TBA';
+      return eventDate.toLocaleDateString('en-US', { day: 'numeric', month: 'short' });
     } catch (error) {
       return 'Date TBA';
     }
@@ -220,40 +242,40 @@ const Header = () => {
     return expandedEventTypes[`${year}-${eventType}`];
   };
 
+  // Duplicate the events list to create a seamless scrolling effect for the marquee
+  const marqueeItems = upcomingEvents.length > 0 ? [...upcomingEvents, ...upcomingEvents] : [];
+
   return (
     <header className={`main-header ${scrolled ? 'scrolled' : ''}`}>
       {/* Enhanced Announcement Bar */}
       <div className="announcement-bar">
-        <div className="container d-flex justify-content-between align-items-center">
-          <div className="announcement-content animate__animated animate__fadeInLeft">
-            <span className="sparkle-wrapper">
-              <span className="sparkle">✨</span>
-            </span>
-            <span className="announcement-text shine-text">
-              Transform Your Teaching Career with <strong>Maker Abacus and Vedic Math</strong>
-            </span>
-            <span className="sparkle-wrapper">
-              <span className="sparkle">✨</span>
-            </span>
-          </div>
+        <div className="container" style={{ position: 'relative' }}>
+          {/* centered announcement text */}
+          <div
+            className="announcement-content d-flex justify-content-center align-items-center w-100 animate__animated animate__fadeInLeft"
+            style={{ paddingRight: '48rem', boxSizing: 'border-box' }}
+          >
+             <span className="sparkle-wrapper" aria-hidden="true" >
+               <span className="sparkle">✨</span>
+             </span>
+             <span className="announcement-text shine-text"  >
+               Transform Your Teaching Career with <strong>Maker Abacus and Vedic Math</strong>
+             </span>
+             <span className="sparkle-wrapper" aria-hidden="true">
+               <span className="sparkle">✨</span>
+             </span>
+           </div>
 
-          <div className="social-icons no-circle animate__animated animate__fadeInRight">
-            <a href="https://www.facebook.com/share/1FXuy9uHEW/" 
-              className="social-hover-effect"
-              target="_blank" 
-              rel="noreferrer" 
-              aria-label="Facebook">
-              <i className="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://www.instagram.com/shraddhainstitute?igsh=a2sxY2M3bTRqNWx5" target="_blank" rel="noreferrer" aria-label="Instagram">
-              <i className="fab fa-instagram"></i>
-            </a>
-            <a href="https://www.youtube.com/@ShraddhaInstitute" target="_blank" rel="noreferrer" aria-label="YouTube">
-              <i className="fab fa-youtube"></i>
-            </a>
-            <a href="https://wa.me/919168756060" target="_blank" rel="noreferrer" aria-label="WhatsApp">
-              <i className="fab fa-whatsapp"></i>
-            </a>
+          {/* social icons visually centered vertically at right */}
+          <div
+            className="social-icons no-circle animate__animated animate__fadeInRight"
+            style={{ position: 'absolute', right: '1rem', top: '50%', transform: 'translateY(-50%)', display: 'flex', gap: '0.5rem', alignItems: 'center', justifyContent: 'center', marginTop: '0.2rem'}}
+            aria-hidden="false"
+          >
+            <a href="https://www.facebook.com/share/1FXuy9uHEW/" className="social-hover-effect" target="_blank" rel="noreferrer" aria-label="Facebook"><i className="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/shraddhainstitute?igsh=a2sxY2M3bTRqNWx5" target="_blank" rel="noreferrer" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
+            <a href="https://www.youtube.com/@ShraddhaInstitute" target="_blank" rel="noreferrer" aria-label="YouTube"><i className="fab fa-youtube"></i></a>
+            <a href="https://wa.me/919168756060" target="_blank" rel="noreferrer" aria-label="WhatsApp"><i className="fab fa-whatsapp"></i></a>
           </div>
         </div>
       </div>
@@ -448,13 +470,14 @@ const Header = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded={hoveredDropdown === 'events-gallery' || openDropdown === 'events-gallery'}
                 >
-                 
-                  Events
+                  <span style={{ color: 'black' }}>Events</span>
                   <FontAwesomeIcon icon={faChevronDown} className="ms-1" />
+                  
                 </a>
                 <div 
                   className={`dropdown-menu mega-dropdown events-gallery-dropdown p-4 ${(hoveredDropdown === 'events-gallery' || openDropdown === 'events-gallery') ? 'show' : ''}`}
                   aria-labelledby="eventsGalleryDropdown"
+                  style={{ color: 'black', backgroundColor: '' }}
                 >
                   <div className="row">
                     {/* Upcoming Event Section */}
@@ -466,46 +489,56 @@ const Header = () => {
                             </span>
                             Upcoming Event
                           </h6>
-                          <Link to="/events" className="view-all-link">
+                          <Link to="/events" className="view-all-link" style={{ color: '#ff7a00' }}>
                             View Events <FontAwesomeIcon icon={faChevronRight} className="ms-1" />
                           </Link>
                         </div>
 
-                        {/* Replace the existing upcoming event card with this new marquee version */}
-                        <div className="upcoming-event-announcement">
-                          {upcomingEvents.length > 0 && (
-                            <div className="event-marquee">
-                              <div className="event-marquee-content">
-                                <span className="event-date-pill">
-                                  <FontAwesomeIcon icon={faCalendarAlt} />
-                                  {formatEventDate(upcomingEvents[0].date)}
-                                </span>
-                                <span className="event-title-text">
-                                  {upcomingEvents[0].title}
-                                </span>
-                                <span className="event-location">
-                                  <FontAwesomeIcon icon={faMapMarkerAlt} className="me-1" />
-                                  {upcomingEvents[0].location}
-                                </span>
-                                <span className="coming-soon-tag">Coming Soon</span>
-                                {/* Duplicate content for seamless loop */}
-                                <span style={{ marginLeft: '50px' }}>•</span>
-                                <span className="event-date-pill">
-                                  <FontAwesomeIcon icon={faCalendarAlt} />
-                                  {formatEventDate(upcomingEvents[0].date)}
-                                </span>
-                                <span className="event-title-text">
-                                  {upcomingEvents[0].title}
-                                </span>
-                                <span className="event-location">
-                                  <FontAwesomeIcon icon={faMapMarkerAlt} className="me-1" />
-                                  {upcomingEvents[0].location}
-                                </span>
-                                <span className="coming-soon-tag">Coming Soon</span>
-                              </div>
-                            </div>
-                          )}
-                        </div>
+                        {/* Create a separate marquee for each upcoming event */}
+                       {/* Upcoming Events Marquee */}
+<div className="upcoming-event-announcement mb-3">
+  {upcomingEvents.length > 0 && (
+    <div className="upcoming-event-marquee">
+      <div className="upcoming-event-marquee-content">
+        {upcomingEvents.map((event) => (
+          <div key={event.id} className="upcoming-event-item">
+            <span className="event-date-pill">
+              <FontAwesomeIcon icon={faCalendarAlt} className="me-1" />
+              {formatEventDate(event.date)}
+            </span>
+            <span className="event-title-text fw-bold">
+              {event.title}
+            </span>
+            <span className="new-blink">NEW</span>
+            <span className="event-location">
+              <FontAwesomeIcon icon={faMapMarkerAlt} className="me-1" />
+              {event.location}
+            </span>
+          </div>
+        ))}
+
+        {/* Duplicate for seamless scrolling */}
+        {upcomingEvents.map((event) => (
+          <div key={event.id + "-duplicate"} className="upcoming-event-item">
+            <span className="event-date-pill">
+              <FontAwesomeIcon icon={faCalendarAlt} className="me-1" />
+              {formatEventDate(event.date)}
+            </span>
+            <span className="event-title-text fw-bold">
+              {event.title}
+            </span>
+            <span className="new-blink">NEW</span>
+            <span className="event-location">
+              <FontAwesomeIcon icon={faMapMarkerAlt} className="me-1" />
+              {event.location}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
+</div>
+
                       </div>
                     </div>
 
