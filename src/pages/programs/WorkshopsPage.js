@@ -178,7 +178,7 @@ const WorkshopsPage = () => (
 						Special Programs
 					</span>
 					<h1 className="display-5 fw-bold mb-3">
-						<span className="workshops-orange" style={{ color: "#ff9f43" }}>Workshops</span>
+						<span className="workshops-orange" style={{ color: "#ff9f43" }}>Workshop</span> Types
 					</h1>
 					<p className="lead text-muted mx-auto" style={{ maxWidth: 700 }}>
 						Short-term, high-impact learning experiences for students and

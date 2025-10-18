@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './Header.css';
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, collection, getDocs } from "firebase/firestore";
 import firebaseApp from "../firebase";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
@@ -61,29 +61,71 @@ const Header = () => {
         console.error("Error fetching logo:", error);
       }
     };
-
-    // Only show one upcoming event: National Level Competition 2026
     const fetchUpcomingEvents = async () => {
-  setUpcomingEvents([
-    {
-      id: "national-vijapur-2025",
-      title: "National Level Competition - Vijapur",
-      date: new Date(2025, 11, 28), // Months are 0-indexed (11 = December)
-      location: "Vijapur",
-      type: "competition",
-      registrationLink: ""
-    },
-    {
-      id: "national-pune-2026",
-      title: "National Level Competition - Pune",
-      date: new Date(2026, 0, 18), // January
-      location: "Pune",
-      type: "competition",
-      registrationLink: ""
-    }
-  ]);
-};
+      try {
+        const db = getFirestore(firebaseApp);
+        const eventsCollection = collection(db, "upcomingEvents");
+        const querySnapshot = await getDocs(eventsCollection);
 
+        // --- Robust Normalizer for Firestore data shapes ---
+        const unwrapValue = (val) => {
+          if (val == null) return null;
+          if (typeof val !== 'object') return val;
+          if ('stringValue' in val) return val.stringValue;
+          if ('integerValue' in val) return Number(val.integerValue);
+          if ('doubleValue' in val) return Number(val.doubleValue);
+          if ('booleanValue' in val) return val.booleanValue;
+          if ('timestampValue' in val) return new Date(val.timestampValue);
+          if (val.seconds !== undefined && val.nanoseconds !== undefined) return new Date(Number(val.seconds) * 1000);
+          if (val.mapValue && val.mapValue.fields) return parseFields(val.mapValue.fields);
+          return val;
+        };
+        const parseFields = (fieldsObj) => {
+          const out = {};
+          Object.keys(fieldsObj || {}).forEach((k) => {
+            out[k] = unwrapValue(fieldsObj[k]);
+          });
+          return out;
+        };
+
+        const events = querySnapshot.docs.map((d) => {
+          const raw = d.data();
+          let eventData;
+
+          // Handle various nested structures from Firestore exports/backups
+          if (raw && raw.Fields) {
+            eventData = unwrapValue(raw.Fields);
+          } else if (raw && raw.fields) {
+            eventData = parseFields(raw.fields);
+          } else {
+            eventData = parseFields(raw); // Attempt to parse top-level fields
+          }
+          
+          // Ensure date is a JS Date object
+          if (eventData.date && typeof eventData.date.toDate === 'function') {
+            eventData.date = eventData.date.toDate();
+          } else if (eventData.date && typeof eventData.date === 'string') {
+            const parsedDate = new Date(eventData.date);
+            if (!isNaN(parsedDate)) {
+              eventData.date = parsedDate;
+            }
+          }
+
+          return { id: d.id, ...eventData };
+        });
+
+        // Filter for future events
+        const now = new Date();
+        const futureEvents = events.filter(event => event && event.date && event.date instanceof Date && event.date >= now);
+
+        // Sort events by date
+        futureEvents.sort((a, b) => a.date - b.date);
+
+        setUpcomingEvents(futureEvents);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
 
     fetchLogo();
     fetchUpcomingEvents();
@@ -91,19 +133,33 @@ const Header = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+   
+
   const formatEventDate = (date) => {
     if (!date) return 'Date TBA';
     try {
-      // handle Firestore Timestamp and other inputs reliably
       let eventDate = null;
+      // Handle Firestore Timestamp object (which has seconds and nanoseconds properties)
       if (date && typeof date.toDate === 'function') {
         eventDate = date.toDate();
-      } else {
-        eventDate = date instanceof Date ? date : new Date(date);
+      } 
+      else if (date && typeof date.seconds === 'number') {
+        eventDate = new Date(date.seconds * 1000);
+      } 
+      // Handle if it's already a JS Date object
+      else if (date instanceof Date) {
+        eventDate = date;
+      } 
+      // Fallback for string or other formats
+      else {
+        eventDate = new Date(date);
       }
+
       if (!eventDate || isNaN(eventDate.getTime())) return 'Date TBA';
+      
       return eventDate.toLocaleDateString('en-US', { day: 'numeric', month: 'short' });
     } catch (error) {
+      console.error("Error formatting date:", error);
       return 'Date TBA';
     }
   };
@@ -246,6 +302,33 @@ const Header = () => {
 
   return (
     <header className={`main-header ${scrolled ? 'scrolled' : ''}`}>
+      <style>
+        {`
+          @keyframes register-glow {
+            0%, 100% {
+              text-shadow: 0 0 4px red;
+              opacity: 0.8;
+            }
+            50% {
+              text-shadow: 0 0 12px red;
+              opacity: 1;
+            }
+          }
+          .register-now-blink {
+            animation: register-glow 2s ease-in-out infinite;
+            color: #dc3545; /* Bootstrap danger color */
+            font-weight: bold;
+            text-decoration: none;
+          }
+          .register-now-blink:hover {
+            color: #a71d2a;
+            text-decoration: none;
+            animation: none; /* Stop blinking on hover */
+            opacity: 1;
+            text-shadow: none;
+          }
+        `}
+      </style>
       {/* Enhanced Announcement Bar */}
       <div className="announcement-bar">
         <div className="container" style={{ position: 'relative' }}>
@@ -496,11 +579,23 @@ const Header = () => {
                         {/* Create a separate marquee for each upcoming event */}
                        {/* Upcoming Events Marquee */}
 <div className="upcoming-event-announcement mb-3">
-  {upcomingEvents.length > 0 && (
+  {upcomingEvents.length > 0 ? (
     <div className="upcoming-event-marquee">
       <div className="upcoming-event-marquee-content">
         {upcomingEvents.map((event) => (
           <div key={event.id} className="upcoming-event-item">
+            {/* Blinking "Register Now" text at the start */}
+            {event.registrationLink && (
+              <a
+                href={event.registrationLink}
+                target="_blank"
+                rel="noreferrer"
+                className="me-3 register-now-blink"
+                aria-label={`Register for ${event.title}`}
+              >
+                Register Now
+              </a>
+            )}
             <span className="event-date-pill">
               <FontAwesomeIcon icon={faCalendarAlt} className="me-1" />
               {formatEventDate(event.date)}
@@ -519,6 +614,18 @@ const Header = () => {
         {/* Duplicate for seamless scrolling */}
         {upcomingEvents.map((event) => (
           <div key={event.id + "-duplicate"} className="upcoming-event-item">
+            {/* Duplicate blinking "Register Now" text at the start */}
+            {event.registrationLink && (
+              <a
+                href={event.registrationLink}
+                target="_blank"
+                rel="noreferrer"
+                className="me-3 register-now-blink"
+                aria-label={`Register for ${event.title}`}
+              >
+                Register Now
+              </a>
+            )}
             <span className="event-date-pill">
               <FontAwesomeIcon icon={faCalendarAlt} className="me-1" />
               {formatEventDate(event.date)}
@@ -535,6 +642,8 @@ const Header = () => {
         ))}
       </div>
     </div>
+  ) : (
+    <div className="text-center text-muted">No upcoming events at this time.</div>
   )}
 </div>
 

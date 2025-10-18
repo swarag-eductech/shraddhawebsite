@@ -35,7 +35,7 @@ const AbacusPage = () => {
           <div className="row justify-content-center align-items-center" style={{ minHeight: '300px' }}>
             <div className="col-lg-8 text-center mx-auto">
               <h1 className="display-4 fw-bold mb-3 text-white">Master Abacus – Mental Math for Life!</h1>
-              <p className="lead mb-4 text-white">
+              <p className="lead mb-4 text-white" style={{ fontWeight: 500 }}>
                 Unlock your child’s full potential with our proven Abacus training. Boost calculation speed, concentration, and confidence in a fun, interactive way!
               </p>
               {/* Enroll Now and Book Demo buttons styled like Hero section */}
