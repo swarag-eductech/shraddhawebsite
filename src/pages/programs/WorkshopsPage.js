@@ -38,7 +38,7 @@ const workshops = [
 ];
 
 const WorkshopsPage = () => (
-	<>
+	<div className="workshops-page">
 		<Helmet>
 			<title>Workshops | Shraddha Institute</title>
 			<meta
@@ -76,6 +76,7 @@ const WorkshopsPage = () => (
 					font-weight: 700;
 					color: #fff;
 					text-shadow: 0 3px 6px rgba(0,0,0,0.3);
+					text-align: center !important;
 				}
 				.workshops-hero-section .hero-badge {
 					background: rgba(255,255,255,0.15);
@@ -139,15 +140,16 @@ const WorkshopsPage = () => (
 							</span>
 						</div>
 						<h1
-							className="hero-title mb-4"
+							className="hero-title mb-5 text-center"
 							style={{
-								fontSize: "2.5rem",
+								fontSize: "2.9rem",
 								fontWeight: 700,
 								color: "#fff",
 								textShadow: "0 3px 6px rgba(0,0,0,0.3)",
+								
 							}}
 						>
-							Short-Term Skill Workshops
+							Short-Term Skill Workshops 
 						</h1>
 						<p
 							className="hero-subtitle lead mb-4"
@@ -207,7 +209,7 @@ const WorkshopsPage = () => (
 				</Row>
 			</Container>
 		</section>
-	</>
+	</div>
 );
 
 export default WorkshopsPage;
