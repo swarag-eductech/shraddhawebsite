@@ -134,6 +134,45 @@ const FranchiseTeacherTrainingPage = () => {
           alignItems: 'center'
         }}
       >
+        {/* Add this style block for mobile stat row */}
+        <style>
+          {`
+            @media (max-width: 576px) {
+              .hero-stats-row {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 0.5rem !important;
+                justify-content: center !important;
+                align-items: stretch !important;
+                flex-wrap: unset !important;
+                width: 100%;
+              }
+              .hero-stats-row .stat-item {
+                flex: unset !important;
+                min-width: 0;
+                padding: 0 2px;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+                width: 100%;
+              }
+              .small-hero-stat-number {
+                font-size: 1.4rem !important;
+                font-weight: 700 !important;
+                display: block;
+                line-height: 1.1;
+              }
+              .small-hero-stat-label {
+                font-size: 0.95rem !important;
+                display: block;
+                margin-top: 2px;
+                font-weight: 500 !important;
+                line-height: 1.1;
+              }
+            }
+          `}
+        </style>
         <div className="container h-100">
           <div className="row h-100 justify-content-center align-items-center">
             <div className="col-lg-10 text-center mx-auto">
