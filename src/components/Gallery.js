@@ -5,7 +5,6 @@ import "./Gallery.css";
 import Confetti from "react-confetti";
 
 const Gallery = () => {
-  const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showConfetti, setShowConfetti] = useState(false);
