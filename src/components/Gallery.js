@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase"; 
 import { motion, useAnimation } from "framer-motion";
@@ -18,6 +18,19 @@ const Gallery = () => {
   // Animation controls
   const controls = useAnimation();
   const [isPlaying, setIsPlaying] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  // Memoize animationSequence so its reference doesn't change every render
+  const animationSequence = useMemo(() => ({
+    x: ["0%", "-50%", "0%"], // Pans from left to right and back
+    scale: [1.05, 1.1, 1.05], // Gentle zoom in and out
+    transition: {
+      duration: 40, // Slow 40-second cycle
+      repeat: Infinity,
+      repeatType: "mirror",
+      ease: "easeInOut",
+    },
+  }), []);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -65,21 +78,15 @@ const Gallery = () => {
     }
   }, [isLoading, displayImage]);
 
-  // Animation logic
-  const animationSequence = {
-    x: ["0%", "-50%", "0%"], // Pans from left to right and back
-    scale: [1.05, 1.1, 1.05], // Gentle zoom in and out
-    transition: {
-      duration: 40, // Slow 40-second cycle
-      repeat: Infinity,
-      repeatType: "mirror",
-      ease: "easeInOut",
-    },
-  };
+  // Reset imageLoaded whenever the displayed image source changes
+  useEffect(() => {
+    setImageLoaded(false);
+  }, [displayImage]);
 
   useEffect(() => {
     const handleAnimation = () => {
-      if (window.innerWidth < 768 && displayImage) {
+      // Require the image to be loaded before starting the animation on mobile
+      if (window.innerWidth < 768 && displayImage && imageLoaded) {
         controls.start(animationSequence);
         setIsPlaying(true);
       } else {
@@ -91,9 +98,11 @@ const Gallery = () => {
     handleAnimation();
     window.addEventListener("resize", handleAnimation);
     return () => window.removeEventListener("resize", handleAnimation);
-  }, [displayImage, controls, animationSequence]);
+  }, [displayImage, controls, animationSequence, imageLoaded]);
 
   const togglePlay = () => {
+    // Don't attempt to start animation before image is loaded
+    if (!imageLoaded) return;
     if (isPlaying) {
       controls.stop();
       setIsPlaying(false);
@@ -127,6 +136,7 @@ const Gallery = () => {
               animate={controls}
               initial={{ x: "0%", scale: 1.05 }}
               onClick={togglePlay}
+              onLoad={() => setImageLoaded(true)}
             />
           </picture>
           {window.innerWidth < 768 && (
