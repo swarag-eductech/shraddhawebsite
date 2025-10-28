@@ -10,33 +10,56 @@ const Gallery = () => {
   const [error, setError] = useState(null);
   const [showConfetti, setShowConfetti] = useState(false);
 
+  // new: separate desktop / mobile sources and chosen display image
+  const [desktopImage, setDesktopImage] = useState(null);
+  const [mobileImage, setMobileImage] = useState(null);
+  const [displayImage, setDisplayImage] = useState(null);
+
   useEffect(() => {
-    const fetchImage = async () => {
+    const fetchImages = async () => {
       try {
-        // Fetch only one image document from Firestore
-        const docRef = doc(db, "gallery", "main");
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          setImage(data.url);
-        } else {
-          setImage(null);
-        }
+        // desktop image (existing)
+        const mainRef = doc(db, "gallery", "main");
+        const mainSnap = await getDoc(mainRef);
+        const mainUrl = mainSnap.exists() ? mainSnap.data().url : null;
+
+        // mobile image (new: "main1")
+        const mobileRef = doc(db, "gallery", "main1");
+        const mobileSnap = await getDoc(mobileRef);
+        const mobileUrl = mobileSnap.exists() ? mobileSnap.data().url : null;
+
+        setDesktopImage(mainUrl);
+        setMobileImage(mobileUrl);
+
+        // set initial display image based on current screen
+        const isMobile = window.innerWidth < 768;
+        setDisplayImage(isMobile ? (mobileUrl || mainUrl) : mainUrl);
       } catch (err) {
-        setError("Failed to fetch image: " + err.message);
+        setError("Failed to fetch image(s): " + err.message);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchImage();
+    fetchImages();
   }, []);
 
+  // update displayImage on resize (live switch)
   useEffect(() => {
-    if (!isLoading && image) {
+    const onResize = () => {
+      const isMobile = window.innerWidth < 768;
+      setDisplayImage(isMobile ? (mobileImage || desktopImage) : desktopImage);
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [mobileImage, desktopImage]);
+
+  // confetti when chosen display image becomes available
+  useEffect(() => {
+    if (!isLoading && displayImage) {
       setShowConfetti(true);
       setTimeout(() => setShowConfetti(false), 2500);
     }
-  }, [isLoading, image]);
+  }, [isLoading, displayImage]);
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
@@ -45,15 +68,15 @@ const Gallery = () => {
     <div className="gallery-container">
       {showConfetti && <Confetti numberOfPieces={120} recycle={false} />}
       <h2 className="gallery-title">Memories</h2>
-      {image ? (
+      {displayImage ? (
         <div className="gallery-single-image" style={{ textAlign: "center" }}>
           <picture>
             <source
-              srcSet={image.endsWith('.png') || image.endsWith('.jpg') ? image.replace(/\.(png|jpg)$/i, '.webp') : image}
+              srcSet={displayImage.endsWith('.png') || displayImage.endsWith('.jpg') ? displayImage.replace(/\.(png|jpg)$/i, '.webp') : displayImage}
               type="image/webp"
             />
             <img
-              src={image}
+              src={displayImage}
               alt="Gallery"
               loading="eager"
               width="1600"

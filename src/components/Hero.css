@@ -926,25 +926,3 @@
     white-space: pre !important;
   }
 }
-
-/* Franchise page: controlled two-line hero title */
-.franchise-hero-title {
-  width: 100%;
-  max-width: 980px;                    /* limit line length for good measure */
-  margin: 0 auto;                      /* center within column */
-  text-align: center;                  /* center text */
-  line-height: 1.03;                   /* tight line-height for stacked look */
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  /* responsive size tuned for large hero */
-  font-size: clamp(1.6rem, 3.6vw, 3.4rem);
-}
-
-.franchise-hero-title-line {
-  display: block;                      /* force explicit lines */
-}
-
-/* Slightly larger on very large screens */
-@media (min-width: 1400px) {
-  .franchise-hero-title { font-size: clamp(2.2rem, 2.8vw, 4.2rem); }
-}

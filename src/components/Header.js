@@ -381,7 +381,7 @@ const Header = () => {
              <span className="sparkle-wrapper" aria-hidden="true" >
                <span className="sparkle">✨</span>
              </span>
-             <span className="announcement-text shine-text"  >
+             <span className="announcement-text shine-text" style={{ color: '#ff5700' }}>
                Transform Your Teaching Career with <strong>Maker Abacus and Vedic Math</strong>
              </span>
              <span className="sparkle-wrapper" aria-hidden="true">
