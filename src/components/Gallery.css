@@ -50,8 +50,8 @@
 }
 
 .marquee-item img {
-  height: 500px;
-  width: auto;
+  height: 350px;
+  width: 300px;
   border-radius: 12px;
   object-fit: cover;
   box-shadow: 0 5px 15px rgba(0,0,0,0.15);
@@ -95,55 +95,56 @@
     min-width: 120px;
   }
 }
- 
 
-/* Marquee Track */
-.marquee {
+/* wrapper shows rounded corners & shadow; image pans inside it */
+.gallery-single-image {
   display: flex;
-  width: max-content;
-  animation: scroll 40s linear infinite; /* <-- slower scroll */
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  overflow: hidden; /* clip the wide image to rounded container */
+  border-radius: 14px; /* rounded corners visible on mobile */
+  box-shadow: 0 14px 40px rgba(0,0,0,0.12); /* shadow applied to wrapper */
+  background: #f8f8f8; /* background for edges while panning */
 }
 
-/* Seamless Loop: Duplicate the images */
-.marquee::after {
-  content: "";
-  display: flex;
-  flex-shrink: 0;
-}
-
-/* Marquee Item */
-.marquee-item {
-  flex: 0 0 auto;
-  margin: 0 15px;
-  border-radius: 12px;
-  overflow: hidden;
-  transition: transform 0.3s ease;
-}
-
-.marquee-item img {
-  height: 350px;
-  width: 300px;
-  border-radius: 12px;
+/* remove img corner & shadow so wrapper controls appearance */
+.gallery-image-mobile {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  display: block;
   object-fit: cover;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+  transform-origin: center center;
+  max-width: none; /* allow wide image for panning */
 }
 
-/* Hover Effect */
-.marquee-item:hover {
-  transform: scale(1.08);
-}
-
-/* Infinite Loop Keyframes */
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
+/* ========== Mobile: keep wide image for cinematic pan but clipped by wrapper ========== */
+@media (max-width: 767px) {
+  .gallery-image-mobile {
+    min-width: 200%; /* keep wider image for horizontal pan */
+    width: auto;
+    height: 78vh;
   }
 }
 
+/* ========== Desktop: ensure static visual, no CSS animation interference ========== */
+@media (min-width: 768px) {
+  .gallery-single-image {
+    border-radius: 16px; /* slightly larger on desktop if desired */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  }
+  .gallery-image-mobile {
+    min-width: 0;
+    width: 100%;
+    height: 550px;
+  }
+}
 
+/* ensure vignette overlay respects wrapper radius */
+.gallery-container::after {
+  border-radius: 16px;
+}
 
 /* Gallery.css */
 .gallery-image-mobile {

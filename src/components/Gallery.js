@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase"; 
+import { motion, useAnimation } from "framer-motion";
 import "./Gallery.css";
 import Confetti from "react-confetti";
 
@@ -13,6 +14,10 @@ const Gallery = () => {
   const [desktopImage, setDesktopImage] = useState(null);
   const [mobileImage, setMobileImage] = useState(null);
   const [displayImage, setDisplayImage] = useState(null);
+
+  // Animation controls
+  const controls = useAnimation();
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -60,6 +65,44 @@ const Gallery = () => {
     }
   }, [isLoading, displayImage]);
 
+  // Animation logic
+  const animationSequence = {
+    x: ["0%", "-50%", "0%"], // Pans from left to right and back
+    scale: [1.05, 1.1, 1.05], // Gentle zoom in and out
+    transition: {
+      duration: 40, // Slow 40-second cycle
+      repeat: Infinity,
+      repeatType: "mirror",
+      ease: "easeInOut",
+    },
+  };
+
+  useEffect(() => {
+    const handleAnimation = () => {
+      if (window.innerWidth < 768 && displayImage) {
+        controls.start(animationSequence);
+        setIsPlaying(true);
+      } else {
+        controls.stop();
+        controls.set({ x: "0%", scale: 1 });
+        setIsPlaying(false);
+      }
+    };
+    handleAnimation();
+    window.addEventListener("resize", handleAnimation);
+    return () => window.removeEventListener("resize", handleAnimation);
+  }, [displayImage, controls, animationSequence]);
+
+  const togglePlay = () => {
+    if (isPlaying) {
+      controls.stop();
+      setIsPlaying(false);
+    } else {
+      controls.start(animationSequence);
+      setIsPlaying(true);
+    }
+  };
+
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
@@ -74,23 +117,27 @@ const Gallery = () => {
               srcSet={displayImage.endsWith('.png') || displayImage.endsWith('.jpg') ? displayImage.replace(/\.(png|jpg)$/i, '.webp') : displayImage}
               type="image/webp"
             />
-            <img
+            <motion.img
               src={displayImage}
               alt="Gallery"
               loading="eager"
               width="1600"
               height="550"
               className="gallery-image-mobile"
-              style={{ 
-                background: "#f8f8f8", 
-                borderRadius: "12px", 
-                boxShadow: "0 5px 15px rgba(0,0,0,0.15)",
-                width: "100%",
-                height: "550px",
-                objectFit: "cover"
-              }}
+              animate={controls}
+              initial={{ x: "0%", scale: 1.05 }}
+              onClick={togglePlay}
             />
           </picture>
+          {window.innerWidth < 768 && (
+            <button
+              className={`gallery-play-toggle ${isPlaying ? "playing" : ""}`}
+              onClick={togglePlay}
+              aria-label={isPlaying ? "Pause Animation" : "Play Animation"}
+            >
+              {isPlaying ? "⏸" : "▶"}
+            </button>
+          )}
         </div>
       ) : (
         <p>No image available 📷</p>
