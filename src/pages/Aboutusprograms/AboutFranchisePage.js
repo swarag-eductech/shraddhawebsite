@@ -28,143 +28,21 @@ useEffect(() => {
     fetchImage();
   }, []);
 
-  const timelineItems = [
-    {
-      year: 2013,
-      title: 'Founded with a Vision',
-      text: 'Shraddha Institute began with a single center in Solapur.',
-     
-    },
-    {
-      year: 2015,
-      title: 'Franchise Model Introduced',
-      text: 'We started training teachers and launched our franchise program.',
-      
-    },
-    {
-      year: 2017,
-      title: 'Expanding Across Maharashtra',
-      text: 'Over 100 teachers joined our network, spreading Abacus & Vedic Maths.',
-     
-    },
-    {
-      year: 2019,
-      title: 'State-Level Competitions',
-      text: 'First large-scale competitions for students were conducted with huge success.',
-      video: 'https://www.youtube.com/embed/IY3FpB5OfZ8?mute=1'
-    },
-    {
-      year: 2020,
-      title: 'Shift to Online Learning',
-      text: 'Adapted to online teaching during the pandemic and trained teachers virtually.',
-
-    },
-    {
-      year: 2022,
-      title: 'Growing Teacher Community',
-      text: 'Reached 450+ teachers and expanded our presence into schools across India.',
- 
-    },
-    {
-      year: 2023,
-      title: 'National-Level Competitions Announced',
-      text: 'Almost 5000 students participated in Abacus & Vedic Maths competitions nationwide.',
-     
-    },
-    {
-      year: 2024,
-      title: 'New Programs & Recognition',
-      text: 'Launched Phonics Teacher Training program and expanded social media campaigns to empower teachers.',
-     
-    }
-  ];
-
   return (
     <div className="founder-page">
-      {/* Hero Section */}
-      <section
-        className="founder-hero"
-        style={{
-          background: 'linear-gradient(135deg, #ff9f43 0%, #fd7e14 100%)',
-          color: 'white',
-          padding: '80px 0',
-          textAlign: 'center'
-        }}
-      >
-        <div className="hero-content">
-          <h1 style={{
-            fontSize: '3rem',
-            fontWeight: 700,
-            marginBottom: '1rem',
-            textShadow: '0 2px 8px rgba(0,0,0,0.08)',
-            fontFamily: 'Montserrat, sans-serif'
-          }}>
-            Our Journey
-          </h1>
-          <p style={{ fontSize: '1.25rem', fontWeight: 400, marginBottom: 0 }}>
-            How it all started in 2013 and scaled across India
-          </p>
-        </div>
-      </section>
-
-      {/* Timeline Section */}
-      <section className="timeline-section">
+      {/* Summary / Why partner (now the top section) */}
+      <section className="summary-section">
         <div className="container">
-          <h2 className="section-title">Our Journey</h2>
-          <div className="timeline">
-            {timelineItems.map((item, idx) => (
-              <div className="timeline-item" key={item.year}>
-                <div className="timeline-year">{item.year}</div>
-                <div className="timeline-row">
-                  {idx % 2 === 0 ? (
-                    <>
-                      <div className="timeline-content">
-                        <h3>{item.title}</h3>
-                        <p>{item.text}</p>
-                      </div>
-                      {item.video ? (
-                        <div className="timeline-video">
-                          <iframe
-                            src={item.video}
-                            title={`Timeline Video ${item.year}`}
-                            frameBorder="0"
-                            allow="autoplay; encrypted-media"
-                            allowFullScreen
-                            width="250"
-                            height="140"
-                          ></iframe>
-                        </div>
-                      ) : (
-                        <div className="timeline-video"></div>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      {item.video ? (
-                        <div className="timeline-video">
-                          <iframe
-                            src={item.video}
-                            title={`Timeline Video ${item.year}`}
-                            frameBorder="0"
-                            allow="autoplay; encrypted-media"
-                            allowFullScreen
-                            width="250"
-                            height="140"
-                          ></iframe>
-                        </div>
-                      ) : (
-                        <div className="timeline-video"></div>
-                      )}
-                      <div className="timeline-content">
-                        <h3>{item.title}</h3>
-                        <p>{item.text}</p>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
-            ))}
+          <div className="summary-left">
+            <p>
+              Shraddha Institute, established in 2013, has been a pioneer in teacher training — empowering 600+ educators and transforming learning experiences in schools across India. With 12+ years of excellence, we deliver structured, innovative programs that help students build strong academic foundations and essential cognitive skills.
+            </p>
+            <p>
+              Our expertise includes Abacus, Vedic Math, Phonics and Handwriting. With a strong presence in 50+ schools across Maharashtra and North Karnataka, Shraddha Institute provides customized educational solutions that enhance student engagement, boost confidence, and improve overall learning outcomes.
+            </p>
           </div>
+
+          {/* removed the aside.summary-features block as requested */}
         </div>
       </section>
 
