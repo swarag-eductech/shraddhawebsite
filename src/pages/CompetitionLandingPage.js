@@ -84,7 +84,7 @@ const CompetitionLandingPage = () => {
   // Hardcoded competition events (can also fetch from Firestore)
   const competitionEvents = [];
 
-  const [upcomingEvents, setUpcomingEvents] = useState(competitionEvents);
+  const [upcomingEvents] = useState(competitionEvents);
   const prizeTrackRef = useRef(null);
 
   // Prize items fetched from Firestore
@@ -95,7 +95,7 @@ const CompetitionLandingPage = () => {
   const [prizePreviewOpen, setPrizePreviewOpen] = useState(false);
   const [prizePreviewSrc, setPrizePreviewSrc] = useState(null);
   
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   // level assets fetched from Firestore (collection: 'levelassets')
   const [levelAssets, setLevelAssets] = useState({});
   const [syllabusImageUrl, setSyllabusImageUrl] = useState(null);
@@ -114,8 +114,8 @@ const CompetitionLandingPage = () => {
   // --- NEW: store contact details submitted from the "Tell us about yourself" form ---
   const [contactInfo, setContactInfo] = useState(null);
 
-  // track whether the Zoho iframe form was submitted
-  const [zohoSubmitted, setZohoSubmitted] = useState(false);
+  // track whether the Zoho iframe form was submitted (we only use the setter)
+  const [, setZohoSubmitted] = useState(false);
 
   // syllabus preview modal state
   const [syllabusPreviewOpen, setSyllabusPreviewOpen] = useState(false);
@@ -339,13 +339,7 @@ const CompetitionLandingPage = () => {
     });
   };
 
-  const formatEventTime = (date) => {
-    if (!date || !(date instanceof Date)) return '';
-    return date.toLocaleTimeString('en-US', { 
-      hour: '2-digit', 
-      minute: '2-digit' 
-    });
-  };
+  
 
   // Render location with optional parenthetical note on a separate small line
   const renderLocation = (location) => {
@@ -872,11 +866,6 @@ const CompetitionLandingPage = () => {
       setSelectedCategory(null);
     }
   };
-
-  const proceedFromEventConfirm = () => {
-    closeModal(); // Just close the modal after confirmation
-  };
-
   const proceedToForm = () => {
     if (termsAccepted) {
       setModalStep('form');
