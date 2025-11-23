@@ -1,0 +1,89 @@
+.review-page {
+  padding: 40px 16px;
+  background: #fff8f5;
+  color: #333;
+  min-height: 70vh;
+}
+
+.review-container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 8px;
+  padding: 28px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+.review-title {
+  text-align: center;
+  color: #f58220;
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+.rules-list {
+  list-style: decimal inside;
+  margin: 0 0 20px 0;
+  padding: 0;
+}
+
+.rules-list li {
+  margin-bottom: 14px;
+}
+
+.rules-list li strong {
+  display: block;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.rules-list li p {
+  margin: 0;
+  color: #444;
+  line-height: 1.45;
+}
+
+.acknowledgement {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.ack-label {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 15px;
+}
+
+.ack-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+.confirm-button {
+  background: #f58220;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.confirm-button[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.confirmed-msg {
+  margin-top: 10px;
+  color: #2c7a2c;
+}
+
+@media (max-width: 600px) {
+  .review-container { padding: 18px; }
+  .review-title { font-size: 22px; }
+}

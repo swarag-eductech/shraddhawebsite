@@ -37,6 +37,8 @@ const BookDemoPage = lazy(() => import("./pages/BookDemoPage"));
 const AboutFranchisePage = lazy(() => import("./pages/Aboutusprograms/AboutFranchisePage"));
 const FranchiseTeacherParent = lazy(() => import("./pages/FranchiseFolder/FranchiseTeacherParent"));
 const FranchiseBusinessSchool = lazy(() => import("./pages/FranchiseFolder/FranchiseBusinessSchool"));
+const CompetitionLandingPage = lazy(() => import('./pages/CompetitionLandingPage'));
+const ReviewConfirmPage = lazy(() => import('./pages/ReviewConfirmPage'));
 
 // Gallery pages - lazy load all of them
 const StateLevelCompetition2022 = lazy(() => import('./pages/gallery/StateLevelCompetition2022'));
@@ -125,7 +127,25 @@ function App() {
             </Suspense>
           } />
 
-         
+          {/* Upcoming Events Page route removed. Use /CompetitionLandingPage instead. */}
+
+          {/* New route: CompetitionLandingPage (friendly URL) */}
+          <Route path="/CompetitionLandingPage" element={
+            <Suspense fallback={<div className="loading-spinner-container"><div className="loading-spinner"></div></div>}>
+              <CompetitionLandingPage />
+              <Footer />
+              <WhatsAppButton />
+            </Suspense>
+          } />
+
+          {/* Review & Confirm Page */}
+          <Route path="/review-confirm" element={
+            <Suspense fallback={<div className="loading-spinner-container"><div className="loading-spinner"></div></div>}>
+              <ReviewConfirmPage />
+              <Footer />
+              <WhatsAppButton />
+            </Suspense>
+          } />
 
           {/* Gallery & Contact */}
           <Route path="/gallery" element={

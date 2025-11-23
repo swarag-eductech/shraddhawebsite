@@ -154,8 +154,30 @@
   transition: all 0.3s ease;
 }
 
+/* Keep logo size consistent across pages and scroll states to avoid shifting */
 .scrolled .main-logo {
-  height: 45px;
+  height: 50px; /* keep same as default to prevent size jump */
+}
+
+/* Logo container: reserve space so nav items don't push/pull the logo */
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 220px; /* fixed width to keep header layout stable */
+  box-sizing: border-box;
+  /* Keep the logo area a fixed flex item so it doesn't collapse or shift */
+  flex: 0 0 220px; /* flex-grow:0, flex-shrink:0, flex-basis:220px */
+}
+
+/* Ensure brand link doesn't collapse when navbar changes */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  min-width: 220px;
+  /* Prevent the brand from shrinking when nav items change */
+  flex: 0 0 220px;
 }
 
 /* Navigation Links */
@@ -174,6 +196,21 @@
   color: var(--primary);
 }
 
+
+
+/* Make logo reserved-space responsive: allow logo area to be flexible on very small screens */
+@media (max-width: 767.98px) {
+  .logo-container,
+  .navbar-brand {
+    flex: 0 0 auto !important;
+    min-width: 0 !important;
+    width: auto !important;
+  }
+
+  .main-logo {
+    height: 44px !important;
+  }
+}
 
 /* ================== */
 /* DROPDOWN MENU - FIXED POSITIONING */

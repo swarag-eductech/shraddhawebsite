@@ -1,21 +1,21 @@
 import React, { useEffect } from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
+import './WhatsAppButton.css';
 
 const WhatsAppButton = () => {
   const phoneNumber = '919168756060';
-  const message = 'Hello Shraddha Institute, I have a question about...';
+  const message = 'Hi';
 
   useEffect(() => {
-    // Suppress cross-origin script errors (like Interakt SDK)
+    // Suppress cross-origin script errors (optional)
     const handleWindowError = (event) => {
-      if (event.message === 'Script error.') {
+      if (event && event.message === 'Script error.') {
         event.preventDefault();
-        console.log('⚠️ Ignored cross-origin script error (Interakt SDK)');
+        // ignore noisy cross-origin script errors
       }
     };
     window.addEventListener('error', handleWindowError);
 
-    // Load Interakt script safely
     const loadInterakt = () => {
       if (document.getElementById('interakt-sdk')) return;
 
@@ -26,9 +26,12 @@ const WhatsAppButton = () => {
 
       script.onload = () => {
         try {
-          if (window.kiwi && typeof window.kiwi.init === 'function') {
-            window.kiwi.init('', 'eJQ3YyKDLju261zI8MqCmSt17oTUsRQO', {});
-            console.log('✅ Interakt loaded and initialized');
+          const win = window;
+          if (win.kiwi && typeof win.kiwi.init === 'function') {
+            // Prevent Interakt from automatically showing its widget or
+            // overriding your WhatsApp message/link by disabling widget display.
+            win.kiwi.init('', 'eJQ3YyKDLju261zI8MqCmSt17oTUsRQO', { displayWidget: false });
+            console.log('✅ Interakt loaded and initialized (widget display disabled)');
           }
         } catch (err) {
           console.warn('⚠️ Interakt init failed:', err);
@@ -57,16 +60,7 @@ const WhatsAppButton = () => {
   return (
     <>
       
-      <a
-        href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`}
-        className="whatsapp-button"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Chat with Shraddha Institute on WhatsApp"
-        title="Chat with Shraddha Institute on WhatsApp"
-      >
-        <FaWhatsapp className="whatsapp-icon" aria-hidden="true" />
-      </a>
+   
     </>
   );
 };
