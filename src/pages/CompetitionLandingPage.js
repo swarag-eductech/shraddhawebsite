@@ -27,6 +27,11 @@ const SCHOOL_HELP_PHONE = '+91-9168736060';
 const SCHOOL_HELP_PHONE_2 = '+91-8446689966';
 const ZOHO_FORM_URL = 'https://creatorapp.zohopublic.com/shraddha_institute/si-competition/form-embed/SL_Other_Comp_Stud_Reg/YrjyPNhX0TNMCupPkeAVBmXYXq7n9rnbN8xg36gFFd0w75zfNKz8mvxz4P5VuYssgmUmhU5dwJreDkDWB7zugsxEA74aUVdKdZK9';
 
+// PDF Download URLs
+const SYLLABUS_PDF_ABACUS = 'https://drive.google.com/uc?export=download&id=1Ern6ck5wvnPZ2kT-dOCEGlZcub-cA70y';
+const SYLLABUS_PDF_VEDIC = 'https://drive.google.com/uc?export=download&id=11yaQ-19vcQlela7rhJ0m3PDav-vZqLI_';
+const ANNOUNCEMENT_PDF_URL = 'https://drive.google.com/uc?export=download&id=1azAIe1U3PFC7wQW3SE4O_Dq4cNLqbWaA';
+
 const CompetitionLandingPage = () => {
   console.log('CompetitionLandingPage ContactForm:', ContactForm);
   
@@ -706,6 +711,7 @@ const CompetitionLandingPage = () => {
     { id: 'teacher', title: 'Teacher', icon: '👩‍🏫', description: 'Register your students' },
     { id: 'school', title: 'School', icon: '🏫', description: 'Bulk registration' },
     { id: 'franchise', title: 'Franchise', icon: '🤝', description: 'Partner registration' },
+    { id: 'coordinator', title: 'Coordinator', icon: '👔', description: 'Coordinate registrations' },
   ];
 
   const openModal = (event) => {
@@ -727,7 +733,7 @@ const CompetitionLandingPage = () => {
     setSelectedUserType(null);
     setSelectedCategory(null);
     setSelectedLevel(null);
-    setTermsAccepted(true);
+    setTermsAccepted(false);
     setZohoSubmitted(false);
   };
 
@@ -738,9 +744,9 @@ const CompetitionLandingPage = () => {
 
   const handleSelectUserType = (userType) => {
     setSelectedUserType(userType);
-    // For school, franchise, or coordinator show the special contact/onboarding step
-    // Parents and Teachers should proceed to competition selection
-    if (userType === 'school' || userType === 'franchise' || userType === 'coordinator') {
+    // For school, franchise, coordinator, and teacher show the special contact/onboarding step
+    // Only parents should proceed to competition selection
+    if (userType === 'school' || userType === 'franchise' || userType === 'coordinator' || userType === 'teacher') {
       setModalStep('schoolContact');
     } else {
       setModalStep('selectCategory');
@@ -750,7 +756,7 @@ const CompetitionLandingPage = () => {
   const handleSelectCategory = (categoryId) => {
     setSelectedCategory(categoryId);
     // If the user type requires school contact, show that; otherwise proceed to levels
-    if (selectedUserType === 'school' || selectedUserType === 'franchise' || selectedUserType === 'coordinator') {
+    if (selectedUserType === 'school' || selectedUserType === 'franchise' || selectedUserType === 'coordinator' || selectedUserType === 'teacher') {
       setModalStep('schoolContact');
     } else {
       setModalStep('selectLevel');
@@ -1664,18 +1670,68 @@ const CompetitionLandingPage = () => {
                 )}
 
                 {modalStep === 'selectLevel' && selectedCategory && (
-                  <div className="levels-grid grid gap-4">
-                    {competitionData.find(c => c.id === selectedCategory).levels.map((level) => (
-                      <button 
-                        key={level.id}
-                        onClick={() => handleSelectLevel(level)}
-                        className="level-card p-4 bg-white border-2 border-slate-200 rounded-xl text-center hover:border-orange-500 hover:shadow-lg transition-all group"
-                      >
-                        <h4 className="font-bold text-lg text-slate-800 group-hover:text-orange-500 transition-colors">{level.title}</h4>
-                        <p className="text-xs text-slate-500 mt-2">{level.ageRange}</p>
-                      </button>
-                    ))}
-                  </div>
+                  <>
+                    {/* Level Selection Grid */}
+                    <div className="levels-grid grid gap-4 mb-6">
+                      {competitionData.find(c => c.id === selectedCategory).levels.map((level) => (
+                        <button 
+                          key={level.id}
+                          onClick={() => handleSelectLevel(level)}
+                          className="level-card p-4 bg-white border-2 border-slate-200 rounded-xl text-center hover:border-orange-500 hover:shadow-lg transition-all group"
+                        >
+                          <h4 className="font-bold text-lg text-slate-800 group-hover:text-orange-500 transition-colors">{level.title}</h4>
+                          <p className="text-xs text-slate-500 mt-2">{level.ageRange}</p>
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* PDF Downloads and Contact Info Section */}
+                    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-200 shadow-sm">
+                      <h4 className="text-lg font-bold text-slate-800 mb-4">📚 Download Resources</h4>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <a
+                          href={selectedCategory === 'abacus' ? SYLLABUS_PDF_ABACUS : SYLLABUS_PDF_VEDIC}
+                          download
+                          className="flex items-center gap-3 p-4 bg-white rounded-xl hover:shadow-lg transition-all border-2 border-slate-200 hover:border-orange-500"
+                        >
+                          <FontAwesomeIcon icon={faClipboardList} className="text-orange-500 text-2xl" />
+                          <div className="text-left">
+                            <div className="font-bold text-slate-800">Syllabus PDF</div>
+                            <div className="text-xs text-slate-500">Download {selectedCategory === 'abacus' ? 'Abacus' : 'Vedic Math'} Syllabus</div>
+                          </div>
+                        </a>
+                        <a
+                          href={ANNOUNCEMENT_PDF_URL}
+                          download
+                          className="flex items-center gap-3 p-4 bg-white rounded-xl hover:shadow-lg transition-all border-2 border-slate-200 hover:border-orange-500"
+                        >
+                          <FontAwesomeIcon icon={faClipboardList} className="text-blue-500 text-2xl" />
+                          <div className="text-left">
+                            <div className="font-bold text-slate-800">Announcement PDF</div>
+                            <div className="text-xs text-slate-500">Download Competition Details</div>
+                          </div>
+                        </a>
+                      </div>
+                      <div className="mt-4 pt-4 border-t border-slate-200">
+                        <p className="text-center text-slate-600 mb-3">
+                          <span className="font-semibold">📞 For Help & Support:</span>
+                        </p>
+                        <div className="flex flex-wrap gap-3 justify-center">
+                          <a href="tel:+91-9168736060" className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-all shadow-sm">
+                            <FontAwesomeIcon icon={faClock} />
+                            <span className="font-semibold"  style={{ color: 'orange' }}>+91-9168736060</span>
+
+                          </a>
+                          <a href="tel:+91-9168736060" className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-all shadow-sm">
+                            <FontAwesomeIcon icon={faClock} />
+                            <span className="font-semibold"  style={{ color: 'orange' }}>+91-8446889966</span>
+
+                          </a>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </>
                 )}
 
                 {modalStep === 'info' && selectedLevel && (
@@ -1686,7 +1742,7 @@ const CompetitionLandingPage = () => {
                       <div className="event-summary bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl p-6 border border-orange-200 shadow-sm">
                         <h3 className="text-lg font-bold text-slate-800">Selected Event: {modalEvent.location.split(' ')[0]}</h3>
                         <p className="mt-2 text-sm text-slate-600">Date: {formatEventDate(modalEvent.date)}</p>
-                        <p className="text-sm text-slate-600">Regular Fee: {modalEvent.regularFee}</p>
+                       
                       </div>
                     )}
 
@@ -1718,8 +1774,9 @@ const CompetitionLandingPage = () => {
                                   <img
                                     src={syllabusImageUrl}
                                     alt={`${selectedLevel.title} Syllabus`}
-                                    className="syllabus-inline-img"
+                                    className="syllabus-inline-img cursor-pointer hover:opacity-90 transition-opacity"
                                     onClick={() => openSyllabusPreview(syllabusImageUrl)}
+                                    title="Click to zoom"
                                   />
                                 </div>
                               ) : null}
@@ -1837,7 +1894,7 @@ const CompetitionLandingPage = () => {
 
                 {modalStep === 'schoolContact' && (
                   <div className="max-w-3xl mx-auto space-y-6 text-center">
-                    <h4 className="text-xl font-bold text-slate-800">Next steps for Teachers, Schools & Franchises</h4>
+                    <h4 className="text-xl font-bold text-slate-800">Next steps for Teachers, Schools, Franchises & coordinators</h4>
                     <p className="text-slate-600">Please contact us for bulk registration and special arrangements.</p>
                     
                     <div className="w-full rounded-lg overflow-hidden shadow-md bg-white p-6 border border-slate-200 help-support-card">

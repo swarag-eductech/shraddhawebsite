@@ -156,6 +156,7 @@ function ContactForm({ onNext, onClose = () => console.log('No onClose handler p
             <option value="teacher">Teacher</option>
             <option value="school">School</option>
             <option value="franchise">Franchise</option>
+            <option value="coordinator">Coordinator</option>
           </select>
           {fieldErrors.type && <div className="field-error">{fieldErrors.type}</div>}
         </div>
