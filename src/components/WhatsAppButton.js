@@ -61,12 +61,7 @@ const WhatsAppButton = () => {
 
   return (
     <a
-      className="whatsapp-button"
-      href={waLink}
-      target="_blank"
-      rel="noreferrer noopener"
-      aria-label="Contact us on WhatsApp"
-      title="Contact us on WhatsApp"
+      
     >
       <FaWhatsapp className="whatsapp-icon" />
     </a>

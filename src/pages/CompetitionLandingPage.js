@@ -339,6 +339,11 @@ const CompetitionLandingPage = () => {
     });
   };
 
+  const formatEventTime = (date) => {
+    if (!date || !(date instanceof Date)) return 'Time TBA';
+    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  };
+
   
 
   // Render location with optional parenthetical note on a separate small line
@@ -1319,7 +1324,7 @@ const CompetitionLandingPage = () => {
 
             <div style={{ background: '#f0f7ff', padding: '20px', borderRadius: '12px', textAlign: 'center', border: '1px solid #d0e7ff' }}>
               <p style={{ fontSize: '0.95rem', color: '#1a5490', fontWeight: '500', margin: 0 }}>
-                <strong>Certificates for All Participants:</strong> Every student will receive a Participation Certificate from Shraddha Institute. Top-ranking students will receive Merit Certificates along with their trophies or medals.
+                <strong>Certificates for All Participants:</strong> Every student will receive a Participation Certificate from Shraddha Institute. Top-ranking students will  their trophies or medals.
               </p>
             </div>
 
@@ -1410,7 +1415,7 @@ const CompetitionLandingPage = () => {
                   <div className="reg-step-icon" style={{ background: '#fffbf0' }}><FontAwesomeIcon icon={faMoneyBillWave} style={{ color: '#f59e0b' }} /></div>
                   <div>
                     <div className="reg-step-title">Courier Charges</div>
-                    <div className="reg-step-desc">Courier charges are included and will be applied at actuals (based on the courier service rate).</div>
+                    <div className="reg-step-desc">Courier charges are not included and will be applied at actuals (based on the courier service rate).</div>
                   </div>
                 </div>
               </div>
@@ -1556,12 +1561,12 @@ const CompetitionLandingPage = () => {
                       <div className="modal-fields space-y-3 text-sm text-slate-800">
                         <div className="field-row">
                           <div className="field-label">Competition Date</div>
-                          <div className="field-value">Sunday, 1st February 2026</div>
+                          <div className="field-value">{modalEvent ? formatEventDate(modalEvent.date) : 'Date TBA'}</div>
                         </div>
 
                         <div className="field-row">
                           <div className="field-label">Last Date for Registration</div>
-                          <div className="field-value">1st January 2026</div>
+                          <div className="field-value">{modalEvent ? formatEventDate(modalEvent.registrationDeadline) : 'TBA'}</div>
                         </div>
 
                         <div className="field-row">
@@ -1576,22 +1581,17 @@ const CompetitionLandingPage = () => {
 
                         <div className="field-row">
                           <div className="field-label">Venue</div>
-                          <div className="field-value">Solapur (Details will be shared by your Branch Educator)</div>
-                        </div>
-
-                        <div className="field-row">
-                          <div className="field-label">Date</div>
-                          <div className="field-value">Sunday, 15th February 2026</div>
+                          <div className="field-value">{modalEvent ? modalEvent.location : 'Venue details will be shared by your Branch Educator'}</div>
                         </div>
 
                         <div className="field-row">
                           <div className="field-label">Time</div>
-                          <div className="field-value">Will be updated by your Branch Educator</div>
+                          <div className="field-value">{modalEvent ? formatEventTime(modalEvent.date) : 'Will be updated by your Branch Educator'}</div>
                         </div>
                       </div>
 
                       <div className="modal-actions mt-5 flex gap-3 justify-end">
-                        <button onClick={closeModal} className="px-4 py-2 bg-white border rounded-md">Ok,continue</button>
+                        <button onClick={closeModal} className="px-4 py-2 bg-white border rounded-md">Ok, continue</button>
                       </div>
                     </div>
                   </div>
@@ -1832,7 +1832,7 @@ const CompetitionLandingPage = () => {
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-amber-600 font-bold">✓</span>
-                          <span>Students must bring their own stationery (pencils, erasers)</span>
+                          <span>Students must bring their own stationery (pencils, abacuskit,sharpener)</span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-amber-600 font-bold">✓</span>
