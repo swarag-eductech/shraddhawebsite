@@ -577,7 +577,7 @@ const Header = () => {
                             </span>
                             Upcoming Event
                           </h6>
-                          <Link to="/events" className="view-all-link" style={{ color: '#ff7a00' }}>
+                          <Link to="/CompetitionLandingPage" className="view-all-link" style={{ color: '#ff7a00' }}>
                             View Events <FontAwesomeIcon icon={faChevronRight} className="ms-1" />
                           </Link>
                         </div>
