@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
-import { FaWhatsapp } from 'react-icons/fa';
+import { useEffect } from 'react';
 import './WhatsAppButton.css';
 
 const WhatsAppButton = () => {
-  const phoneNumber = '919168756060';
-  const message = 'Hi';
+  // Interakt handles the widget and message; no local anchor is rendered.
 
   useEffect(() => {
     // Suppress cross-origin script errors (optional)
@@ -28,10 +26,11 @@ const WhatsAppButton = () => {
         try {
           const win = window;
           if (win.kiwi && typeof win.kiwi.init === 'function') {
-            // Prevent Interakt from automatically showing its widget or
-            // overriding your WhatsApp message/link by disabling widget display.
-            win.kiwi.init('', 'eJQ3YyKDLju261zI8MqCmSt17oTUsRQO', { displayWidget: false });
-            console.log('✅ Interakt loaded and initialized (widget display disabled)');
+            // Initialize Interakt and show its widget (we'll rely on Interakt for
+            // the floating WhatsApp UI). The component no longer renders a
+            // custom floating anchor/button to avoid duplicates.
+            win.kiwi.init('', 'eJQ3YyKDLju261zI8MqCmSt17oTUsRQO', { displayWidget: true });
+            console.log('✅ Interakt loaded and initialized (widget display enabled)');
           }
         } catch (err) {
           console.warn('⚠️ Interakt init failed:', err);
@@ -57,15 +56,10 @@ const WhatsAppButton = () => {
     };
   }, []);
 
-  const waLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-
-  return (
-    <a
-      
-    >
-      <FaWhatsapp className="whatsapp-icon" />
-    </a>
-  );
+  // This component's job is just to inject/initialize the Interakt SDK.
+  // We don't render any anchor/button here to avoid overlapping UI with
+  // the Interakt widget (the widget itself will be shown by the SDK).
+  return null;
 };
 
 export default WhatsAppButton;

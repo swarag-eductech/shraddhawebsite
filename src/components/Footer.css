@@ -27,6 +27,27 @@
   z-index: 2;
 }
 
+/* Map block placed inside footer-container; on desktop it spans columns 3 and 4 */
+.footer-map {
+  grid-column: 1 / -1; /* default full-width on small screens */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1rem;
+  z-index: 3;
+}
+
+.footer-map .map-wrapper {
+  width: 100%;
+  max-width: 920px; /* increased width only */
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.12);
+  background: #fff;
+}
+
 .footer-column {
   margin-bottom: 2rem;
 }
@@ -162,6 +183,31 @@
   text-align: center;
 }
 
+/* Back to top button */
+.back-to-top {
+  position: fixed;
+  right: 24px;
+  bottom: 88px; /* sits above footer + above whatsapp */
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(90deg,#ff6b35,#f97316);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+  cursor: pointer;
+  z-index: 10001; /* above interakt widget*/
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.back-to-top:hover { transform: translateY(-4px); box-shadow: 0 14px 28px rgba(0,0,0,0.16); }
+.back-to-top svg { display:block }
+
+@media (max-width:600px) {
+  .back-to-top { right: 20px; bottom: 100px; width:44px; height:44px; }
+}
+
 .footer-bottom p {
   margin: 0;
   font-size: 0.9rem;
@@ -227,6 +273,22 @@
   }
 }
 
+/* Mobile-specific tweaks */
+@media (max-width: 599px) {
+  /* Center only the Find Us heading inside the contact area on mobile
+     without affecting desktop */
+  .footer-findus {
+    text-align: center; /* ensure the wrapper centers its contents */
+  }
+
+  .footer-findus h4 {
+    text-align: center;
+    display: block; /* fills available width so margin auto centers properly */
+    margin: 0 auto;
+    width: 100%;
+  }
+}
+
 /* Desktop View */
 @media (min-width: 900px) {
   .footer-container {
@@ -236,6 +298,34 @@
   .footer-brand-container {
     margin-bottom: 0;
   }
+
+  /* map occupies columns 3 and 4 on larger screens so it can be wider */
+  /* Keep the map cleanly inside the grid and span the two right-hand
+     columns. No visual overlap — sits under the content and uses the
+     available horizontal space next to Contact/Connect sections. */
+  .footer-map {
+    grid-column: 3 / span 2;
+    align-self: start;
+    margin-top: 1rem;
+    width: 100%;
+    justify-self: stretch;
+    pointer-events: auto;
+  }
+
+  /* Larger map size on wide screens so it fills the two-column area */
+  /* stretch the map wrapper to fill the right two columns */
+  .footer-map .map-wrapper { width: 100%; max-width: none; margin: 0; }
+
+    /* If the map is inside the Contact column (current markup), stretch the
+       wrapper to cover both column-3 and column-4 on desktop without changing HTML.
+       200% of the column width plus the grid gap (3rem) will let it reach the next
+       column nicely. */
+    .footer-column:nth-child(3) .map-wrapper {
+      width: calc(180% + 3rem);
+      max-width: none;
+      margin: 0;
+      box-shadow: 0 6px 30px rgba(0,0,0,0.12);
+    }
 }
 
 

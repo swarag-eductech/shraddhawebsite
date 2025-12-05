@@ -1,6 +1,7 @@
 .whatsapp-button {
   position: fixed;
-  bottom: 30px;
+  /* move up so it doesn't sit over the footer */
+  bottom: 90px;
   right: 30px;
   width: 60px;
   height: 60px;
@@ -11,7 +12,8 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
-  z-index: 1000;
+  /* make sure it overlays above footer */
+  z-index: 9999;
   transition: all 0.3s ease;
   animation: pulse 2s infinite;
 }
