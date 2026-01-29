@@ -561,12 +561,7 @@ const Header = () => {
                 >
                   <div className="row">
                     {/* Add Upcoming Events link at the top */}
-                    <div className="col-12 mb-3">
-                      <Link to="/CompetitionLandingPage" className="btn btn-warning w-100 d-flex align-items-center justify-content-center gap-2" onClick={closeMenu}>
-                        <FontAwesomeIcon icon={faCalendarAlt} />
-                        View All Upcoming Events
-                      </Link>
-                    </div>
+                   
 
                     {/* Upcoming Event Section */}
                     <div className="col-12 mb-4">

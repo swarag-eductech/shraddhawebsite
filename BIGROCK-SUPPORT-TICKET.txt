@@ -1,0 +1,73 @@
+==============================================================================
+EMAIL TO BIGROCK SUPPORT - COPY AND PASTE THIS
+==============================================================================
+
+To: support@bigrock.in
+Subject: nginx Configuration Required for React SPA - Domain: shraddhainstitute.in
+
+--------------------------------------------------
+
+Hello BigRock Support Team,
+
+I need help configuring my nginx server for a React Single-Page Application (SPA).
+
+DOMAIN: www.shraddhainstitute.in
+ISSUE: Direct URLs return 404 errors instead of serving my React app
+
+TECHNICAL DETAILS:
+- Server: nginx/1.23.4 (confirmed via server headers)
+- Application: React-based Single-Page Application
+- Files uploaded: All build files are in /public_html/ (verified working)
+
+CURRENT BEHAVIOR:
+✅ Works: http://www.shraddhainstitute.in/ (homepage loads correctly)
+✅ Works: http://www.shraddhainstitute.in/index.html (direct access works)
+❌ Fails: http://www.shraddhainstitute.in/CompetitionLandingPage (returns 404)
+❌ Fails: http://www.shraddhainstitute.in/about (returns 404)
+❌ Fails: All direct route URLs return 404
+
+ROOT CAUSE:
+nginx is not configured to serve index.html for routes that don't match files.
+React Router handles routing on the client side, so all routes need to serve 
+the same index.html file.
+
+REQUIRED FIX:
+Please add this configuration to my nginx server block for shraddhainstitute.in:
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+EXPLANATION OF FIX:
+- try_files $uri: First, try to serve the requested file
+- $uri/: If not a file, try as a directory
+- /index.html: If neither, serve index.html (React app takes over)
+
+This is a standard configuration for Single-Page Applications and is required
+for React, Vue, Angular, and similar frameworks.
+
+VERIFICATION AFTER FIX:
+Once configured, http://www.shraddhainstitute.in/CompetitionLandingPage 
+should return HTTP 200 (not 404) and serve the index.html file.
+
+URGENCY:
+This is blocking my production website. Users cannot share or bookmark 
+individual pages, which is affecting user experience and SEO.
+
+Please confirm once the configuration is applied.
+
+Thank you for your assistance!
+
+Best regards,
+[Your Name]
+BigRock Account: [Your account email]
+Domain: www.shraddhainstitute.in
+
+--------------------------------------------------
+
+ALTERNATIVE CONTACT METHODS:
+- Phone: 1800-1020-615 (India toll-free)
+- Live Chat: https://manage.bigrock.in (after login)
+- Support Portal: https://manage.bigrock.in → Support → Submit Ticket
+
+==============================================================================

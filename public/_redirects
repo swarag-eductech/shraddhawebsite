@@ -1,0 +1,9 @@
+# ==============================================================================
+# Netlify Redirects - SPA (Single-Page Application) Routing Fix
+# ==============================================================================
+# This fixes the issue where direct URLs like /CompetitionLandingPage return 404
+# All routes are handled by React Router on the client side
+# ==============================================================================
+
+# SPA fallback - redirect all routes to index.html with 200 status
+/*    /index.html   200
