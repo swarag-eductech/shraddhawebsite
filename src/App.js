@@ -139,7 +139,7 @@ function App() {
             </Suspense>
           } />
 
-          {/* Gallery & Contact */}
+     
           <Route path="/gallery" element={
             <Suspense fallback={<div className="loading-spinner-container"><div className="loading-spinner"></div></div>}>
               <GalleryPage />
