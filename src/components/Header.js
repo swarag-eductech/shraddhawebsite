@@ -532,6 +532,12 @@ const Header = () => {
                       <span>Franchise Training</span>
                     </Link>
                   </li>
+                  <li>
+                    <Link to="/franchise/ttp" className="dropdown-item" onClick={closeMenu}>
+                      <FontAwesomeIcon icon={faChalkboardTeacher} className="me-2" style={{ color: '#ff6600' }} />
+                      <span>Teacher Training Program</span>
+                    </Link>
+                  </li>
                 </ul>
               </li>
 
@@ -563,7 +569,7 @@ const Header = () => {
                     {/* Add Upcoming Events link at the top */}
                    
 
-                    {/* Upcoming Event Section */}
+                
                     <div className="col-12 mb-4">
                       <div className="events-gallery-section">
                         <div className="d-flex justify-content-between align-items-center mb-3">

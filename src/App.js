@@ -37,6 +37,7 @@ const BookDemoPage = lazy(() => import("./pages/BookDemoPage"));
 const AboutFranchisePage = lazy(() => import("./pages/Aboutusprograms/AboutFranchisePage"));
 const FranchiseTeacherParent = lazy(() => import("./pages/FranchiseFolder/FranchiseTeacherParent"));
 const FranchiseBusinessSchool = lazy(() => import("./pages/FranchiseFolder/FranchiseBusinessSchool"));
+const TTPLandingPage = lazy(() => import("./pages/FranchiseFolder/TTPLandingPage"));
 //const CompetitionLandingPage = lazy(() => import('./pages/CompetitionLandingPage'));
 const ReviewConfirmPage = lazy(() => import('./pages/ReviewConfirmPage'));
 
@@ -122,6 +123,13 @@ function App() {
           <Route path="/franchise/business-school" element={
             <Suspense fallback={<div className="loading-spinner-container"><div className="loading-spinner"></div></div>}>
               <FranchiseBusinessSchool />
+              <Footer />
+              <WhatsAppButton />
+            </Suspense>
+          } />
+          <Route path="/franchise/ttp" element={
+            <Suspense fallback={<div className="loading-spinner-container"><div className="loading-spinner"></div></div>}>
+              <TTPLandingPage />
               <Footer />
               <WhatsAppButton />
             </Suspense>

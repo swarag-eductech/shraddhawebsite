@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Check, Star, Award, Shield, TrendingUp } from "lucide-react";
+import { Link } from "react-router-dom";
 import "./Franchise.css";
 
 const Franchise = () => {
@@ -61,6 +62,20 @@ const Franchise = () => {
               <p itemProp="description">{point.desc}</p>
             </article>
           ))}
+        </div>
+
+        {/* TTP Promo Card */}
+        <div className="franchise-ttp-promo">
+          <div className="franchise-ttp-promo-inner">
+            <div className="franchise-ttp-promo-badge">🆕 New</div>
+            <div className="franchise-ttp-promo-text">
+              <h3>Teacher Training Program (TTP)</h3>
+              <p>Become a <strong>certified Abacus &amp; Vedic Math teacher</strong>. Get nationally recognized certification, complete study materials, and start your own center.</p>
+            </div>
+            <Link to="/franchise/ttp" className="franchise-ttp-promo-btn">
+              Explore TTP →
+            </Link>
+          </div>
         </div>
 
         {/* CTA Button */}
