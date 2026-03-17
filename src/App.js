@@ -30,6 +30,7 @@ import FranchiseTeacherTrainingPage from "./pages/programs/FranchiseTeacherTrain
 // Admin
 import AdminDashboard from './admin/AdminDashboard';
 import './admin/AdminDashboard.css';
+const LeadsCRM = lazy(() => import('./admin/LeadsCRM'));
 
 // Lazy load ALL components
 const GalleryPage = lazy(() => import("./pages/GalleryPage"));
@@ -69,7 +70,7 @@ function App() {
     loadCSS('/static/css/responsive.css');
   }, []);
 
-  if (showWelcome) return <WelcomeScreen onSkip={() => setShowWelcome(false)} />;
+  if (showWelcome && !window.location.pathname.startsWith('/admin')) return <WelcomeScreen onSkip={() => setShowWelcome(false)} />;
 
   return (
     <Router>
@@ -174,6 +175,8 @@ function App() {
 
           {/* Admin Dashboard Route */}
           <Route path="/admin" element={<><AdminDashboard /><Footer /><WhatsAppButton /></>} />
+          {/* CRM Leads Dashboard */}
+          <Route path="/admin/leads" element={<Suspense fallback={<div style={{textAlign:'center',padding:'60px',fontSize:'1.1rem',color:'#888'}}>Loading CRM…</div>}><LeadsCRM /></Suspense>} />
 
           {/* New Gallery 2022 Pages */}
           <Route path="/gallery/2022/state-level-competition" element={
