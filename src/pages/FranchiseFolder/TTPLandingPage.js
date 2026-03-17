@@ -3,21 +3,15 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { createClient } from '@supabase/supabase-js';
 import {
-  FaChalkboardTeacher,
   FaCertificate,
-  FaUserGraduate,
-  FaBookOpen,
   FaHandsHelping,
-  FaStar,
   FaCheckCircle,
   FaArrowRight,
   FaCalculator,
   FaBrain,
   FaUsers,
-  FaClock,
   FaMedal,
   FaLaptop,
-  FaPhoneAlt,
   FaWhatsapp,
   FaPlayCircle,
 } from "react-icons/fa";
@@ -287,37 +281,6 @@ const TTPLandingPage = () => {
       title: "Assessment & Certification",
       desc: "Clear the final assessment and receive your nationally recognized TTP certificate.",
       duration: "Final Day",
-    },
-  ];
-
-  const stats = [
-    { number: "2,500+", label: "Teachers Trained" },
-    { number: "600+", label: "Active Centers" },
-    { number: "12+", label: "Years of Excellence" },
-    { number: "98%", label: "Satisfaction Rate" },
-  ];
-
-  const testimonials = [
-    {
-      name: "Priya Sharma",
-      location: "Pune",
-      text: "The TTP program completely transformed my teaching approach. Within 2 months of completing training, I had 35 students enrolled at my home center!",
-      rating: 5,
-      role: "Homemaker turned Educator",
-    },
-    {
-      name: "Kavita Desai",
-      location: "Mumbai",
-      text: "Excellent training structure. The study materials are comprehensive and the mentor support after certification is what makes Shraddha Institute stand out.",
-      rating: 5,
-      role: "School Teacher",
-    },
-    {
-      name: "Ritu Agarwal",
-      location: "Nagpur",
-      text: "I was skeptical at first, but the hands-on practice sessions gave me real confidence. Now I run two batches daily from my home. Best investment ever!",
-      rating: 5,
-      role: "Tuition Center Owner",
     },
   ];
 
