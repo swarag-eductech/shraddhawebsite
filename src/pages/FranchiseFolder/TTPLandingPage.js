@@ -16,6 +16,7 @@ import {
   FaPlayCircle,
 } from "react-icons/fa";
 import "./TTPLandingPage.css";
+import { ttpTranslations } from "./TTPLandingPageTranslations";
 
 const supabaseClient = createClient(
   'https://hmoodwzpkwblbymzpmxx.supabase.co',
@@ -30,6 +31,32 @@ const BOOK_SLIDES = [
 ];
 
 const TTPLandingPage = () => {
+  const [lang, setLang] = useState("en");
+  const t = (section, key) => {
+    return ttpTranslations[lang]?.[section]?.[key] || ttpTranslations['en']?.[section]?.[key] || '';
+  };
+
+  // Auto-detect language: URL param > localStorage > browser language > English
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const langParam = params.get("lang");
+    if (langParam && ['en', 'hi', 'mr', 'kn'].includes(langParam)) {
+      setLang(langParam);
+      localStorage.setItem("ttp_lang", langParam);
+      return;
+    }
+    const savedLang = localStorage.getItem("ttp_lang");
+    if (savedLang) {
+      setLang(savedLang);
+      return;
+    }
+    const userLang = navigator.language || '';
+    if (userLang.startsWith("kn")) setLang("kn");
+    else if (userLang.startsWith("mr")) setLang("mr");
+    else if (userLang.startsWith("hi")) setLang("hi");
+    else setLang("en");
+  }, []);
+
   const [activeTab, setActiveTab] = useState("abacus");
   const [openFaq, setOpenFaq] = useState(null);
   const [activeVideoId, setActiveVideoId] = useState(null);
@@ -153,78 +180,60 @@ const TTPLandingPage = () => {
   ];
 
   const bkMaterials = [
-    { icon: '📗', title: 'Abacus Teaching Manual', desc: 'Level-by-level instruction guide with diagrams and practice exercises for Levels 1–8.', color: '#667eea' },
-    { icon: '📘', title: 'Vedic Math Workbook', desc: 'Comprehensive Vedic Math teaching guide covering all 16 sutras with classroom activities.', color: '#f7971e' },
-    { icon: '📦', title: 'Abacus Starter Kit', desc: 'Complete Soroban abacus set for hands-on practice during training and in your classes.', color: '#11998e' },
-    { icon: '📋', title: 'Printable Worksheets', desc: 'Hundreds of ready-to-use worksheets for every level — print for your students anytime.', color: '#ff6b35' },
-    { icon: '📱', title: 'App Access (Lifetime)', desc: 'Exclusive app with recorded lessons, digital worksheets, and regular content updates.', color: '#764ba2' },
-    { icon: '🎓', title: 'Official Certificate', desc: 'Nationally recognized TTP certificate upon successful completion of assessment.', color: '#e84393' },
+    { icon: '📗', title: t('bkMaterials', 'bk1Title'), desc: t('bkMaterials', 'bk1Desc'), color: '#667eea' },
+    { icon: '📘', title: t('bkMaterials', 'bk2Title'), desc: t('bkMaterials', 'bk2Desc'), color: '#f7971e' },
+    { icon: '📦', title: t('bkMaterials', 'bk3Title'), desc: t('bkMaterials', 'bk3Desc'), color: '#11998e' },
+    { icon: '📋', title: t('bkMaterials', 'bk4Title'), desc: t('bkMaterials', 'bk4Desc'), color: '#ff6b35' },
+    { icon: '📱', title: t('bkMaterials', 'bk5Title'), desc: t('bkMaterials', 'bk5Desc'), color: '#764ba2' },
+    { icon: '🎓', title: t('bkMaterials', 'bk6Title'), desc: t('bkMaterials', 'bk6Desc'), color: '#e84393' },
   ];
 
   const curriculum = {
-    abacus: [
-      "Introduction to Abacus & its history",
-      "Soroban abacus structure & technique",
-      "Addition & Subtraction (Levels 1–5)",
-      "Multiplication & Division on Abacus",
-      "Mental Math development exercises",
-      "Speed & accuracy training methods",
-      "Student assessment techniques",
-      "Classroom management strategies",
-    ],
-    vedic: [
-      "16 Vedic Math Sutras explained",
-      "Fast multiplication methods",
-      "Division shortcuts & tricks",
-      "Square roots & cube roots",
-      "Algebra through Vedic techniques",
-      "Engaging teaching methods for children",
-      "Designing practice worksheets",
-      "Progress tracking & reporting",
-    ],
+    abacus: ttpTranslations[lang]?.curriculum?.abacus || ttpTranslations['en'].curriculum.abacus,
+    vedic: ttpTranslations[lang]?.curriculum?.vedic || ttpTranslations['en'].curriculum.vedic,
   };
 
   const benefits = [
     {
       icon: <FaCertificate className="ttp-benefit-icon" />,
-      tag: "🏆 Trusted Nationwide",
-      title: "Nationally Recognized Certificate",
-      desc: "Receive an official Shraddha Institute Teacher Training Program certificate valid across India — instantly elevate your teaching credibility.",
+      tag: t('benefits', 'b1Tag'),
+      title: t('benefits', 'b1Title'),
+      desc: t('benefits', 'b1Desc'),
       color: "#ff6600",
     },
     {
       icon: <FaHandsHelping className="ttp-benefit-icon" />,
-      tag: "📦 All-in-One Kit",
-      title: "Complete Study Materials",
-      desc: "Printed manuals, worksheets, digital resources & teaching aids — all included. Walk in empty-handed, walk out fully equipped.",
+      tag: t('benefits', 'b2Tag'),
+      title: t('benefits', 'b2Title'),
+      desc: t('benefits', 'b2Desc'),
       color: "#28a745",
     },
     {
       icon: <FaBrain className="ttp-benefit-icon" />,
-      tag: "🎯 Classroom-Ready",
-      title: "Practical Hands-on Training",
-      desc: "Live mock classrooms, practice sessions & supervised teaching — you'll be 100% classroom-ready from the very first day.",
+      tag: t('benefits', 'b3Tag'),
+      title: t('benefits', 'b3Title'),
+      desc: t('benefits', 'b3Desc'),
       color: "#007bff",
     },
     {
       icon: <FaUsers className="ttp-benefit-icon" />,
-      tag: "💬 Lifetime Access",
-      title: "Ongoing Mentor Support",
-      desc: "Stay connected with master trainers forever via our exclusive WhatsApp group. Real answers, real support — anytime, anywhere.",
+      tag: t('benefits', 'b4Tag'),
+      title: t('benefits', 'b4Title'),
+      desc: t('benefits', 'b4Desc'),
       color: "#6f42c1",
     },
     {
       icon: <FaLaptop className="ttp-benefit-icon" />,
-      tag: "💻 Online Portal",
-      title: "Digital Teaching Resources",
-      desc: "Animated video lessons, digital worksheets & online tutorials — a full digital toolkit to make your classes engaging and effective.",
+      tag: t('benefits', 'b5Tag'),
+      title: t('benefits', 'b5Title'),
+      desc: t('benefits', 'b5Desc'),
       color: "#17a2b8",
     },
     {
       icon: <FaMedal className="ttp-benefit-icon" />,
-      tag: "🚀 Business Opportunity",
-      title: "Start Your Own Center",
-      desc: "Certification makes you eligible to open your own branded Abacus & Vedic Math center under the trusted Shraddha name.",
+      tag: t('benefits', 'b6Tag'),
+      title: t('benefits', 'b6Title'),
+      desc: t('benefits', 'b6Desc'),
       color: "#fd7e14",
     },
   ];
@@ -232,100 +241,39 @@ const TTPLandingPage = () => {
   const whoShouldJoin = [
     {
       img: 'https://res.cloudinary.com/dhix1afuq/image/upload/v1773573650/school_mjvr0r.png',
-      title: "School Teachers",
-      desc: "Add high-demand skills to your teaching profile and earn extra income after school hours.",
+      title: t('whoShouldJoin', 'card1Title'),
+      desc: t('whoShouldJoin', 'card1Desc'),
     },
     {
       img: 'https://res.cloudinary.com/dhix1afuq/image/upload/v1773573650/housewives_earfj1.png',
-      title: "Homemakers",
-      desc: "Start a home tuition center with full training support. Work flexible hours that suit your family.",
+      title: t('whoShouldJoin', 'card2Title'),
+      desc: t('whoShouldJoin', 'card2Desc'),
     },
     {
       img: 'https://res.cloudinary.com/dhix1afuq/image/upload/v1773573653/student_i5fmmn.png',
-      title: "Fresh Graduates",
-      desc: "Launch your teaching career with a certified specialization that sets you apart from the crowd.",
+      title: t('whoShouldJoin', 'card3Title'),
+      desc: t('whoShouldJoin', 'card3Desc'),
     },
     {
       img: 'https://res.cloudinary.com/dhix1afuq/image/upload/v1773573651/tution_rbu7rl.png',
-      title: "Tuition Center Owners",
-      desc: "Expand your course offerings with Abacus & Vedic Math and attract more students to your center.",
+      title: t('whoShouldJoin', 'card4Title'),
+      desc: t('whoShouldJoin', 'card4Desc'),
     },
     {
       img: 'https://res.cloudinary.com/dhix1afuq/image/upload/v1773573650/passionate_ifnwhx.png',
-      title: "Passionate Educators",
-      desc: "Anyone passionate about children's education and mental development is welcome to join our TTP.",
+      title: t('whoShouldJoin', 'card5Title'),
+      desc: t('whoShouldJoin', 'card5Desc'),
     },
   ];
 
   const steps = [
-    {
-      step: "01",
-      title: "Register & Counselling",
-      desc: "Fill out the enquiry form. Our team will call you within 24 hours for a free counselling session.",
-      duration: "Day 1",
-    },
-    {
-      step: "02",
-      title: "Fee & Enrollment",
-      desc: "Choose your training mode (online / offline / hybrid). Complete enrollment with our simple process.",
-      duration: "Day 2",
-    },
-    {
-      step: "03",
-      title: "Training Program",
-      desc: "Attend intensive training sessions covering Abacus (Levels 1–8) and Vedic Math methodology.",
-      duration: "2–3 Weeks",
-    },
-    {
-      step: "04",
-      title: "Assessment & Certification",
-      desc: "Clear the final assessment and receive your nationally recognized TTP certificate.",
-      duration: "Final Day",
-    },
+    { step: "01", title: t('steps', 's1Title'), desc: t('steps', 's1Desc'), duration: t('steps', 's1Duration') },
+    { step: "02", title: t('steps', 's2Title'), desc: t('steps', 's2Desc'), duration: t('steps', 's2Duration') },
+    { step: "03", title: t('steps', 's3Title'), desc: t('steps', 's3Desc'), duration: t('steps', 's3Duration') },
+    { step: "04", title: t('steps', 's4Title'), desc: t('steps', 's4Desc'), duration: t('steps', 's4Duration') },
   ];
 
-  const faqs = [
-    {
-      q: "What is Abacus?",
-      a: "Abacus is an ancient calculation tool that uses beads on rods to perform arithmetic operations. In modern education, it is used as a brain development program for children aged 5–14 that enhances concentration, memory, speed, and accuracy in mental math.",
-    },
-    {
-      q: "What is Vedic Mathematics?",
-      a: "Vedic Mathematics is a system of mathematical techniques derived from ancient Indian scriptures (Vedas). It consists of 16 sutras (formulas) that allow students to solve complex calculations — multiplication, division, squares, and more — much faster than conventional methods.",
-    },
-    {
-      q: "Do I need prior knowledge of Abacus or Vedic Math to join the training?",
-      a: "No prior knowledge is required at all. Our Teacher Training Program is designed to take you from zero to fully certified — we teach everything from scratch in a structured, easy-to-follow format.",
-    },
-    {
-      q: "Do I need a mathematics background?",
-      a: "Not at all! You only need basic school-level maths. Our training is simple, practical, and designed for everyone — homemakers, graduates, and professionals alike. If you can add and subtract, you can join.",
-    },
-    {
-      q: "Can I start teaching from home?",
-      a: "Absolutely! Many of our certified teachers run successful home-based Abacus & Vedic Math classes. You need minimal space, the provided kit, and the confidence our training gives you — and you can start accepting students from day one.",
-    },
-    {
-      q: "Will I get support after training?",
-      a: "Yes — lifetime support! You'll be added to our exclusive WhatsApp mentor group where master trainers are always available to answer your questions, share updates, and guide you through any challenges you face in your teaching journey.",
-    },
-    {
-      q: "Is the certification valid across India?",
-      a: "Yes! The Shraddha Institute Teacher Training Program certificate is nationally recognized and valid across all 600+ Shraddha partner centers and affiliated schools throughout India.",
-    },
-    {
-      q: "Are books and kits included?",
-      a: "Yes, everything is included in your program fee — printed teaching manuals, student worksheets, an Abacus starter kit, and lifetime access to our digital learning app. There are no hidden costs or extra purchases.",
-    },
-    {
-      q: "How long is the training program?",
-      a: "The complete TTP program is 2–3 weeks depending on your chosen batch (weekday or weekend). Weekend batches are also available for working professionals. You'll be fully certified and classroom-ready by the end.",
-    },
-    {
-      q: "What is the investment required to start?",
-      a: "The program fee is very affordable and includes all study materials, kit, certification, and app access. Fee details vary by batch and mode (online/offline). Contact us directly for the latest fee structure — EMI options are also available.",
-    },
-  ];
+  const faqs = ttpTranslations[lang]?.faqs?.list || ttpTranslations['en'].faqs.list || [];
 
   const videos = [
     { id: 'ab9tTWL-aEM', label: '🎥 Student in Action' },
@@ -337,12 +285,12 @@ const TTPLandingPage = () => {
 
   const certColors = ['#f7971e', '#667eea', '#11998e', '#ff6b35', '#764ba2', '#e84393'];
   const certBenefits = [
-    { icon: '🇮🇳', title: 'Nationally Valid', desc: 'Recognized across every Shraddha Institute partner center and school in India.' },
-    { icon: '🏆', title: 'Industry Credibility', desc: 'Endorsed by 600+ active franchise centers and institutions.' },
-    { icon: '💼', title: 'Franchise Eligibility', desc: 'Unlock special TTP franchise pricing after certification.' },
-    { icon: '📋', title: 'National Directory', desc: "Listed in Shraddha Institute's nationwide directory of certified educators." },
-    { icon: '🎓', title: 'Lifelong Learning', desc: 'Access alumni workshops, refresher courses, and advanced level training.' },
-    { icon: '💰', title: 'Better Earnings', desc: 'Certified teachers earn 40–60% more than uncertified counterparts.' },
+    { icon: '🇮🇳', title: t('certBenefits', 'cb1Title'), desc: t('certBenefits', 'cb1Desc') },
+    { icon: '🏆', title: t('certBenefits', 'cb2Title'), desc: t('certBenefits', 'cb2Desc') },
+    { icon: '💼', title: t('certBenefits', 'cb3Title'), desc: t('certBenefits', 'cb3Desc') },
+    { icon: '📋', title: t('certBenefits', 'cb4Title'), desc: t('certBenefits', 'cb4Desc') },
+    { icon: '🎓', title: t('certBenefits', 'cb5Title'), desc: t('certBenefits', 'cb5Desc') },
+    { icon: '💰', title: t('certBenefits', 'cb6Title'), desc: t('certBenefits', 'cb6Desc') },
   ];
 
   return (
@@ -356,12 +304,26 @@ const TTPLandingPage = () => {
       </Helmet>
 
       <div className="ttp-page">
-        {/* ── Announcement Bar ── */}
+        {/* ── Announcement Bar + Language Selector ── */}
         <div className="ttp-announcement-bar">
-          <span className="ttp-announcement-badge">Limited Seats</span>
-          <span className="ttp-announcement-text">
-            🎯 Next TTP Batch Starting Soon — Register Now &amp; Get Free Study Kit!
-          </span>
+          <div className="ttp-announcement-center">
+            <span className="ttp-announcement-badge">{t('hero', 'announcementBadge')}</span>
+            <span className="ttp-announcement-text">{t('hero', 'announcementText')}</span>
+          </div>
+          <select
+            className="ttp-lang-select"
+            value={lang}
+            onChange={(e) => {
+              setLang(e.target.value);
+              localStorage.setItem("ttp_lang", e.target.value);
+            }}
+            aria-label="Select language"
+          >
+            <option value="en"> English</option>
+            <option value="hi"> हिंदी</option>
+            <option value="mr">मराठी</option>
+            <option value="kn">ಕನ್ನಡ</option>
+          </select>
         </div>
 
         {/* ── Hero Section ── */}
@@ -374,27 +336,27 @@ const TTPLandingPage = () => {
             />
             <div className="ttp-hero-text">
               <span className="ttp-hero-pill">
-                <FaCertificate className="me-2" /> Teacher Training Program
+                <FaCertificate className="me-2" /> {t('hero', 'pill')}
               </span>
               <h1 className="ttp-hero-title">
-                Become a{' '}<span className="ttp-highlight">Certified</span><br />
-                Abacus &amp; Vedic Math<br />
-                <span className="ttp-hero-title-accent">Teacher</span>
+                {t('hero', 'titleStart')}{' '}<span className="ttp-highlight">{t('hero', 'titleHighlight')}</span><br />
+                {t('hero', 'titleMid')}<br />
+                <span className="ttp-hero-title-accent">{t('hero', 'titleAccent')}</span>
               </h1>
               <p className="ttp-hero-subtitle">
-                🎯 Start Your Own Classes <strong>Anywhere in India</strong>
+                {t('hero', 'subtitle')}
               </p>
               <ul className="ttp-hero-checklist">
-                <li><FaCheckCircle className="ttp-hero-check-icon" /> Nationally Recognized Certification</li>
-                <li><FaCheckCircle className="ttp-hero-check-icon" /> Start of Education Business</li>
-                <li><FaCheckCircle className="ttp-hero-check-icon" /> Franchise Opportunity</li>
+                <li><FaCheckCircle className="ttp-hero-check-icon" /> {t('hero', 'check1')}</li>
+                <li><FaCheckCircle className="ttp-hero-check-icon" /> {t('hero', 'check2')}</li>
+                <li><FaCheckCircle className="ttp-hero-check-icon" /> {t('hero', 'check3')}</li>
               </ul>
               <div className="ttp-hero-cta">
                 <Link to="/contact" className="ttp-btn-primary">
-                  Enroll Now <FaArrowRight className="ms-2" />
+                  {t('hero', 'enrollBtn')} <FaArrowRight className="ms-2" />
                 </Link>
-                <a href="https://wa.me/919168756060" target="_blank" rel="noreferrer" className="ttp-btn-whatsapp">
-                  <FaWhatsapp className="me-2" /> Chat on WhatsApp
+                <a href="https://wa.me/918446889966" target="_blank" rel="noreferrer" className="ttp-btn-whatsapp">
+                  <FaWhatsapp className="me-2" /> {t('hero', 'waBtn')}
                 </a>
               </div>
             </div>
@@ -405,10 +367,10 @@ const TTPLandingPage = () => {
         <section className="testimonials-section">
           <div className="ttp-container">
             <div className="ttp-section-header">
-              <span className="tm-section-badge">⭐ Real Teacher Stories</span>
-              <h2 className="ttp-section-title">Hear from Our Certified Teachers</h2>
+              <span className="tm-section-badge">{t('testimonials', 'badge')}</span>
+              <h2 className="ttp-section-title">{t('testimonials', 'title')}</h2>
               <p className="ttp-section-sub">
-                Watch real testimonials from teachers who completed TTP and transformed their careers.
+                {t('testimonials', 'sub')}
               </p>
             </div>
           </div>
@@ -439,9 +401,9 @@ const TTPLandingPage = () => {
         <section className="ttp-section ttp-who-section">
           <div className="ttp-container">
             <div className="ttp-section-header">
-              <h2 className="ttp-section-title">Who Should Join TTP?</h2>
+              <h2 className="ttp-section-title">{t('whoShouldJoin', 'title')}</h2>
               <p className="ttp-section-sub">
-                This program is designed for anyone who wants to build a rewarding career in education.
+                {t('whoShouldJoin', 'sub')}
               </p>
             </div>
             <div className="ttp-who-grid">
@@ -458,8 +420,8 @@ const TTPLandingPage = () => {
             <div className="no-experience-banner">
               <div className="banner-icon">🚀</div>
               <div className="banner-content">
-                <h3>No Prior Teaching Experience Required</h3>
-                <p>Our comprehensive program prepares complete beginners and experienced educators alike to confidently teach Abacus &amp; Vedic Math.</p>
+                <h3>{t('whoShouldJoin', 'bannerTitle')}</h3>
+                <p>{t('whoShouldJoin', 'bannerDesc')}</p>
               </div>
             </div>
           </div>
@@ -469,9 +431,9 @@ const TTPLandingPage = () => {
         <section className="ttp-section ttp-curriculum-section">
           <div className="ttp-container">
             <div className="ttp-section-header">
-              <h2 className="ttp-section-title">What You'll Learn</h2>
+              <h2 className="ttp-section-title">{t('curriculum', 'title')}</h2>
               <p className="ttp-section-sub">
-                A comprehensive curriculum covering both Abacus and Vedic Math teaching methodologies.
+                {t('curriculum', 'sub')}
               </p>
             </div>
 
@@ -481,13 +443,13 @@ const TTPLandingPage = () => {
                 className={`ttp-tab ${activeTab === "abacus" ? "active" : ""}`}
                 onClick={() => setActiveTab("abacus")}
               >
-                <FaCalculator className="me-2" /> Abacus Teaching
+                <FaCalculator className="me-2" /> {t('curriculum', 'abacusTab')}
               </button>
               <button
                 className={`ttp-tab ${activeTab === "vedic" ? "active" : ""}`}
                 onClick={() => setActiveTab("vedic")}
               >
-                <FaBrain className="me-2" /> Vedic Math Teaching
+                <FaBrain className="me-2" /> {t('curriculum', 'vedicTab')}
               </button>
             </div>
 
@@ -503,7 +465,7 @@ const TTPLandingPage = () => {
             <div className="ttp-curriculum-note">
               <FaPlayCircle className="me-2" />
               <span>
-                Training available in <strong>Marathi, Hindi &amp; English</strong> medium
+                {t('curriculum', 'note')}
               </span>
             </div>
           </div>
@@ -513,13 +475,13 @@ const TTPLandingPage = () => {
         <section className="ttp-section ttp-benefits-section">
           <div className="ttp-container">
             <div className="ttp-section-header">
-              <span className="ttp-section-pill">⭐ 6 Reasons to Join</span>
+              <span className="ttp-section-pill">{t('benefits', 'pill')}</span>
               <h2 className="ttp-section-title">
-                Why Choose Shraddha{' '}
-                <span className="ttp-title-highlight">Teacher Training Program</span>?
+                {t('benefits', 'title')}{' '}
+                <span className="ttp-title-highlight">{t('benefits', 'titleHighlight')}</span>
               </h2>
               <p className="ttp-section-sub">
-                Everything you need to become a <strong>confident, certified</strong> Abacus &amp; Vedic Math teacher — all under one roof.
+                {t('benefits', 'sub')}
               </p>
             </div>
             <div className="ttp-benefits-grid">
@@ -549,10 +511,10 @@ const TTPLandingPage = () => {
         <section className="ttp-section training-mode-section">
           <div className="ttp-container">
             <div className="ttp-section-header">
-              <span className="ttp-section-pill">🇮🇳 Available Across India</span>
-              <h2 className="ttp-section-title">Training Modes Available</h2>
+              <span className="ttp-section-pill">{t('modes', 'pill')}</span>
+              <h2 className="ttp-section-title">{t('modes', 'title')}</h2>
               <p className="ttp-section-sub">
-                Choose the format that suits your convenience — both lead to full certification.
+                {t('modes', 'sub')}
               </p>
             </div>
             <div className="modes-grid">
@@ -575,8 +537,8 @@ const TTPLandingPage = () => {
             <div className="location-banner">
               <div className="map-icon">🇮🇳</div>
               <div className="location-text">
-                <h3>You can join from any city in India!</h3>
-                <p>Metro cities, tier-2 towns, or rural areas — we reach everywhere across India.</p>
+                <h3>{t('modes', 'bannerTitle')}</h3>
+                <p>{t('modes', 'bannerDesc')}</p>
               </div>
             </div>
           </div>
@@ -586,20 +548,19 @@ const TTPLandingPage = () => {
         <section className="ttp-section cert-section" id="certification">
           <div className="ttp-container">
             <div className="cert-header">
-              <span className="cert-badge-pill">🏅 Official Recognition</span>
+              <span className="cert-badge-pill">{t('cert', 'pill')}</span>
               <h2 className="ttp-section-title">
-                Earn Your{' '}
-                <span className="cert-grad-text">Certified Teacher Badge</span>
+                {t('cert', 'title')}{' '}
+                <span className="cert-grad-text">{t('cert', 'gradText')}</span>
               </h2>
               <p className="ttp-section-sub">
-                Join <strong>2,500+ certified educators</strong> who carry the Shraddha Institute TTP
-                certificate — India's most trusted Abacus &amp; Vedic Math teaching credential.
+                {t('cert', 'sub')}
               </p>
             </div>
 
             <div className="cert-layout">
               <div className="cert-mockup-col">
-                <div className="cert-ribbon">🎓 Nationally Valid</div>
+                <div className="cert-ribbon">{t('cert', 'ribbon')}</div>
                 <div className="cert-img-wrap">
                   <img
                     src="https://res.cloudinary.com/dhix1afuq/image/upload/v1773643614/certificate_hnskko.jpg"
@@ -607,7 +568,7 @@ const TTPLandingPage = () => {
                     className="cert-real-img"
                   />
                 </div>
-                <div className="cert-valid-pill">✅ Valid across 600+ centers</div>
+                <div className="cert-valid-pill">{t('cert', 'valid')}</div>
               </div>
 
               <div className="cert-benefits-col">
@@ -635,12 +596,12 @@ const TTPLandingPage = () => {
         <section className="ttp-section bk-section">
           <div className="ttp-container">
             <div className="ttp-section-header">
-              <span className="ttp-section-pill">📦 Included Materials</span>
+              <span className="ttp-section-pill">{t('bkSection', 'pill')}</span>
               <h2 className="ttp-section-title">
-                Books, Kits &amp; <span className="bk-grad">Learning Resources</span>
+                {t('bkSection', 'title')}<span className="bk-grad">{t('bkSection', 'titleGrad')}</span>
               </h2>
               <p className="ttp-section-sub">
-                Everything you need to start teaching is provided — no extra purchases required.
+                {t('bkSection', 'sub')}
               </p>
             </div>
             <div className="bk-layout">
@@ -678,8 +639,8 @@ const TTPLandingPage = () => {
                 <div className="bk-promise">
                   <span className="bk-promise-icon">🎖️</span>
                   <div>
-                    <strong>Shraddha Promise</strong>
-                    <p>All materials are 100% official, standardized and brand-consistent across every center in India.</p>
+                    <strong>{t('bkSection', 'promiseTitle')}</strong>
+                    <p>{t('bkSection', 'promiseDesc')}</p>
                   </div>
                 </div>
               </div>
@@ -702,17 +663,13 @@ const TTPLandingPage = () => {
           <div className="ttp-container">
             <div className="bk-app-banner">
               <div className="bk-app-left">
-                <span className="bk-app-badge">📱 Exclusive Access</span>
-                <h3>Shraddha Institute Learning App</h3>
-                <p>
-                  Every certified teacher gets <strong>lifetime access</strong> to our mobile app — packed with
-                  recorded Abacus &amp; Vedic Math video lessons, worksheets, and teaching resources, available
-                  anytime, anywhere.
-                </p>
+                <span className="bk-app-badge">{t('bkSection', 'appBadge')}</span>
+                <h3>{t('bkSection', 'appTitle')}</h3>
+                <p>{t('bkSection', 'appDesc')}</p>
                 <ul className="bk-app-perks">
-                  <li>🎬 Recorded video lectures — Abacus &amp; Vedic Math</li>
-                  <li>📂 Downloadable worksheets &amp; exam papers</li>
-                  <li>🔔 New content updates &amp; notifications</li>
+                  <li>{t('bkSection', 'appPerk1')}</li>
+                  <li>{t('bkSection', 'appPerk2')}</li>
+                  <li>{t('bkSection', 'appPerk3')}</li>
                 </ul>
                 <a
                   href="https://play.google.com/store/apps/details?id=co.groot.nitc&pcampaignid=web_share"
@@ -720,7 +677,7 @@ const TTPLandingPage = () => {
                   rel="noopener noreferrer"
                   className="bk-app-btn"
                 >
-                  📲 Download the App
+                  {t('bkSection', 'appBtn')}
                 </a>
               </div>
               <div className="bk-app-right">
@@ -755,8 +712,8 @@ const TTPLandingPage = () => {
         <section className="ttp-section ttp-steps-section">
           <div className="ttp-container">
             <div className="ttp-section-header">
-              <h2 className="ttp-section-title">Your Journey Starts Here</h2>
-              <p className="ttp-section-sub">4 simple steps to become a certified TTP teacher</p>
+              <h2 className="ttp-section-title">{t('steps', 'title')}</h2>
+              <p className="ttp-section-sub">{t('steps', 'sub')}</p>
             </div>
             <div className="ttp-steps-grid">
               {steps.map((s, i) => (
@@ -775,8 +732,8 @@ const TTPLandingPage = () => {
         {/* ── Student Videos ── */}
         <section className="sv-section">
           <div className="sv-header">
-            <h2 className="sv-title">⚡ Watch Our Students in Action</h2>
-            <p className="sv-sub">See real results from our certified teachers' students</p>
+            <h2 className="sv-title">{t('students', 'title')}</h2>
+            <p className="sv-sub">{t('students', 'sub')}</p>
           </div>
           <div className="sv-track-wrap">
             <div className="sv-track">
@@ -801,9 +758,9 @@ const TTPLandingPage = () => {
         <section className="ttp-section ttp-faq-section">
           <div className="ttp-container">
             <div className="ttp-section-header">
-              <span className="ttp-section-pill">❓ Got Questions?</span>
-              <h2 className="ttp-section-title">Frequently Asked Questions</h2>
-              <p className="ttp-section-sub">Everything you need to know before enrolling.</p>
+              <span className="ttp-section-pill">{t('faqs', 'pill')}</span>
+              <h2 className="ttp-section-title">{t('faqs', 'title')}</h2>
+              <p className="ttp-section-sub">{t('faqs', 'sub')}</p>
             </div>
             <div className="faq-grid">
               <div className="faq-col">
@@ -860,10 +817,10 @@ const TTPLandingPage = () => {
             <div className="faq-cta">
               <div className="faq-cta-icon">🤔</div>
               <div className="faq-cta-text">
-                <h3>Still have questions?</h3>
-                <p>Our team is happy to help you with any query — reach out anytime!</p>
+                <h3>{t('faqs', 'ctaTitle')}</h3>
+                <p>{t('faqs', 'ctaSub')}</p>
               </div>
-              <a href="#ttp-contact" className="ttp-btn-primary faq-cta-btn">Contact Us</a>
+              <a href="#ttp-contact" className="ttp-btn-primary faq-cta-btn">{t('faqs', 'ctaBtn')}</a>
             </div>
           </div>
         </section>
@@ -872,13 +829,13 @@ const TTPLandingPage = () => {
         <section className="ttp-contact-section" id="ttp-contact">
           <div className="ttp-container">
             <div className="ttp-section-header">
-              <span className="ttp-section-pill">🚀 Start Today</span>
-              <h2 className="ttp-section-title">Your Teaching Career Starts Today</h2>
-              <p className="ttp-section-sub">Fill the registration form below and take the first step towards your new career</p>
+              <span className="ttp-section-pill">{t('contact', 'pill')}</span>
+              <h2 className="ttp-section-title">{t('contact', 'title')}</h2>
+              <p className="ttp-section-sub">{t('contact', 'sub')}</p>
             </div>
             <div className="ttp-contact-limited-badge">
-              <span>🎯 Limited Seats Available</span>
-              <p>Register now to secure your spot in the next batch — seats fill up fast!</p>
+              <span>{t('contact', 'badge')}</span>
+              <p>{t('contact', 'badgeSub')}</p>
             </div>
             <div className="ttp-contact-grid">
               {/* Left: Contact Info */}
@@ -887,14 +844,14 @@ const TTPLandingPage = () => {
                   <a href="tel:+918446889966" className="ttp-contact-card">
                     <div className="ttp-contact-card-icon">📞</div>
                     <div className="ttp-contact-card-body">
-                      <h4>Call Now</h4>
+                      <h4>{t('contact', 'callNow')}</h4>
                       <p>+91 84468 89966</p>
                     </div>
                   </a>
                   <a href="https://wa.me/918446889966" target="_blank" rel="noreferrer" className="ttp-contact-card ttp-contact-card-wa">
                     <div className="ttp-contact-card-icon">📲</div>
                     <div className="ttp-contact-card-body">
-                      <h4>WhatsApp Now</h4>
+                      <h4>{t('contact', 'waNow')}</h4>
                       <p>+91 84468 89966</p>
                       <span>Send "Hello" for instant info</span>
                     </div>
@@ -902,7 +859,7 @@ const TTPLandingPage = () => {
                   <a href="mailto:info@shraddhainstitute.com" className="ttp-contact-card">
                     <div className="ttp-contact-card-icon">📧</div>
                     <div className="ttp-contact-card-body">
-                      <h4>Email Us</h4>
+                      <h4>{t('contact', 'emailUs')}</h4>
                       <p>info@shraddhainstitute.com</p>
                     </div>
                   </a>
@@ -924,7 +881,7 @@ const TTPLandingPage = () => {
               </div>
               {/* Right: Registration Form */}
               <div className="ttp-reg-form-wrap">
-                <h3>📝 Registration Form</h3>
+                <h3>{t('form', 'title')}</h3>
                 {formSubmitted ? (
                   <div className="ttp-form-success">
                     ✅ Thank you! We'll contact you within 24 hours.
@@ -932,23 +889,23 @@ const TTPLandingPage = () => {
                 ) : (
                   <form className="ttp-reg-form" onSubmit={handleFormSubmit}>
                     <div className="ttp-form-group">
-                      <label>Full Name *</label>
+                      <label>{t('form', 'fullName')}</label>
                       <input type="text" name="name" value={formData.name} onChange={handleFormChange} placeholder="Enter your name" required />
                     </div>
                     <div className="ttp-form-group">
-                      <label>Phone Number *</label>
+                      <label>{t('form', 'phone')}</label>
                       <input type="tel" name="phone" value={formData.phone} onChange={handleFormChange} placeholder="Enter phone number" required />
                     </div>
                     <div className="ttp-form-group">
-                      <label>Email Address</label>
+                      <label>{t('form', 'email')}</label>
                       <input type="email" name="email" value={formData.email} onChange={handleFormChange} placeholder="Enter email address" />
                     </div>
                     <div className="ttp-form-group">
-                      <label>City *</label>
+                      <label>{t('form', 'city')}</label>
                       <input type="text" name="city" value={formData.city} onChange={handleFormChange} placeholder="Enter your city" required />
                     </div>
                     <div className="ttp-form-group">
-                      <label>Interested Program *</label>
+                      <label>{t('form', 'program')}</label>
                       <select name="program" value={formData.program} onChange={handleFormChange}>
                         <option value="Abacus Teacher Training">Abacus Teacher Training</option>
                         <option value="Vedic Math Teacher Training">Vedic Math Teacher Training</option>
@@ -957,16 +914,16 @@ const TTPLandingPage = () => {
                       </select>
                     </div>
                     <div className="ttp-form-group">
-                      <label>Message (Optional)</label>
+                      <label>{t('form', 'message')}</label>
                       <textarea name="message" value={formData.message} onChange={handleFormChange} placeholder="Any questions or comments..." rows="3" />
                     </div>
                     <button type="submit" className="ttp-form-submit" disabled={formLoading}>
-                      {formLoading ? '⏳ Submitting...' : '📝 Submit Registration'}
+                      {formLoading ? t('form', 'submitting') : t('form', 'submit')}
                     </button>
                     {formError && (
                       <p className="ttp-form-error">⚠️ {formError}</p>
                     )}
-                    <p className="ttp-form-privacy">🔒 Your information is 100% safe. We will contact you within 24 hours.</p>
+                    <p className="ttp-form-privacy">{t('form', 'privacy')}</p>
                   </form>
                 )}
               </div>
