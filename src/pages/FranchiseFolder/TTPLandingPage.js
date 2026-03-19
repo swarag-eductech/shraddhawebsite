@@ -140,44 +140,7 @@ const TTPLandingPage = () => {
   ];
   const allTeacherVideos = [...teacherVideos, ...teacherVideos];
 
-  const trainingModes = [
-    {
-      icon: '💻',
-      title: 'Online Live Training',
-      subtitle: 'Pan India — from any city',
-      features: [
-        'Live interactive sessions with trainer',
-        'Learn from anywhere in India',
-        'Flexible morning / evening timing',
-        'Recorded sessions for revision',
-        'Direct doubt clearing every session',
-      ],
-    },
-    {
-      icon: '📍',
-      title: 'Offline Center-Based Training',
-      subtitle: 'In-person practical experience',
-      features: [
-        'In-person practical training',
-        'Hands-on abacus & kit experience',
-        'Face-to-face mentorship',
-        'Networking with other teachers',
-        'Immediate feedback and correction',
-      ],
-    },
-    {
-      icon: '📱',
-      title: 'Self-Paced App Training',
-      subtitle: 'Learn anytime using our training app',
-      features: [
-        'Complete training through recorded video lessons',
-        'Learn anytime at your own speed',
-        'Step-by-step Abacus & Vedic Maths modules',
-        'Practice assignments and exercises',
-        'Support available from mentors when needed',
-      ],
-    },
-  ];
+  const trainingModes = ttpTranslations[lang]?.trainingModes || ttpTranslations['en'].trainingModes;
 
   const bkMaterials = [
     { icon: '📗', title: t('bkMaterials', 'bk1Title'), desc: t('bkMaterials', 'bk1Desc'), color: '#667eea' },

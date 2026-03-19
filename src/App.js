@@ -70,7 +70,13 @@ function App() {
     loadCSS('/static/css/responsive.css');
   }, []);
 
-  if (showWelcome && !window.location.pathname.startsWith('/admin')) return <WelcomeScreen onSkip={() => setShowWelcome(false)} />;
+  if (
+    showWelcome &&
+    !window.location.pathname.startsWith('/admin') &&
+    !window.location.pathname.startsWith('/franchise/ttp')
+  ) {
+    return <WelcomeScreen onSkip={() => setShowWelcome(false)} />;
+  }
 
   return (
     <Router>
