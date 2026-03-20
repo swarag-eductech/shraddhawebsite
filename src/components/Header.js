@@ -20,7 +20,8 @@ import {
   faAngleRight,
   faChevronRight,
   faMapMarkerAlt,
-  faImage
+  faImage,
+  faBookOpen
 } from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
@@ -530,6 +531,12 @@ const Header = () => {
                     <Link to="/programs/franchise-training" className="dropdown-item" onClick={closeMenu}>
                       <FontAwesomeIcon icon={faStore} className="me-2 text-red" />
                       <span>Franchise Training</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/franchise/books-kits" className="dropdown-item" onClick={closeMenu}>
+                      <FontAwesomeIcon icon={faBookOpen} className="me-2" style={{ color: '#2d9cdb' }} />
+                      <span>Books & Kits</span>
                     </Link>
                   </li>
                   <li>

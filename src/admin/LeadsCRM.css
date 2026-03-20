@@ -346,6 +346,36 @@
 .crm-idx  { color: #aaa; font-size: 0.75rem; }
 .crm-name { font-weight: 700; color: #1a1a1a; white-space: nowrap; }
 
+/* Name cell with message indicator */
+.crm-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.crm-msg-indicator {
+  font-size: 0.85rem;
+  cursor: help;
+  opacity: 0.75;
+  flex-shrink: 0;
+}
+.crm-msg-indicator:hover { opacity: 1; }
+
+/* Program badge in table */
+.crm-program-badge {
+  display: inline-block;
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fcd34d;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .crm-phone-link { color: #ff6600; text-decoration: none; font-weight: 600; }
 .crm-phone-link:hover { text-decoration: underline; }
 
@@ -454,6 +484,32 @@
 
 .crm-detail-divider { height: 1px; background: #f0f0f0; margin: 4px 0; }
 
+/* Message callout in detail panel */
+.crm-message-callout {
+  background: linear-gradient(135deg, #fff8f0, #fff3e6);
+  border: 1.5px solid #fed7aa;
+  border-left: 4px solid #ff6600;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 2px;
+}
+.crm-message-callout-header {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #c2410c;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.crm-message-callout-text {
+  margin: 0;
+  font-size: 0.87rem;
+  color: #1a1a1a;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 .crm-detail-field-row { display: flex; flex-direction: column; gap: 4px; }
 .crm-detail-field-row label { font-size: 0.72rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.4px; display: flex; align-items: center; gap: 6px; }
 
@@ -486,8 +542,30 @@
   display: block;
 }
 .crm-action-btn:hover { transform: translateY(-2px); }
-.crm-wa-btn   { background: #dcfce7; color: #166534; border: 1.5px solid #86efac; }
-.crm-call-btn { background: #fff8f0; color: #c2410c; border: 1.5px solid #fed7aa; }
+.crm-wa-btn    { background: #dcfce7; color: #166534; border: 1.5px solid #86efac; }
+.crm-call-btn  { background: #fff8f0; color: #c2410c; border: 1.5px solid #fed7aa; }
+.crm-delete-btn { background: #fef2f2; color: #b91c1c; border: 1.5px solid #fca5a5; cursor: pointer; }
+.crm-delete-btn:hover { background: #fee2e2; transform: translateY(-2px); }
+
+/* Delete icon in table row */
+.crm-delete-row-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.15s;
+  color: #ef4444;
+}
+.crm-delete-row-btn:hover { background: #fef2f2; }
+
+/* Submitted time in table */
+.crm-submitted-time {
+  font-size: 0.75rem;
+  color: #6b7280;
+  white-space: nowrap;
+}
 
 /* Notes */
 .crm-notes-section { display: flex; flex-direction: column; gap: 7px; }

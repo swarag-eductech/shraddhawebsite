@@ -39,6 +39,7 @@ const AboutFranchisePage = lazy(() => import("./pages/Aboutusprograms/AboutFranc
 const FranchiseTeacherParent = lazy(() => import("./pages/FranchiseFolder/FranchiseTeacherParent"));
 const FranchiseBusinessSchool = lazy(() => import("./pages/FranchiseFolder/FranchiseBusinessSchool"));
 const TTPLandingPage = lazy(() => import("./pages/FranchiseFolder/TTPLandingPage"));
+const BooksKitsLandingPage = lazy(() => import("./pages/FranchiseFolder/BooksKitsLandingPage"));
 //const CompetitionLandingPage = lazy(() => import('./pages/CompetitionLandingPage'));
 const ReviewConfirmPage = lazy(() => import('./pages/ReviewConfirmPage'));
 
@@ -73,7 +74,8 @@ function App() {
   if (
     showWelcome &&
     !window.location.pathname.startsWith('/admin') &&
-    !window.location.pathname.startsWith('/franchise/ttp')
+    !window.location.pathname.startsWith('/franchise/ttp') &&
+    !window.location.pathname.startsWith('/franchise/books-kits')
   ) {
     return <WelcomeScreen onSkip={() => setShowWelcome(false)} />;
   }
@@ -137,6 +139,13 @@ function App() {
           <Route path="/franchise/ttp" element={
             <Suspense fallback={<div className="loading-spinner-container"><div className="loading-spinner"></div></div>}>
               <TTPLandingPage />
+              <Footer />
+              <WhatsAppButton />
+            </Suspense>
+          } />
+          <Route path="/franchise/books-kits" element={
+            <Suspense fallback={<div className="loading-spinner-container"><div className="loading-spinner"></div></div>}>
+              <BooksKitsLandingPage />
               <Footer />
               <WhatsAppButton />
             </Suspense>
@@ -287,6 +296,15 @@ function App() {
 
           {/* footer link */}
           <Route path="/courses" element={<><FranchiseTeacherTrainingPage /><Footer /><WhatsAppButton /></>} />
+
+          {/* 404 fallback */}
+          <Route path="*" element={
+            <div style={{ textAlign: 'center', padding: '80px 20px' }}>
+              <h2 style={{ color: '#ff6b35', fontSize: '2rem', fontWeight: 800 }}>Page Not Found</h2>
+              <p style={{ color: '#6b7280', marginTop: 12 }}>The page you're looking for doesn't exist.</p>
+              <a href="/" style={{ marginTop: 24, display: 'inline-block', background: '#ff6b35', color: '#fff', padding: '12px 28px', borderRadius: 40, fontWeight: 700, textDecoration: 'none' }}>Go Home</a>
+            </div>
+          } />
         </Routes>
       </div>
     </Router>

@@ -143,6 +143,14 @@ export default function LeadsCRM() {
     setSelectedLead((p) => p?.id === id ? { ...p, [field]: value } : p);
   }, []);
 
+  // ── Delete lead ─────────────────────────────────────────────────────
+  const deleteLead = useCallback(async (id) => {
+    if (!window.confirm('Delete this lead permanently? This cannot be undone.')) return;
+    await supabase.from('leads').delete().eq('id', id);
+    setLeads((prev) => prev.filter((l) => l.id !== id));
+    setSelectedLead((p) => (p?.id === id ? null : p));
+  }, []);
+
   // ── Save note ────────────────────────────────────────────────────────
   const saveNote = async () => {
     if (!selectedLead || !noteText.trim()) return;
@@ -163,7 +171,9 @@ export default function LeadsCRM() {
       l.name?.toLowerCase().includes(s) ||
       l.phone?.includes(s) ||
       l.city?.toLowerCase().includes(s) ||
-      l.email?.toLowerCase().includes(s);
+      l.email?.toLowerCase().includes(s) ||
+      l.message?.toLowerCase().includes(s) ||
+      l.program?.toLowerCase().includes(s);
     const matchStatus   = filterStatus   === 'all' || (l.status   || 'new')          === filterStatus;
     const matchPriority = filterPriority === 'all' || (l.priority || 'warm')         === filterPriority;
     const matchSource   = filterSource   === 'all' || (l.source   || 'Website Form') === filterSource;
@@ -450,12 +460,15 @@ export default function LeadsCRM() {
                       <th>Name</th>
                       <th>Phone</th>
                       <th>City</th>
+                      <th>Program</th>
                       <th>Source</th>
                       <th>Priority</th>
+                      <th>Submitted</th>
                       <th>Follow-up</th>
                       <th>Status</th>
                       <th>Assigned</th>
                       <th>Change Status</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -469,7 +482,14 @@ export default function LeadsCRM() {
                           onClick={() => { setSelectedLead(lead); setNoteText(''); }}
                         >
                           <td className="crm-idx">{idx + 1}</td>
-                          <td className="crm-name">{lead.name}</td>
+                          <td className="crm-name">
+                            <div className="crm-name-cell">
+                              {lead.name}
+                              {lead.message && (
+                                <span className="crm-msg-indicator" title={lead.message}>💬</span>
+                              )}
+                            </div>
+                          </td>
                           <td>
                             <a href={`tel:${lead.phone}`} onClick={(e) => e.stopPropagation()} className="crm-phone-link">
                               {lead.phone}
@@ -477,11 +497,21 @@ export default function LeadsCRM() {
                           </td>
                           <td>{lead.city || '—'}</td>
                           <td>
+                            <span className="crm-program-badge">{lead.program || '—'}</span>
+                          </td>
+                          <td>
                             <span className="crm-source-badge">{lead.source || 'Website Form'}</span>
                           </td>
                           <td>
                             <span className="crm-priority-badge" style={{ color: pInfo.color, background: pInfo.bg, border: `1px solid ${pInfo.color}44` }}>
                               {pInfo.label}
+                            </span>
+                          </td>
+                          <td>
+                            <span className="crm-submitted-time">
+                              {lead.submitted_at || lead.created_at
+                                ? new Date(lead.submitted_at || lead.created_at).toLocaleString('en-IN', { day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit' })
+                                : '—'}
                             </span>
                           </td>
                           <td>
@@ -507,6 +537,13 @@ export default function LeadsCRM() {
                               {STATUS_OPTIONS.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
                             </select>
                           </td>
+                          <td onClick={(e) => e.stopPropagation()}>
+                            <button
+                              className="crm-delete-row-btn"
+                              title="Delete lead"
+                              onClick={() => deleteLead(lead.id)}
+                            >🗑</button>
+                          </td>
                         </tr>
                       );
                     })}
@@ -527,6 +564,14 @@ export default function LeadsCRM() {
                 </div>
 
                 <div className="crm-detail-body">
+                  {/* Lead message callout — shown prominently if present */}
+                  {selectedLead.message && (
+                    <div className="crm-message-callout">
+                      <div className="crm-message-callout-header">💬 Message from Lead</div>
+                      <p className="crm-message-callout-text">{selectedLead.message}</p>
+                    </div>
+                  )}
+
                   {/* Contact info */}
                   <div className="crm-detail-row"><span>📞 Phone</span>
                     <a href={`tel:${selectedLead.phone}`}>{selectedLead.phone}</a>
@@ -537,14 +582,11 @@ export default function LeadsCRM() {
                     </div>
                   )}
                   <div className="crm-detail-row"><span>🏙️ City</span><p>{selectedLead.city || '—'}</p></div>
-                  <div className="crm-detail-row"><span>📅 Registered</span>
-                    <p>{selectedLead.created_at ? new Date(selectedLead.created_at).toLocaleString('en-IN') : '—'}</p>
+                  <div className="crm-detail-row"><span>📅 Submitted</span>
+                    <p>{selectedLead.submitted_at || selectedLead.created_at
+                      ? new Date(selectedLead.submitted_at || selectedLead.created_at).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })
+                      : '—'}</p>
                   </div>
-                  {selectedLead.message && (
-                    <div className="crm-detail-row crm-detail-message">
-                      <span>💬 Message</span><p>{selectedLead.message}</p>
-                    </div>
-                  )}
 
                   <div className="crm-detail-divider" />
 
@@ -605,6 +647,12 @@ export default function LeadsCRM() {
                     <a href={`tel:${selectedLead.phone}`} className="crm-action-btn crm-call-btn">
                       📞 Call Now
                     </a>
+                    <button
+                      className="crm-action-btn crm-delete-btn"
+                      onClick={() => deleteLead(selectedLead.id)}
+                    >
+                      🗑 Delete Lead
+                    </button>
                   </div>
 
                   <div className="crm-detail-divider" />

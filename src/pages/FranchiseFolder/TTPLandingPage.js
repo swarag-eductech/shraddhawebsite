@@ -97,6 +97,7 @@ const TTPLandingPage = () => {
           city: formData.city,
           program: formData.program,
           message: formData.message || null,
+          submitted_at: new Date().toISOString(),
         },
       ]);
       if (error) {
