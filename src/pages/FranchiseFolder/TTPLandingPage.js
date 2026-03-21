@@ -265,6 +265,13 @@ const TTPLandingPage = () => {
           name="description"
           content="Get certified in Abacus & Vedic Math teaching with Shraddha Institute's Teacher Training Program. 2,500+ trained teachers, nationally recognized certificate, complete support."
         />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-KLKWTZ5T0W"></script>
+        <script>{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-KLKWTZ5T0W');
+        `}</script>
       </Helmet>
 
       <div className="ttp-page">

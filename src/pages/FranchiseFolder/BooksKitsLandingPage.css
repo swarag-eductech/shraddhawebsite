@@ -686,3 +686,134 @@
   .bk-faq-a { padding: 0 16px 16px 16px; }
   .bk-contact-btns { flex-direction: column; align-items: center; }
 }
+
+/* ══ LEVEL CHIPS ══ */
+.bk-level-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 36px;
+  justify-content: center;
+}
+.bk-chip {
+  background: rgba(255,107,53,0.09);
+  border: 1.5px solid rgba(255,107,53,0.25);
+  color: #ff6b35;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.25s;
+  font-family: 'Outfit', sans-serif;
+}
+.bk-chip:hover { background: #ff6b35; color: #fff; border-color: #ff6b35; }
+
+/* ══ VEDIC FILTER ══ */
+.bk-vedic-filter {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+.bk-filter-btn {
+  background: #fff;
+  border: 2px solid rgba(255,107,53,0.2);
+  color: #6b7280;
+  padding: 10px 28px;
+  border-radius: 30px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.bk-filter-btn:hover { border-color: #ff6b35; color: #ff6b35; }
+.bk-filter-btn.active {
+  background: linear-gradient(135deg, #ff6b35, #f97316);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(255,107,53,0.3);
+}
+
+/* ══ SUBSECTION TITLE ══ */
+.bk-subsection-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #2c3e50;
+  margin: 40px 0 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(255,107,53,0.15);
+}
+.bk-subsection-title--vedic { margin-top: 56px; }
+
+/* ══ PRACTICE PAPER CARDS ══ */
+.bk-papers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 16px;
+  margin-bottom: 8px;
+}
+.bk-paper-card {
+  background: #fff;
+  border: 1.5px solid rgba(255,107,53,0.12);
+  border-radius: 16px;
+  padding: 20px 16px;
+  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 2px 10px rgba(255,107,53,0.05);
+  transition: all 0.3s;
+}
+.bk-paper-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 16px 16px 0 0;
+}
+.bk-paper-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 10px 28px rgba(255,107,53,0.14); }
+.bk-paper-badge {
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 4px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.4px;
+}
+.bk-paper-icon { font-size: 1.8rem; margin: 4px 0; }
+.bk-paper-desc {
+  font-size: 0.78rem;
+  color: #6b7280;
+  line-height: 1.55;
+  margin: 0;
+  flex: 1;
+}
+.bk-paper-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #ff6b35, #f97316);
+  color: #fff;
+  border: none;
+  padding: 9px 14px;
+  border-radius: 20px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(255,107,53,0.25);
+}
+.bk-paper-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(255,107,53,0.35); }
+
+/* ── Extra responsive ── */
+@media (max-width: 600px) {
+  .bk-papers-grid { grid-template-columns: repeat(2, 1fr); }
+  .bk-level-chips { justify-content: flex-start; }
+  .bk-vedic-filter { flex-direction: column; align-items: center; }
+  .bk-subsection-title { font-size: 1rem; }
+}
