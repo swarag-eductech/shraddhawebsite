@@ -198,8 +198,6 @@ export const booksKitsTranslations = {
 };
 
 // ── ABACUS BOOKS ─────────────────────────────────────────────
-const AB = "#ff6b35";
-const AB2 = "#e85d00";
 export const abacusBooks = [
   { id: "ukg",    label: "UKG",        color: "#e91e63", emoji: "🌸", titleEn: "Abacus — UKG",        forAge: "Age 4–5",  price: "Contact for Price", descEn: "Pre-number concepts, counting 1–10, bead introduction and basic abacus familiarity.", topics: ["Pre-number concepts", "Counting 1–10", "Bead introduction", "Basic patterns"] },
   { id: "fnd",    label: "Foundation",  color: "#9c27b0", emoji: "📖", titleEn: "Abacus — Foundation", forAge: "Age 5–6",  price: "Contact for Price", descEn: "Introduction to the abacus tool, Earth and Heaven beads, numbers 1–99 and single-column addition.", topics: ["Earth & Heaven beads", "Numbers 1–99", "Single-column addition", "Abacus basics"] },
