@@ -94,6 +94,17 @@ export default function LeadsCRM() {
   const [noteText, setNoteText]         = useState('');
   const [savingNote, setSavingNote]     = useState(false);
 
+  // ── Bulk WhatsApp ──────────────────────────────────────────────────
+  const [selectedIds, setSelectedIds]   = useState(new Set());
+  const [bulkModal, setBulkModal]       = useState(false);
+  const [bulkMessage, setBulkMessage]   = useState('');
+
+  // ── Add Lead Manually ──────────────────────────────────────────────
+  const [addLeadModal, setAddLeadModal] = useState(false);
+  const [newLead, setNewLead]           = useState({ name: '', phone: '', email: '', city: '', program: '', source: 'WhatsApp', priority: 'warm', status: 'new', assigned_to: 'Unassigned', notes: '' });
+  const [addingLead, setAddingLead]     = useState(false);
+  const [addLeadError, setAddLeadError] = useState('');
+
   // ── Auth ────────────────────────────────────────────────────────────
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -243,6 +254,59 @@ export default function LeadsCRM() {
     return { leadsPerDay, statusDist, sourceDist, pMap, convRate };
   }, [leads]);
 
+  // ── Selection helpers ─────────────────────────────────────────────
+  const toggleSelect = useCallback((id) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  }, []);
+
+  const toggleSelectAll = useCallback(() => {
+    setSelectedIds((prev) =>
+      prev.size === filtered.length
+        ? new Set()
+        : new Set(filtered.map((l) => l.id))
+    );
+  }, [filtered]);
+
+  const handleBulkSend = useCallback(() => {
+    const selected = leads.filter((l) => selectedIds.has(l.id));
+    selected.forEach((lead) => {
+      const phone = lead.phone?.replace(/\D/g, '');
+      if (phone) window.open(`https://wa.me/${phone}?text=${encodeURIComponent(bulkMessage)}`, '_blank');
+    });
+  }, [leads, selectedIds, bulkMessage]);
+
+  const handleAddLead = async (e) => {
+    e.preventDefault();
+    setAddingLead(true);
+    setAddLeadError('');
+    const payload = {
+      name:        newLead.name.trim(),
+      phone:       newLead.phone.trim(),
+      email:       newLead.email.trim()       || null,
+      city:        newLead.city.trim()        || null,
+      program:     newLead.program.trim()     || null,
+      source:      newLead.source             || 'WhatsApp',
+      priority:    newLead.priority           || 'warm',
+      status:      newLead.status             || 'new',
+      assigned_to: newLead.assigned_to        || 'Unassigned',
+      notes:       newLead.notes.trim()       || null,
+      created_at:  new Date().toISOString(),
+    };
+    const { error } = await supabase.from('leads').insert([payload]);
+    if (error) {
+      setAddLeadError(`Error: ${error.message}`);
+    } else {
+      setAddLeadModal(false);
+      setNewLead({ name: '', phone: '', email: '', city: '', program: '', source: 'WhatsApp', priority: 'warm', status: 'new', assigned_to: 'Unassigned', notes: '' });
+      fetchLeads();
+    }
+    setAddingLead(false);
+  };
+
   // ════════════════════════════ LOGIN SCREEN ══════════════════════════
   if (authLoading) {
     return (
@@ -308,6 +372,7 @@ export default function LeadsCRM() {
           <button className={`crm-tab${activeTab === 'analytics' ? ' crm-tab-active' : ''}`} onClick={() => setActiveTab('analytics')}>📊 Analytics</button>
         </div>
         <div className="crm-header-right">
+          <button className="crm-add-lead-btn" onClick={() => setAddLeadModal(true)}>➕ Add Lead</button>
           <button className="crm-export-btn" onClick={() => exportCSV(leads)} title="Export to Excel/CSV">⬇ Export CSV</button>
           <button className="crm-refresh-btn" onClick={fetchLeads}>🔄 Refresh</button>
           <button className="crm-logout-btn" onClick={handleLogout}>🔓 Logout</button>
@@ -445,6 +510,20 @@ export default function LeadsCRM() {
             <span className="crm-count">{filtered.length} leads</span>
           </div>
 
+          {/* Bulk Actions Bar */}
+          {selectedIds.size > 0 && (
+            <div className="crm-bulk-bar">
+              <span className="crm-bulk-count">✅ {selectedIds.size} lead{selectedIds.size > 1 ? 's' : ''} selected</span>
+              <button
+                className="crm-bulk-wa-btn"
+                onClick={() => { setBulkMessage(''); setBulkModal(true); }}
+              >
+                💬 Send WhatsApp to Selected
+              </button>
+              <button className="crm-bulk-clear-btn" onClick={() => setSelectedIds(new Set())}>✕ Clear Selection</button>
+            </div>
+          )}
+
           {/* Table + Detail */}
           <div className="crm-body">
             <div className={`crm-table-wrap ${selectedLead ? 'crm-table-shrunk' : ''}`}>
@@ -456,6 +535,14 @@ export default function LeadsCRM() {
                 <table className="crm-table">
                   <thead>
                     <tr>
+                      <th className="crm-th-check">
+                        <input
+                          type="checkbox"
+                          checked={filtered.length > 0 && selectedIds.size === filtered.length}
+                          onChange={toggleSelectAll}
+                          title="Select all"
+                        />
+                      </th>
                       <th>#</th>
                       <th>Name</th>
                       <th>Phone</th>
@@ -481,6 +568,14 @@ export default function LeadsCRM() {
                           className={selectedLead?.id === lead.id ? 'crm-row-active' : ''}
                           onClick={() => { setSelectedLead(lead); setNoteText(''); }}
                         >
+                          <td className="crm-th-check" onClick={(e) => e.stopPropagation()}>
+                            <input
+                              type="checkbox"
+                              checked={selectedIds.has(lead.id)}
+                              onChange={() => toggleSelect(lead.id)}
+                              className="crm-row-checkbox"
+                            />
+                          </td>
                           <td className="crm-idx">{idx + 1}</td>
                           <td className="crm-name">
                             <div className="crm-name-cell">
@@ -688,6 +783,132 @@ export default function LeadsCRM() {
           </div>
         </>
       )}
+
+      {/* ══════════ ADD LEAD MODAL ══════════ */}
+      {addLeadModal && (
+        <div className="crm-modal-overlay" onClick={() => setAddLeadModal(false)}>
+          <div className="crm-modal-box" onClick={(e) => e.stopPropagation()}>
+            <div className="crm-modal-header">
+              <h3>➕ Add Lead Manually</h3>
+              <button className="crm-modal-close" onClick={() => setAddLeadModal(false)}>✕</button>
+            </div>
+            <form className="crm-add-lead-form" onSubmit={handleAddLead}>
+              <div className="crm-form-row">
+                <label className="crm-field-label">Name *</label>
+                <input className="crm-text-input" required placeholder="Full Name" value={newLead.name} onChange={(e) => setNewLead({ ...newLead, name: e.target.value })} />
+              </div>
+              <div className="crm-form-row">
+                <label className="crm-field-label">Phone *</label>
+                <input className="crm-text-input" required placeholder="91XXXXXXXXXX" value={newLead.phone} onChange={(e) => setNewLead({ ...newLead, phone: e.target.value })} />
+              </div>
+              <div className="crm-form-row">
+                <label className="crm-field-label">Email</label>
+                <input className="crm-text-input" type="email" placeholder="email@example.com" value={newLead.email} onChange={(e) => setNewLead({ ...newLead, email: e.target.value })} />
+              </div>
+              <div className="crm-form-row">
+                <label className="crm-field-label">City</label>
+                <input className="crm-text-input" placeholder="City" value={newLead.city} onChange={(e) => setNewLead({ ...newLead, city: e.target.value })} />
+              </div>
+              <div className="crm-form-row">
+                <label className="crm-field-label">Program</label>
+                <input className="crm-text-input" placeholder="e.g. Abacus Teacher Training" value={newLead.program} list="al-program-list" onChange={(e) => setNewLead({ ...newLead, program: e.target.value })} />
+                <datalist id="al-program-list">
+                  {programs.map((p) => <option key={p} value={p} />)}
+                </datalist>
+              </div>
+              <div className="crm-form-grid">
+                <div className="crm-form-row">
+                  <label className="crm-field-label">Source</label>
+                  <select className="crm-status-select" value={newLead.source} onChange={(e) => setNewLead({ ...newLead, source: e.target.value })}>
+                    {SOURCE_OPTIONS.map((s) => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                </div>
+                <div className="crm-form-row">
+                  <label className="crm-field-label">Priority</label>
+                  <select className="crm-status-select" value={newLead.priority} onChange={(e) => setNewLead({ ...newLead, priority: e.target.value })}>
+                    {PRIORITY_OPTIONS.map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}
+                  </select>
+                </div>
+                <div className="crm-form-row">
+                  <label className="crm-field-label">Status</label>
+                  <select className="crm-status-select" value={newLead.status} onChange={(e) => setNewLead({ ...newLead, status: e.target.value })}>
+                    {STATUS_OPTIONS.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
+                  </select>
+                </div>
+                <div className="crm-form-row">
+                  <label className="crm-field-label">Assigned To</label>
+                  <select className="crm-status-select" value={newLead.assigned_to} onChange={(e) => setNewLead({ ...newLead, assigned_to: e.target.value })}>
+                    {TEAM_MEMBERS.map((m) => <option key={m} value={m}>{m}</option>)}
+                  </select>
+                </div>
+              </div>
+              <div className="crm-form-row">
+                <label className="crm-field-label">Notes</label>
+                <textarea className="crm-notes-input" rows={3} placeholder="Any initial notes…" value={newLead.notes} onChange={(e) => setNewLead({ ...newLead, notes: e.target.value })} />
+              </div>
+              {addLeadError && <p className="crm-pin-error">{addLeadError}</p>}
+              <div className="crm-modal-actions">
+                <button type="button" className="crm-modal-cancel-btn" onClick={() => setAddLeadModal(false)}>Cancel</button>
+                <button type="submit" className="crm-modal-submit-btn" disabled={addingLead}>
+                  {addingLead ? 'Adding…' : '➕ Add Lead'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ══════════ BULK WHATSAPP MODAL ══════════ */}
+      {bulkModal && (
+        <div className="crm-modal-overlay" onClick={() => setBulkModal(false)}>
+          <div className="crm-modal-box crm-bulk-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="crm-modal-header">
+              <h3>💬 Send WhatsApp to {selectedIds.size} Lead{selectedIds.size > 1 ? 's' : ''}</h3>
+              <button className="crm-modal-close" onClick={() => setBulkModal(false)}>✕</button>
+            </div>
+            <div className="crm-bulk-modal-body">
+              <label className="crm-field-label">Message — paste your Google Meet link or any message</label>
+              <textarea
+                className="crm-notes-input crm-bulk-textarea"
+                rows={5}
+                placeholder={"Hello! 👋 You are invited to join our meeting:\nhttps://meet.google.com/xxx-xxxx-xxx\n\nDate: Tomorrow 10 AM\n— Shraddha Institute Team"}
+                value={bulkMessage}
+                onChange={(e) => setBulkMessage(e.target.value)}
+                autoFocus
+              />
+              <p className="crm-bulk-hint">📲 Click <strong>Open All in WhatsApp</strong> to open WhatsApp for each contact. Allow popups when prompted by your browser. Or send individually below.</p>
+              <div className="crm-bulk-contacts">
+                <strong className="crm-field-label">Selected Contacts ({selectedIds.size}):</strong>
+                {leads.filter((l) => selectedIds.has(l.id)).map((lead) => {
+                  const phone = lead.phone?.replace(/\D/g, '');
+                  return (
+                    <div key={lead.id} className="crm-bulk-contact-row">
+                      <span className="crm-bulk-contact-name">{lead.name}</span>
+                      <span className="crm-bulk-contact-phone">{lead.phone}</span>
+                      <a
+                        href={`https://wa.me/${phone}?text=${encodeURIComponent(bulkMessage)}`}
+                        target="_blank" rel="noreferrer"
+                        className="crm-bulk-individual-btn"
+                      >💬 Send</a>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="crm-modal-actions">
+              <button className="crm-modal-cancel-btn" onClick={() => setBulkModal(false)}>Close</button>
+              <button
+                className="crm-modal-submit-btn"
+                disabled={!bulkMessage.trim()}
+                onClick={handleBulkSend}
+              >
+                🚀 Open All in WhatsApp
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

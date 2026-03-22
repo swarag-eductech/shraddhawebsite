@@ -96,8 +96,12 @@ const TTPLandingPage = () => {
           email: formData.email || null,
           city: formData.city,
           program: formData.program,
-          message: formData.message || null,
-          submitted_at: new Date().toISOString(),
+          notes: formData.message || null,
+          source: 'TTP Landing Page',
+          priority: 'warm',
+          status: 'new',
+          assigned_to: 'Unassigned',
+          created_at: new Date().toISOString(),
         },
       ]);
       if (error) {
