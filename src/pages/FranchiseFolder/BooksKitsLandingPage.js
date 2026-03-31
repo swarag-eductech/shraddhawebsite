@@ -6,7 +6,6 @@ import {
   booksKitsTranslations,
   abacusBooks, vedicBooks,
   abacusPractice, vedicPractice,
-  kitsData,
 } from "./BooksKitsTranslations";
 
 const BooksKitsLandingPage = () => {
@@ -59,10 +58,7 @@ const BooksKitsLandingPage = () => {
     window.open(`https://wa.me/918446889966?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
-  const waOrder = (title) => {
-    const msg = `Hi! I want to order: ${title}\nPlease share details and pricing.`;
-    window.open(`https://wa.me/918446889966?text=${encodeURIComponent(msg)}`, "_blank");
-  };
+
 
   const getBookImageUrl = (book) => {
     const abacusBase = "https://fetvqggubxedatdryesz.supabase.co/storage/v1/object/public/BooksCover/certificate/";
@@ -152,7 +148,7 @@ const BooksKitsLandingPage = () => {
 
   // Shared book card renderer
   const BookCard = ({ book }) => {
-    const candidates = useMemo(() => getBookImageUrlCandidates(book), [book.id]);
+    const candidates = useMemo(() => getBookImageUrlCandidates(book), [book]);
     const [imgUrl, setImgUrl] = useState(candidates[0] || "");
 
     useEffect(() => setImgUrl(candidates[0] || ""), [candidates]);
