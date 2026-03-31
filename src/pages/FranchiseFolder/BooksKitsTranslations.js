@@ -72,8 +72,11 @@ export const booksKitsTranslations = {
     },
     priceLabel: "Price",
     contactForPrice: "Contact for Price",
-    orderBtn: "Order Now",
-    orderPaperBtn: "Order Paper",
+    orderBtn: "Add",
+    orderPaperBtn: "Add",
+    selectedItems: "Selected for Order",
+    checkoutBtn: "Order via WhatsApp",
+    added: "Added",
   },
   hi: {
     hero: {
@@ -113,7 +116,10 @@ export const booksKitsTranslations = {
       { q: "किताबों के साथ वर्कशीट मिलती हैं?", a: "हां, प्रत्येक किताब में एकीकृत वर्कशीट शामिल हैं।" },
     ]},
     contact: { badge: "📞 संपर्क करें", title: "आज ही ऑर्डर दें", sub: "किताबें और किट्स ऑर्डर करने के लिए कॉल या WhatsApp करें।", callBtn: "कॉल करें", waBtn: "WhatsApp ऑर्डर", emailBtn: "ईमेल करें" },
-    priceLabel: "मूल्य", contactForPrice: "मूल्य के लिए संपर्क करें", orderBtn: "अभी ऑर्डर करें", orderPaperBtn: "पेपर ऑर्डर करें",
+    priceLabel: "मूल्य", contactForPrice: "मूल्य के लिए संपर्क करें", orderBtn: "जोड़ें", orderPaperBtn: "जोड़ें",
+    selectedItems: "ऑर्डर के लिए चयनित",
+    checkoutBtn: "WhatsApp के माध्यम से ऑर्डर करें",
+    added: "जोड़ा गया",
   },
   mr: {
     hero: {
@@ -153,7 +159,10 @@ export const booksKitsTranslations = {
       { q: "पुस्तकांसोबत वर्कशीट मिळतात का?", a: "होय, प्रत्येक पुस्तकात एकात्मिक वर्कशीट आहे." },
     ]},
     contact: { badge: "📞 संपर्क करा", title: "आजच ऑर्डर द्या", sub: "पुस्तके आणि किट्स ऑर्डर करण्यासाठी कॉल करा किंवा WhatsApp करा.", callBtn: "कॉल करा", waBtn: "WhatsApp ऑर्डर", emailBtn: "ईमेल करा" },
-    priceLabel: "किंमत", contactForPrice: "किंमतीसाठी संपर्क करा", orderBtn: "आता ऑर्डर करा", orderPaperBtn: "पेपर ऑर्डर करा",
+    priceLabel: "किंमत", contactForPrice: "किंमतीसाठी संपर्क करा", orderBtn: "निवडा", orderPaperBtn: "निवडा",
+    selectedItems: "ऑर्डरसाठी निवडलेले",
+    checkoutBtn: "WhatsApp द्वारे ऑर्डर करा",
+    added: "जोडले",
   },
   kn: {
     hero: {
@@ -193,49 +202,50 @@ export const booksKitsTranslations = {
       { q: "ಪುಸ್ತಕಗಳೊಂದಿಗೆ ವರ್ಕ್‌ಶೀಟ್‌ಗಳು ಬರುತ್ತವೆಯೇ?", a: "ಹೌದು, ಪ್ರತಿ ಪುಸ್ತಕದಲ್ಲಿ ಸಂಯೋಜಿತ ವರ್ಕ್‌ಶೀಟ್‌ಗಳಿವೆ." },
     ]},
     contact: { badge: "📞 ಸಂಪರ್ಕಿಸಿ", title: "ಇಂದೇ ಆರ್ಡರ್ ಮಾಡಿ", sub: "ಪುಸ್ತಕಗಳು ಮತ್ತು ಕಿಟ್‌ಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಲು ಕರೆ ಮಾಡಿ ಅಥವಾ WhatsApp ಮಾಡಿ.", callBtn: "ಈಗ ಕರೆ ಮಾಡಿ", waBtn: "WhatsApp ಆರ್ಡರ್", emailBtn: "ಇಮೇಲ್ ಮಾಡಿ" },
-    priceLabel: "ಬೆಲೆ", contactForPrice: "ಬೆಲೆಗಾಗಿ ಸಂಪರ್ಕಿಸಿ", orderBtn: "ಈಗ ಆರ್ಡರ್ ಮಾಡಿ", orderPaperBtn: "ಪೇಪರ್ ಆರ್ಡರ್ ಮಾಡಿ",
+    priceLabel: "ಬೆಲೆ", contactForPrice: "ಬೆಲೆಗಾಗಿ ಸಂಪರ್ಕಿಸಿ", orderBtn: "ಸೇರಿಸಿ", orderPaperBtn: "ಸೇರಿಸಿ",
+    selectedItems: "ಆರ್ಡರ್‌ಗಾಗಿ ಆಯ್ಕೆಮಾಡಲಾಗಿದೆ",
+    checkoutBtn: "WhatsApp ಮೂಲಕ ಆರ್ಡರ್ ಮಾಡಿ",
+    added: "ಸೇರಿಸಲಾಗಿದೆ",
   },
 };
 
 // ── ABACUS BOOKS ─────────────────────────────────────────────
 export const abacusBooks = [
-  { id: "ukg",    label: "UKG",        color: "#e91e63", emoji: "🌸", titleEn: "Abacus — UKG",        forAge: "Age 4–5",  price: "Contact for Price", descEn: "Pre-number concepts, counting 1–10, bead introduction and basic abacus familiarity.", topics: ["Pre-number concepts", "Counting 1–10", "Bead introduction", "Basic patterns"] },
-  { id: "fnd",    label: "Foundation",  color: "#9c27b0", emoji: "📖", titleEn: "Abacus — Foundation", forAge: "Age 5–6",  price: "Contact for Price", descEn: "Introduction to the abacus tool, Earth and Heaven beads, numbers 1–99 and single-column addition.", topics: ["Earth & Heaven beads", "Numbers 1–99", "Single-column addition", "Abacus basics"] },
-  { id: "j1",     label: "Junior 1",    color: "#ff6b35", emoji: "📙", titleEn: "Abacus — Junior 1",   forAge: "Age 5+",   price: "Contact for Price", descEn: "Two-column addition and subtraction, Small Friend formula introduction.", topics: ["Two-column addition", "Small Friend formula", "Simple subtraction", "Speed drills"] },
-  { id: "j2",     label: "Junior 2",    color: "#f97316", emoji: "📒", titleEn: "Abacus — Junior 2",   forAge: "Age 6+",   price: "Contact for Price", descEn: "Big Friend formula, three-column operations and mixed addition-subtraction drills.", topics: ["Big Friend formula", "Three-column operations", "Mixed drills", "Accuracy practice"] },
-  { id: "j3",     label: "Junior 3",    color: "#eab308", emoji: "📗", titleEn: "Abacus — Junior 3",   forAge: "Age 6+",   price: "Contact for Price", descEn: "Four-column operations, combined Small & Big Friend formulas and speed challenges.", topics: ["Four-column operations", "Combined formulas", "Speed challenges", "Mental warm-ups"] },
-  { id: "j4",     label: "Junior 4",    color: "#22c55e", emoji: "📘", titleEn: "Abacus — Junior 4",   forAge: "Age 7+",   price: "Contact for Price", descEn: "Five-column operations, introduction to multiplication using the abacus.", topics: ["Five-column operations", "Multiplication intro", "Carry-over mastery", "Timed exercises"] },
+  { id: "ukg",    label: "UKG",        color: "#e91e63", emoji: "🌸", titleEn: "Abacus — UKG",        forAge: "Age 4–5",  price: "Contact for Price", descEn: "Counting (1 to 50), draw the beads and count the beads.", topics: ["Counting (1 to 50)", "Draw the beads", "Count the beads"] },
+  { id: "fnd",    label: "Foundation",  color: "#9c27b0", emoji: "📖", titleEn: "Abacus — Foundation", forAge: "Age 5–6",  price: "Contact for Price", descEn: "Introduction, draw the beads, count the beads, direct method (addition & subtraction) for one digit (+) & (-).", topics: ["Introduction", "Draw the beads", "Count the beads", "Direct method (addition & subtraction)", "One digit (+) & (-)"] },
+  { id: "j1",     label: "Junior 1",    color: "#ff6b35", emoji: "📙", titleEn: "Abacus — Junior 1",   forAge: "Age 5+",   price: "Contact for Price", descEn: "Direct method, Big Friend (+), Big Friend (-) using formulas (ex: +9 = +10-1).", topics: ["Direct method", "Big friend(+)", "Big friend(-)", "Using formulas (ex: +9 = +10-1)"] },
+  { id: "j2",     label: "Junior 2",    color: "#f97316", emoji: "📒", titleEn: "Abacus — Junior 2",   forAge: "Age 6+",   price: "Contact for Price", descEn: "s.f (+), Small Friend (-), Family (+), Family (-) for 1-digit & 2-digit (+/-).", topics: ["s.f (+)", "Small friend(-)", "Family(+)", "Family(-)", "1-digit & 2-digit (+/-)"] },
+  { id: "j3",     label: "Junior 3",    color: "#eab308", emoji: "📗", titleEn: "Abacus — Junior 3",   forAge: "Age 6+",   price: "Contact for Price", descEn: "Big Friend (+), Big Friend (-) and 2-digit addition & subtraction.", topics: ["Big friend(+)", "Big friend(-)", "2-digit addition & subtraction"] },
+  { id: "j4",     label: "Junior 4",    color: "#22c55e", emoji: "📘", titleEn: "Abacus — Junior 4",   forAge: "Age 7+",   price: "Contact for Price", descEn: "Small Friend (+), Family addition/subtraction and 2-digit (+) & 2-digit (-).", topics: ["Small friend(+)", "Family addition", "Family(-)", "2-digit (+) & 2-digit (-)"] },
   { id: "s1",     label: "Senior 1",    color: "#0ea5e9", emoji: "📕", titleEn: "Abacus — Senior 1",   forAge: "Age 7+",   price: "Contact for Price", descEn: "Two-digit multiplication, division basics and multi-step problem solving.", topics: ["2-digit multiplication", "Division basics", "Multi-step problems", "Accuracy drills"] },
   { id: "s2",     label: "Senior 2",    color: "#6366f1", emoji: "📓", titleEn: "Abacus — Senior 2",   forAge: "Age 8+",   price: "Contact for Price", descEn: "Three-digit multiplication, long division and decimal number introduction.", topics: ["3-digit multiplication", "Long division", "Decimal intro", "Speed building"] },
-  { id: "s3",     label: "Senior 3",    color: "#8b5cf6", emoji: "📔", titleEn: "Abacus — Senior 3",   forAge: "Age 8+",   price: "Contact for Price", descEn: "Decimal operations, fraction basics and mixed-operation speed training.", topics: ["Decimal operations", "Fraction basics", "Mixed operations", "Speed training"] },
-  { id: "s4",     label: "Senior 4",    color: "#ec4899", emoji: "📒", titleEn: "Abacus — Senior 4",   forAge: "Age 8+",   price: "Contact for Price", descEn: "Large number operations, HCF and LCM using abacus, competition-level drills.", topics: ["Large number ops", "HCF & LCM concepts", "Competition drills", "Error correction"] },
-  { id: "s5",     label: "Senior 5",    color: "#14b8a6", emoji: "📗", titleEn: "Abacus — Senior 5",   forAge: "Age 9+",   price: "Contact for Price", descEn: "Advanced speed training, multi-row addition and intermediate mental abacus.", topics: ["Multi-row addition", "Advanced speed", "Mental abacus intro", "Flash practice"] },
-  { id: "s6",     label: "Senior 6",    color: "#f59e0b", emoji: "📘", titleEn: "Abacus — Senior 6",   forAge: "Age 9+",   price: "Contact for Price", descEn: "Advanced mental abacus techniques, competition-style timed exercises.", topics: ["Advanced mental abacus", "Competition timing", "Timed exercises", "Accuracy mastery"] },
-  { id: "s7",     label: "Senior 7",    color: "#ef4444", emoji: "📕", titleEn: "Abacus — Senior 7",   forAge: "Age 10+",  price: "Contact for Price", descEn: "Full Mental Abacus (Anzan) — all calculations performed purely in the mind.", topics: ["Full Anzan (mental)", "Flash mental math", "Competition prep", "Speed & accuracy mastery"] },
+  { id: "s3",     label: "Senior 3",    color: "#8b5cf6", emoji: "📔", titleEn: "Abacus — Senior 3",   forAge: "Age 8+",   price: "Contact for Price", descEn: "2 * 1 multiplication and 2-digit (+) & (-).", topics: ["2 * 1 multiplication", "2-digit (+) & (-)"] },
+  { id: "s4",     label: "Senior 4",    color: "#ec4899", emoji: "📒", titleEn: "Abacus — Senior 4",   forAge: "Age 8+",   price: "Contact for Price", descEn: "2 * 1 and 3 * 1 multiplication and 2-digit (+) & (-).", topics: ["2 * 1 multiplication", "3 * 1 multiplication", "2-digit (+) & (-)"] },
+  { id: "s5",     label: "Senior 5",    color: "#14b8a6", emoji: "📗", titleEn: "Abacus — Senior 5",   forAge: "Age 9+",   price: "Contact for Price", descEn: "3 * 1 multiplication, 2-digit (+/-), 3-digit (+/-) and 2-digit decimal.", topics: ["3 * 1 multiplication", "2 digit (+) & (-)", "3 digit (+) & (-)", "2 digit decimal"] },
 ];
 
 // ── VEDIC MATH BOOKS ─────────────────────────────────────────
 const vmColors = ["#e11d48","#db2777","#c026d3","#7c3aed","#4f46e5","#2563eb","#0284c7","#0891b2","#059669","#16a34a","#65a30d","#ca8a04","#d97706","#ea580c","#dc2626","#9f1239"];
 const vmEmoji = ["📕","📙","📗","📘","📓","📔","📒","📕","📙","📗","📘","📓","📔","📒","📕","📗"];
 const jr = [
-  { titleEn:"Vedic Math — Junior 1", descEn:"Introduction to Vedic Mathematics — history, 16 Sutras overview and rapid mental addition/subtraction.", topics:["History of Vedic Math","16 Sutras overview","Rapid addition","Mental subtraction"], forAge:"Grade 4+" },
-  { titleEn:"Vedic Math — Junior 2", descEn:"Nikhilam Sutra — lightning-fast multiplication of numbers near base values (10, 100, 1000).", topics:["Nikhilam multiplication","Base 10/100/1000","Squaring near bases","Practice sets"], forAge:"Grade 4+" },
-  { titleEn:"Vedic Math — Junior 3", descEn:"Anurupyena Sutra for proportional multiplication and Ekadhikena Purvena for squaring.", topics:["Anurupyena technique","Proportional multiply","Ekadhikena squaring","Worksheets"], forAge:"Grade 5+" },
-  { titleEn:"Vedic Math — Junior 4", descEn:"Division by Nikhilam and straightforward two-digit divisor techniques.", topics:["Nikhilam division","Two-digit divisors","Remainder shortcut","Accuracy practice"], forAge:"Grade 5+" },
-  { titleEn:"Vedic Math — Junior 5", descEn:"Paravartya Yojayet division, cross-multiplication and number relationship patterns.", topics:["Paravartya division","Cross-multiplication","Number patterns","Speed drills"], forAge:"Grade 5+" },
-  { titleEn:"Vedic Math — Junior 6", descEn:"Squaring and square roots using Duplex (Dvanda) method and digital root verification.", topics:["Duplex squaring","Square roots","Digital root check","Navashesh intro"], forAge:"Grade 6+" },
-  { titleEn:"Vedic Math — Junior 7", descEn:"Cube roots, Vinculum method for simplification and Navashesh verification.", topics:["Cube roots","Vinculum method","Navashesh verification","Simplification tricks"], forAge:"Grade 6+" },
-  { titleEn:"Vedic Math — Junior 8", descEn:"Vedic algebra basics, simultaneous equations and advanced sutra combinations.", topics:["Vedic algebra basics","Simultaneous equations","Sutra combinations","Revision & tests"], forAge:"Grade 6+" },
+  { titleEn:"Vedic Math — Junior 1", descEn:"", topics:[], forAge:"Grade 4+" },
+  { titleEn:"Vedic Math — Junior 2", descEn:"", topics:[], forAge:"Grade 4+" },
+  { titleEn:"Vedic Math — Junior 3", descEn:"", topics:[], forAge:"Grade 4+" },
+  { titleEn:"Vedic Math — Junior 4", descEn:"", topics:[], forAge:"Grade 5+" },
+  { titleEn:"Vedic Math — Junior 5", descEn:"", topics:[], forAge:"Grade 5+" },
+  { titleEn:"Vedic Math — Junior 6", descEn:"", topics:[], forAge:"Grade 6+" },
+  { titleEn:"Vedic Math — Junior 7", descEn:"", topics:[], forAge:"Grade 6+" },
+  { titleEn:"Vedic Math — Junior 8", descEn:"", topics:[], forAge:"Grade 6+" },
 ];
 const sr = [
-  { titleEn:"Vedic Math — Senior 1", descEn:"Deep dive into Nikhilam and Anurupyena for large number multiplication with speed.", topics:["Large number multiply","Speed techniques","Anurupyena advanced","Timed exercises"], forAge:"Grade 7+" },
-  { titleEn:"Vedic Math — Senior 2", descEn:"Advanced division — Dhvajanka (flag method) for multi-digit divisors.", topics:["Dhvajanka method","Multi-digit division","Dividend splitting","Practice sets"], forAge:"Grade 7+" },
-  { titleEn:"Vedic Math — Senior 3", descEn:"Squaring, cubing and higher powers using Vedic sutras for competitive exam prep.", topics:["Advanced squaring","Cubing techniques","Higher powers","Competitive drills"], forAge:"Grade 8+" },
-  { titleEn:"Vedic Math — Senior 4", descEn:"Complete square roots and cube roots — both exact and approximate — with Vedic shortcuts.", topics:["Exact square roots","Approximate roots","Cube root methods","Speed accuracy"], forAge:"Grade 8+" },
-  { titleEn:"Vedic Math — Senior 5", descEn:"Vinculum mastery, Navashesh advanced verification and fraction simplification sutras.", topics:["Vinculum advanced","Navashesh mastery","Fraction sutras","Revision exercises"], forAge:"Grade 8+" },
-  { titleEn:"Vedic Math — Senior 6", descEn:"Algebra using Vedic sutras — solving linear and quadratic equations rapidly.", topics:["Linear equations","Quadratic shortcuts","Vedic algebra","Problems practice"], forAge:"Grade 9+" },
-  { titleEn:"Vedic Math — Senior 7", descEn:"Trigonometry shortcuts, mensuration using Vedic sutras and mixed problem solving.", topics:["Trig shortcuts","Mensuration sutras","Mixed problems","Exam practice"], forAge:"Grade 9+" },
-  { titleEn:"Vedic Math — Senior 8", descEn:"Complete revision, all 16 sutras mastery, mock tests and competition preparation.", topics:["All 16 sutras","Mock test papers","Competition prep","Full revision"], forAge:"Grade 9+" },
+  { titleEn:"Vedic Math — Senior 1", descEn:"", topics:[], forAge:"Grade 7+" },
+  { titleEn:"Vedic Math — Senior 2", descEn:"", topics:[], forAge:"Grade 7+" },
+  { titleEn:"Vedic Math — Senior 3", descEn:"", topics:[], forAge:"Grade 8+" },
+  { titleEn:"Vedic Math — Senior 4", descEn:"", topics:[], forAge:"Grade 8+" },
+  { titleEn:"Vedic Math — Senior 5", descEn:"", topics:[], forAge:"Grade 8+" },
+  { titleEn:"Vedic Math — Senior 6", descEn:"", topics:[], forAge:"Grade 9+" },
+  { titleEn:"Vedic Math — Senior 7", descEn:"", topics:[], forAge:"Grade 9+" },
+  { titleEn:"Vedic Math — Senior 8", descEn:"", topics:[], forAge:"Grade 9+" },
 ];
 export const vedicBooks = [
   ...jr.map((b, i) => ({ ...b, id: `vj${i+1}`, label: `Junior ${i+1}`, color: vmColors[i], emoji: vmEmoji[i], price: "Contact for Price" })),

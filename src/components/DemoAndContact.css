@@ -375,3 +375,128 @@ textarea.form-control {
     padding-top: 700px; /* taller on larger screens */
   }
 }
+
+/* TTP Registration Form Styles (from TTPLandingPage.css) */
+.ttp-reg-form-wrap {
+  background: #fff;
+  border-radius: 24px;
+  padding: 36px 32px;
+  box-shadow: 0 8px 36px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+  margin-top: 1rem;
+}
+
+.ttp-reg-form-wrap h3 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin-bottom: 24px;
+}
+
+.ttp-reg-form { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 16px; 
+}
+
+.ttp-form-group { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 6px; 
+  text-align: left;
+}
+
+.ttp-form-group label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.ttp-form-group input,
+.ttp-form-group select,
+.ttp-form-group textarea {
+  padding: 12px 16px;
+  border: 1.5px solid #e9ecef;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: #333;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: inherit;
+  background: #fafafa;
+}
+
+.ttp-form-group input:focus,
+.ttp-form-group select:focus,
+.ttp-form-group textarea:focus {
+  outline: none;
+  border-color: #ff6600;
+  box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.1);
+  background: #fff;
+}
+
+.ttp-form-group textarea { 
+  resize: vertical; 
+  min-height: 80px; 
+}
+
+.ttp-form-submit {
+  background: linear-gradient(135deg, #ff6600, #e65c00);
+  color: #fff !important;
+  border: none;
+  padding: 15px 28px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 16px rgba(255, 102, 0, 0.35);
+  font-family: inherit;
+  width: 100%;
+}
+
+.ttp-form-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 102, 0, 0.45);
+}
+
+.ttp-form-privacy {
+  font-size: 0.8rem;
+  color: #888;
+  text-align: center;
+  margin: 0;
+  margin-top: 8px;
+}
+
+.ttp-form-error {
+  font-size: 0.88rem;
+  color: #c0392b;
+  background: #fdecea;
+  border: 1px solid #f5c6c6;
+  border-radius: 8px;
+  padding: 10px 14px;
+  text-align: center;
+  margin: 8px 0 4px;
+}
+
+.ttp-form-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.ttp-form-success {
+  background: linear-gradient(135deg, #edfff5, #d4f7e5);
+  border: 1.5px solid #7ed9aa;
+  border-radius: 14px;
+  padding: 28px 24px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1b6b3a;
+}
+
+@media (max-width: 600px) {
+  .ttp-reg-form-wrap {
+    padding: 24px 18px;
+  }
+}
+

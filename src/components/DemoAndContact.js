@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
+import { supabase } from "../supabaseClient";
 import "./DemoAndContact.css";
 
 const DemoAndContact = () => {
   const [studentImg, setStudentImg] = useState(null);
-  const formRef = useRef(null);
 
   // 🔹 Fetch student image from Firestore
   useEffect(() => {
@@ -24,55 +24,67 @@ const DemoAndContact = () => {
     fetchImage();
   }, []);
 
-  // 🔹 Zoho postMessage script
-  useEffect(() => {
-    const handleMessage = (evt) => {
-      if (
-        evt.origin === "https://crm.zoho.com" ||
-        evt.origin === "https://crm.zohopublic.com"
-      ) {
-        const loc_obj = JSON.stringify({
-          origin: window.location.origin,
-          pathname: window.location.pathname,
-          search: window.location.search,
-          hash: window.location.hash,
-        });
-        evt.source.postMessage(
-          "prnt_wnd_pg_lc_rc_frm_prwindow_" + loc_obj,
-          evt.origin
-        );
+  // 🔹 Form State and Logic (Same as TTPLandingPage)
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    city: '',
+    program: 'Abacus Teacher Training',
+    message: ''
+  });
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
+  const [formError, setFormError] = useState('');
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setFormLoading(true);
+    setFormError('');
+    try {
+      const { error } = await supabase.from('ttp_leads').insert([
+        {
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email || null,
+          city: formData.city,
+          status: 'new',
+          source: 'Contact Form',
+        },
+      ]);
+      if (error) {
+        console.error('Supabase insert error details:', error);
+        setFormError('Supabase error: ' + error.message);
+        return;
       }
-    };
 
-    window.addEventListener("message", handleMessage, false);
-    return () => window.removeEventListener("message", handleMessage);
-  }, []);
+      // Send WhatsApp notification to admin
+      const waText = [
+        `🎓 *New TTP Registration*`,
+        `👤 Name: ${formData.name}`,
+        `📞 Phone: ${formData.phone}`,
+        `📧 Email: ${formData.email || 'Not provided'}`,
+        `🏙️ City: ${formData.city}`,
+        `📚 Program: ${formData.program}`,
+        formData.message ? `💬 Message: ${formData.message}` : '',
+      ].filter(Boolean).join('\n');
+      window.open(`https://wa.me/918446889966?text=${encodeURIComponent(waText)}`, '_blank');
 
-  // Reduce Zoho iframe scroll effect by delaying iframe render until after initial page load
-  const [showIframe, setShowIframe] = useState(false);
-  // const formRef = useRef(null); // Removed duplicate declaration
-
-  useEffect(() => {
-    // Delay rendering the iframe to let the rest of the page load and scroll position settle
-    const timeout = setTimeout(() => setShowIframe(true), 700);
-    return () => clearTimeout(timeout);
-  }, []);
-
-  // --- Strongest workaround: forcibly scroll to top after iframe loads ---
-  useEffect(() => {
-    if (!showIframe) return;
-    const iframe = formRef.current;
-    if (!iframe) return;
-    const handleIframeLoad = () => {
-      setTimeout(() => {
-        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-      }, 100);
-    };
-    iframe.addEventListener("load", handleIframeLoad);
-    return () => {
-      iframe.removeEventListener("load", handleIframeLoad);
-    };
-  }, [showIframe]);
+      setFormSubmitted(true);
+      setFormData({ name: '', phone: '', email: '', city: '', program: 'Abacus Teacher Training', message: '' });
+      setTimeout(() => setFormSubmitted(false), 5000);
+    } catch (err) {
+      console.error('Unexpected error details:', err);
+      setFormError('Unexpected error: ' + err.message);
+    } finally {
+      setFormLoading(false);
+    }
+  };
 
   return (
     <section className="demo-contact-section" id="contact-demo">
@@ -87,19 +99,86 @@ const DemoAndContact = () => {
           </p>
         </div>
 
-        {/* Zoho iframe form (delayed render) */}
-        {showIframe && (
-          <iframe
-            ref={formRef}
-            height='500px'
-            width='100%'
-            frameBorder='0'
-            allowTransparency='true'
-             scrolling='no'
-            title="DemoAndContact Map" // Add a unique title property
-            src='https://creatorapp.zohopublic.com/shraddha_institute/testing-app/form-embed/Contact_Us/CyTAXzPxdC1SJEGp2eCp7dvDW2m1YHt1JwPFV5n2NrUSgj0JKNdOTCsqDUSZrn2mHsZYRDv61w57k8DZkwXn3gONRXttjFfmKzaW'
-          ></iframe>
-        )}
+        <div className="ttp-reg-form-wrap">
+
+          {formSubmitted ? (
+            <div className="ttp-form-success">
+              ✅ Thank you! We'll contact you within 24 hours.
+            </div>
+          ) : (
+            <form className="ttp-reg-form" onSubmit={handleFormSubmit}>
+              <div className="ttp-form-group">
+                <label>Full Name *</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleFormChange}
+                  placeholder="Enter your name"
+                  required
+                />
+              </div>
+              <div className="ttp-form-group">
+                <label>Phone Number *</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleFormChange}
+                  placeholder="Enter phone number"
+                  required
+                />
+              </div>
+              <div className="ttp-form-group">
+                <label>Email Address</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleFormChange}
+                  placeholder="Enter email address"
+                />
+              </div>
+              <div className="ttp-form-group">
+                <label>City *</label>
+                <input
+                  type="text"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleFormChange}
+                  placeholder="Enter your city"
+                  required
+                />
+              </div>
+              <div className="ttp-form-group">
+                <label>Interested Program *</label>
+                <select name="program" value={formData.program} onChange={handleFormChange}>
+                  <option value="Abacus Teacher Training">Abacus Teacher Training</option>
+                  <option value="Vedic Math Teacher Training">Vedic Math Teacher Training</option>
+                  <option value="Both Abacus & Vedic Math">Both Abacus &amp; Vedic Math</option>
+                  <option value="Franchise Opportunity">Franchise Opportunity</option>
+                </select>
+              </div>
+              <div className="ttp-form-group">
+                <label>Message (Optional)</label>
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleFormChange}
+                  placeholder="Any questions or comments..."
+                  rows="3"
+                />
+              </div>
+              <button type="submit" className="ttp-form-submit" disabled={formLoading}>
+                {formLoading ? "⏳ Submitting..." : "📝 Submit Registration"}
+              </button>
+              {formError && (
+                <p className="ttp-form-error">⚠️ {formError}</p>
+              )}
+              <p className="ttp-form-privacy">🔒 Your information is 100% safe.</p>
+            </form>
+          )}
+        </div>
       </div>
 
       {/* Free Demo (Right) */}
@@ -126,9 +205,9 @@ const DemoAndContact = () => {
                   srcSet={studentImg.replace(/\.png$/, '.webp')}
                   type="image/webp"
                 />
-                <img 
-                  src={studentImg} 
-                  alt="Happy students learning" 
+                <img
+                  src={studentImg}
+                  alt="Happy students learning"
                   width={180}
                   height={180}
                   loading="lazy"
@@ -154,3 +233,4 @@ const DemoAndContact = () => {
 };
 
 export default DemoAndContact;
+

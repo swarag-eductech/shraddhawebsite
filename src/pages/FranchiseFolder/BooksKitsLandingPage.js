@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet";
 import { FaWhatsapp, FaPhone, FaEnvelope, FaArrowRight, FaCheckCircle, FaBookOpen, FaStar, FaShoppingCart, FaFileAlt } from "react-icons/fa";
 import "./BooksKitsLandingPage.css";
@@ -14,6 +14,7 @@ const BooksKitsLandingPage = () => {
   const [activeSection, setActiveSection] = useState("abacus");
   const [openFaq, setOpenFaq] = useState(null);
   const [vedicFilter, setVedicFilter] = useState("junior"); // 'junior' | 'senior'
+  const [cart, setCart] = useState({});
 
   const t = (section, key) =>
     booksKitsTranslations[lang]?.[section]?.[key] ||
@@ -33,9 +34,115 @@ const BooksKitsLandingPage = () => {
   }, []);
 
   const changeLang = (l) => { setLang(l); localStorage.setItem("bk_lang", l); };
+
+  const updateQty = (id, delta, title) => {
+    setCart(prev => {
+      const current = prev[id]?.qty || 0;
+      const next = Math.max(0, current + delta);
+      if (next === 0) {
+        const { [id]: _, ...rest } = prev;
+        return rest;
+      }
+      return { ...prev, [id]: { qty: next, title } };
+    });
+  };
+
+  const totalItems = Object.values(cart).reduce((acc, item) => acc + item.qty, 0);
+
+  const checkoutWA = () => {
+    if (totalItems === 0) return;
+    let msg = `Hi Shraddha Institute! I want to order the following:\n\n`;
+    Object.values(cart).forEach(item => {
+      msg += `• ${item.title} (Qty: ${item.qty})\n`;
+    });
+    msg += `\nPlease share total pricing and payment details.`;
+    window.open(`https://wa.me/918446889966?text=${encodeURIComponent(msg)}`, "_blank");
+  };
+
   const waOrder = (title) => {
     const msg = `Hi! I want to order: ${title}\nPlease share details and pricing.`;
     window.open(`https://wa.me/918446889966?text=${encodeURIComponent(msg)}`, "_blank");
+  };
+
+  const getBookImageUrl = (book) => {
+    const abacusBase = "https://fetvqggubxedatdryesz.supabase.co/storage/v1/object/public/BooksCover/certificate/";
+    const vedicBase = "https://fetvqggubxedatdryesz.supabase.co/storage/v1/object/public/BooksCover/vedic%20math/";
+    const toAbacusUrl = (filename) => `${abacusBase}${encodeURIComponent(filename)}`;
+    const toVedicUrl = (filename) => `${vedicBase}${encodeURIComponent(filename)}`;
+    if (!book?.id) return null;
+
+    const abacusMap = {
+      ukg: "UKG.jpeg",
+      fnd: "Foundation.jpeg",
+      j1: "Abacus junior level 1.jpeg",
+      j2: "Abacus junior level 2.jpeg",
+      j3: "Abacus junior level 3.jpeg",
+      j4: "Abacus junior level 4.jpeg",
+      s1: "abacus senior level 1.jpeg",
+      s2: "abacus senior level 2.jpeg",
+      s3: "abacus senior level 3.jpeg",
+      s4: "abacus senior level 4.jpeg",
+      s5: "abacus senior level 5.jpeg",
+      s6: "abacus  senior level 6.jpeg", // intentional exact key
+      s7: "abacus senior level 7.jpeg",
+    };
+
+    const vedicMap = {
+      vj1: "vedic math junior level 1.jpeg",
+      vj2: "vedic math junior level 2.jpeg",
+      vj3: "vedic math junior level 3.jpeg",
+      vj4: "vedic math junior level 4.jpeg",
+      vj5: "vedic math.jpeg", // common cover for Junior 5-8
+      vj6: "vedic math.jpeg",
+      vj7: "vedic math.jpeg",
+      vj8: "vedic math.jpeg",
+      vs1: "vedic math senior level 1.jpeg",
+      vs2: "vedic math senior level 2.jpeg",
+      vs3: "vedic senior level 3.jpeg",
+      vs4: "vedic math senior  level 4.jpeg", // double-space exact overlap as requested
+      vs5: "vedic math.jpeg", // common cover for Senior 5-7
+      vs6: "vedic math.jpeg",
+      vs7: "vedic math.jpeg",
+      vs8: "vedic math.jpeg",
+    };
+
+    if (abacusMap[book.id]) {
+      return toAbacusUrl(abacusMap[book.id]);
+    }
+
+    if (vedicMap[book.id]) {
+      return toVedicUrl(vedicMap[book.id]);
+    }
+
+    return null;
+  };
+
+  const getBookImageUrlCandidates = (book) => {
+    const primary = getBookImageUrl(book);
+    if (!primary) return [];
+
+    const candidates = [primary];
+
+    if (primary.match(/abacus%20junior%20level%20(\d+)\.jpeg$/i)) {
+      candidates.push(primary.replace(/abacus%20junior%20level%20(\d+)\.jpeg$/i, "Abacus%20junior%20level%20$1.jpeg"));
+      candidates.push(primary.replace(/Abacus%20junior%20level%20(\d+)\.jpeg$/i, "abacus%20junior%20level%20$1.jpeg"));
+    }
+
+    if (primary.includes("abacus%20senior%20level%20")) {
+      candidates.push(primary.replace(/abacus%20senior%20level%20(\d+)\.jpeg$/i, "abacus%20senior%20%20level%20$1.jpeg"));
+    }
+    if (primary.includes("abacus%20senior%20%20level%20")) {
+      candidates.push(primary.replace(/abacus%20senior%20%20level%20(\d+)\.jpeg$/i, "abacus%20senior%20level%20$1.jpeg"));
+    }
+
+    if (primary.includes("vedic%20math%20senior%20level%20")) {
+      candidates.push(primary.replace(/vedic%20math%20senior%20level%20(\d+)\.jpeg$/i, "vedic%20math%20senior%20%20level%20$1.jpeg"));
+    }
+    if (primary.includes("vedic%20math%20senior%20%20level%20")) {
+      candidates.push(primary.replace(/vedic%20math%20senior%20%20level%20(\d+)\.jpeg$/i, "vedic%20math%20senior%20level%20$1.jpeg"));
+    }
+
+    return [...new Set(candidates)];
   };
 
   const faqs = booksKitsTranslations[lang]?.faq?.list || booksKitsTranslations["en"].faq.list;
@@ -44,15 +151,35 @@ const BooksKitsLandingPage = () => {
   const displayedVedic = vedicFilter === "junior" ? juniorBooks : seniorBooks;
 
   // Shared book card renderer
-  const BookCard = ({ book }) => (
-    <div className="bk-book-card" style={{ "--accent": book.color }}>
-      <div className="bk-book-header" style={{ background: `linear-gradient(135deg, ${book.color}22 0%, ${book.color}0d 100%)` }}>
-        <div className="bk-book-level-badge" style={{ background: book.color }}>{book.label}</div>
-        <div className="bk-book-emoji">{book.emoji}</div>
-        <div className="bk-book-age-badge">{book.forAge}</div>
-      </div>
-      <div className="bk-book-body">
-        <h3 className="bk-book-title">{book.titleEn}</h3>
+  const BookCard = ({ book }) => {
+    const candidates = useMemo(() => getBookImageUrlCandidates(book), [book.id]);
+    const [imgUrl, setImgUrl] = useState(candidates[0] || "");
+
+    useEffect(() => setImgUrl(candidates[0] || ""), [candidates]);
+
+    return (
+      <div className="bk-book-card" style={{ "--accent": book.color }}>
+        <div className="bk-book-header" style={{ background: `linear-gradient(135deg, ${book.color}22 0%, ${book.color}0d 100%)` }}>
+          <div className="bk-book-level-badge" style={{ background: book.color }}>{book.label}</div>
+          <div className="bk-book-emoji">{book.emoji}</div>
+          <div className="bk-book-age-badge">{book.forAge}</div>
+        </div>
+        <div className="bk-book-body">
+          {imgUrl && (
+            <img
+              src={imgUrl}
+              alt={book.titleEn}
+              style={{ width: "100%", height: "180px", objectFit: "contain", marginBottom: "10px", borderRadius: "8px", border: "1px solid #e5e7eb" }}
+              loading="lazy"
+              onError={() => {
+                const currentIndex = candidates.indexOf(imgUrl);
+                if (currentIndex >= 0 && currentIndex < candidates.length - 1) {
+                  setImgUrl(candidates[currentIndex + 1]);
+                }
+              }}
+            />
+          )}
+          <h3 className="bk-book-title">{book.titleEn}</h3>
         <p className="bk-book-desc">{book.descEn}</p>
         <ul className="bk-book-topics">
           {book.topics.map((tp, i) => (
@@ -60,26 +187,43 @@ const BooksKitsLandingPage = () => {
           ))}
         </ul>
         <div className="bk-book-footer">
-          <span className="bk-book-price" style={{ color: book.color }}>
-            {book.price === "Contact for Price" ? t("", "contactForPrice") || "Contact for Price" : book.price}
-          </span>
-          <button className="bk-order-btn" onClick={() => waOrder(book.titleEn)}>
-            <FaShoppingCart className="me-2" /> {t("","orderBtn") || "Order Now"}
-          </button>
+          <div className="bk-qty-selector">
+            <button className="bk-qty-btn" onClick={() => updateQty(book.id, -1, book.titleEn)}>−</button>
+            <span className="bk-qty-num">{cart[book.id]?.qty || 0}</span>
+            <button className="bk-qty-btn" onClick={() => updateQty(book.id, 1, book.titleEn)}>+</button>
+          </div>
+          {!(cart[book.id]?.qty > 0) ? (
+            <button className="bk-order-btn" style={{ background: book.color }} onClick={() => updateQty(book.id, 1, book.titleEn)}>
+              <FaShoppingCart className="me-2" /> {t("","orderBtn") || "Add"}
+            </button>
+          ) : (
+            <div className="bk-added-badge" style={{ color: book.color, fontWeight: "bold", fontSize: "0.85rem" }}>
+              <FaCheckCircle className="me-1" /> Added
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
+};
 
   // Practice paper card renderer
   const PaperCard = ({ paper }) => (
     <div className="bk-paper-card" style={{ "--accent": paper.color }}>
       <div className="bk-paper-badge" style={{ background: paper.color }}>{paper.label}</div>
       <FaFileAlt className="bk-paper-icon" style={{ color: paper.color }} />
-      <p className="bk-paper-desc">{paper.descEn}</p>
-      <button className="bk-paper-btn" style={{ "--bc": paper.color }} onClick={() => waOrder(`Practice Paper — ${paper.label}`)}>
-        {t("","orderPaperBtn") || "Order Paper"}
-      </button>
+      <div className="bk-paper-footer" style={{ marginTop: "15px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px" }}>
+        <div className="bk-qty-selector">
+          <button className="bk-qty-btn" onClick={() => updateQty(paper.id, -1, `Paper: ${paper.label}`)}>−</button>
+          <span className="bk-qty-num">{cart[paper.id]?.qty || 0}</span>
+          <button className="bk-qty-btn" onClick={() => updateQty(paper.id, 1, `Paper: ${paper.label}`)}>+</button>
+        </div>
+        {!(cart[paper.id]?.qty > 0) && (
+          <button className="bk-paper-btn" style={{ "--bc": paper.color, padding: "8px 15px", fontSize: "0.8rem" }} onClick={() => updateQty(paper.id, 1, `Paper: ${paper.label}`)}>
+            {t("","orderPaperBtn") || "Add"}
+          </button>
+        )}
+      </div>
     </div>
   );
 
@@ -87,7 +231,6 @@ const BooksKitsLandingPage = () => {
     { key: "abacus",   icon: "🔢" },
     { key: "vedic",    icon: "🧮" },
     { key: "practice", icon: "📝" },
-    { key: "kits",     icon: "📦" },
   ];
 
   return (
@@ -102,7 +245,7 @@ const BooksKitsLandingPage = () => {
         <div className="bk-top-bar">
           <div className="bk-top-bar-inner">
             <span className="bk-top-badge"><FaStar className="bk-star-icon" /> {t("hero","badge")}</span>
-            <span className="bk-top-text">🚚 Pan-India Delivery &nbsp;|&nbsp; 📞 8446889966</span>
+          <span className="bk-top-text">🚚 Pan-India Delivery &nbsp;|&nbsp; 📞 8446889966 &nbsp;|&nbsp; ✅ Official Materials</span>
           </div>
           <select className="bk-lang-select" value={lang} onChange={e => changeLang(e.target.value)} aria-label="Select language">
             <option value="en">English</option>
@@ -114,25 +257,66 @@ const BooksKitsLandingPage = () => {
 
         {/* ── Hero ── */}
         <section className="bk-hero">
+          {/* Animated background shapes */}
           <div className="bk-hero-bg-shapes">
-            <div className="bk-shape bk-shape-1" /><div className="bk-shape bk-shape-2" /><div className="bk-shape bk-shape-3" />
+            <div className="bk-shape bk-shape-1" />
+            <div className="bk-shape bk-shape-2" />
+            <div className="bk-shape bk-shape-3" />
+            <div className="bk-shape bk-shape-4" />
           </div>
+
+          {/* Floating delivery/trust strip (single attractive badge) */}
+          <div className="bk-hero-trust-strip">
+            <div className="bk-trust-item">
+              <span className="bk-trust-dot bk-dot-blue" />
+              ✅ Official Materials · 🚚 Pan-India Delivery · 📞 8446889966
+            </div>
+          </div>
+
           <div className="bk-hero-content">
+            {/* ─── LEFT: Text ─── */}
             <div className="bk-hero-text">
               <span className="bk-hero-pill">📚 Official Store</span>
+
               <h1 className="bk-hero-title">
-                {t("hero","title")} <span className="bk-hero-gradient">{t("hero","titleHighlight")}</span>
+                {t("hero","title")}<br />
+                <span className="bk-hero-gradient">{t("hero","titleHighlight")}</span>
               </h1>
               <p className="bk-hero-subtitle">{t("hero","subtitle")}</p>
-              <div className="bk-hero-stats">
-                <div className="bk-stat"><span className="bk-stat-num">13</span><span className="bk-stat-label">Abacus Books</span></div>
-                <div className="bk-stat-sep" />
-                <div className="bk-stat"><span className="bk-stat-num">16</span><span className="bk-stat-label">Vedic Math Books</span></div>
-                <div className="bk-stat-sep" />
-                <div className="bk-stat"><span className="bk-stat-num">18</span><span className="bk-stat-label">Practice Papers</span></div>
-                <div className="bk-stat-sep" />
-                <div className="bk-stat"><span className="bk-stat-num">600+</span><span className="bk-stat-label">Centers</span></div>
+
+              {/* Stat cards */}
+              <div className="bk-hero-stats-grid">
+                <div className="bk-stat-card">
+                  <div className="bk-stat-icon" style={{ background: "linear-gradient(135deg,#ff6b35,#f97316)" }}>🔢</div>
+                  <div>
+                    <span className="bk-stat-num">13</span>
+                    <span className="bk-stat-label">Abacus Books</span>
+                  </div>
+                </div>
+                <div className="bk-stat-card">
+                  <div className="bk-stat-icon" style={{ background: "linear-gradient(135deg,#c026d3,#7c3aed)" }}>🧮</div>
+                  <div>
+                    <span className="bk-stat-num">16</span>
+                    <span className="bk-stat-label">Vedic Math Books</span>
+                  </div>
+                </div>
+                <div className="bk-stat-card">
+                  <div className="bk-stat-icon" style={{ background: "linear-gradient(135deg,#2563eb,#0ea5e9)" }}>📝</div>
+                  <div>
+                    <span className="bk-stat-num">18</span>
+                    <span className="bk-stat-label">Practice Papers</span>
+                  </div>
+                </div>
+                <div className="bk-stat-card">
+                  <div className="bk-stat-icon" style={{ background: "linear-gradient(135deg,#22c55e,#16a34a)" }}>🏫</div>
+                  <div>
+                    <span className="bk-stat-num">600+</span>
+                    <span className="bk-stat-label">Centers</span>
+                  </div>
+                </div>
               </div>
+
+              {/* CTA buttons */}
               <div className="bk-hero-cta">
                 <button className="bk-btn-primary" onClick={() => document.getElementById("bk-books").scrollIntoView({ behavior:"smooth" })}>
                   {t("hero","ctaOrder")} <FaArrowRight className="ms-2" />
@@ -142,17 +326,26 @@ const BooksKitsLandingPage = () => {
                 </a>
               </div>
             </div>
+
+            {/* ─── RIGHT: Visual ─── */}
             <div className="bk-hero-visual">
+              <div className="bk-visual-center-ring" />
               <div className="bk-books-stack">
                 {[
-                  { color:"#ff6b35", label:"Abacus Junior",  delay:"0s"   },
-                  { color:"#22c55e", label:"Abacus Senior",  delay:"0.2s" },
-                  { color:"#c026d3", label:"Vedic Junior",   delay:"0.4s" },
-                  { color:"#2563eb", label:"Vedic Senior",   delay:"0.6s" },
+                  { color:"#ff6b35", bg:"linear-gradient(135deg,#fff5f0,#ffe8d6)", label:"Abacus Junior",  sub:"UKG · Foundation · Jr 1–4", icon:"🔢", delay:"0s"   },
+                  { color:"#22c55e", bg:"linear-gradient(135deg,#f0fdf4,#dcfce7)", label:"Abacus Senior",  sub:"Senior 1–7 levels",         icon:"🏆", delay:"0.15s" },
+                  { color:"#c026d3", bg:"linear-gradient(135deg,#fdf4ff,#f5d0fe)", label:"Vedic Junior",   sub:"Junior 1–8 levels",          icon:"🧮", delay:"0.3s"  },
+                  { color:"#2563eb", bg:"linear-gradient(135deg,#eff6ff,#dbeafe)", label:"Vedic Senior",   sub:"Senior 1–8 levels",          icon:"📐", delay:"0.45s" },
                 ].map((b,i) => (
-                  <div key={i} className="bk-book-card-visual" style={{ "--bc": b.color, "--bd": b.delay }}>
-                    <FaBookOpen className="bk-book-icon-vis" />
-                    <span>{b.label}</span>
+                  <div key={i} className="bk-book-card-visual" style={{ "--bc": b.color, "--bd": b.delay, background: b.bg }}>
+                    <div className="bk-vis-icon-wrap" style={{ background: b.color }}>
+                      <span className="bk-vis-emoji">{b.icon}</span>
+                    </div>
+                    <div className="bk-vis-text">
+                      <span className="bk-vis-label" style={{ color: b.color }}>{b.label}</span>
+                      <span className="bk-vis-sub">{b.sub}</span>
+                    </div>
+                    <FaBookOpen className="bk-vis-decor" style={{ color: b.color }} />
                   </div>
                 ))}
               </div>
@@ -243,41 +436,7 @@ const BooksKitsLandingPage = () => {
           </section>
         )}
 
-        {/* ══ KITS ══ */}
-        {activeSection === "kits" && (
-          <section className="bk-books-section">
-            <div className="bk-container">
-              <div className="bk-section-header">
-                <span className="bk-sec-badge">{t("kitsSection","badge")}</span>
-                <h2 className="bk-sec-title">{t("kitsSection","title")} <span className="bk-title-grad">{t("kitsSection","titleHighlight")}</span></h2>
-                <p className="bk-sec-sub">{t("kitsSection","sub")}</p>
-              </div>
-              <div className="bk-kits-grid">
-                {kitsData.map(kit => (
-                  <div key={kit.id} className="bk-kit-card" style={{ "--accent": kit.color }}>
-                    {kit.badge && <div className="bk-kit-badge" style={{ background: kit.color }}>{kit.badge}</div>}
-                    <div className="bk-kit-icon-wrap" style={{ background: `${kit.color}18` }}>
-                      <span className="bk-kit-emoji">{kit.emoji}</span>
-                    </div>
-                    <h3 className="bk-kit-title">{kit.titleEn}</h3>
-                    <p className="bk-kit-desc">{kit.descEn}</p>
-                    <ul className="bk-kit-includes">
-                      {kit.includes.map((item,i) => <li key={i}><FaCheckCircle style={{ color:kit.color }} className="bk-kit-check" /> {item}</li>)}
-                    </ul>
-                    <div className="bk-kit-footer">
-                      <span className="bk-kit-price" style={{ color:kit.color }}>
-                        {kit.price === "Contact for Price" ? t("","contactForPrice") || "Contact for Price" : kit.price}
-                      </span>
-                      <button className="bk-order-btn" onClick={() => waOrder(kit.titleEn)}>
-                        <FaShoppingCart className="me-2" /> {t("","orderBtn") || "Order Now"}
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
+
 
         {/* ── How to Order ── */}
         <section className="bk-order-section">
@@ -340,6 +499,19 @@ const BooksKitsLandingPage = () => {
             </div>
           </div>
         </section>
+
+        {/* ── Cart Bar ── */}
+        {totalItems > 0 && (
+          <div className="bk-cart-bar">
+            <div className="bk-cart-info">
+              <span className="bk-cart-count">{totalItems} {totalItems === 1 ? "Item" : "Items"}</span>
+              <span className="bk-cart-label">{t("","selectedItems") || "Selected for Order"}</span>
+            </div>
+            <button className="bk-cart-order-btn" onClick={checkoutWA}>
+              <FaWhatsapp style={{ fontSize: "1.2rem" }} /> {t("","checkoutBtn") || "Order via WhatsApp"}
+            </button>
+          </div>
+        )}
       </div>
     </>
   );
