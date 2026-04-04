@@ -239,9 +239,25 @@ const BooksKitsLandingPage = () => {
       <div className="bk-page">
         {/* ── Top Bar ── */}
         <div className="bk-top-bar">
-          <div className="bk-top-bar-inner">
-            <span className="bk-top-badge"><FaStar className="bk-star-icon" /> {t("hero","badge")}</span>
-          <span className="bk-top-text">🚚 Pan-India Delivery &nbsp;|&nbsp; 📞 8446889966 &nbsp;|&nbsp; ✅ Official Materials</span>
+          <div className="bk-ticker-wrap">
+            <div className="bk-ticker-track">
+              {[0,1].map(i => (
+                <div className="bk-ticker-items" key={i} aria-hidden={i === 1}>
+                 
+                  <span className="bk-ticker-sep">•</span>
+                  <span className="bk-top-text">🚚 Pan-India Delivery</span>
+                  <span className="bk-ticker-sep">•</span>
+                  <span className="bk-top-text">📞 8446889966</span>
+                  <span className="bk-ticker-sep">•</span>
+                  <span className="bk-top-text">✅ Official Materials</span>
+                  <span className="bk-ticker-sep">•</span>
+                  <span className="bk-top-text">🏫 600+ Centers Across India</span>
+                  <span className="bk-ticker-sep">•</span>
+                  <span className="bk-top-text">📚 Abacus &amp; Vedic Math Books</span>
+                  <span className="bk-ticker-sep">•</span>
+                </div>
+              ))}
+            </div>
           </div>
           <select className="bk-lang-select" value={lang} onChange={e => changeLang(e.target.value)} aria-label="Select language">
             <option value="en">English</option>
@@ -259,14 +275,6 @@ const BooksKitsLandingPage = () => {
             <div className="bk-shape bk-shape-2" />
             <div className="bk-shape bk-shape-3" />
             <div className="bk-shape bk-shape-4" />
-          </div>
-
-          {/* Floating delivery/trust strip (single attractive badge) */}
-          <div className="bk-hero-trust-strip">
-            <div className="bk-trust-item">
-              <span className="bk-trust-dot bk-dot-blue" />
-              ✅ Official Materials · 🚚 Pan-India Delivery · 📞 8446889966
-            </div>
           </div>
 
           <div className="bk-hero-content">
@@ -325,26 +333,11 @@ const BooksKitsLandingPage = () => {
 
             {/* ─── RIGHT: Visual ─── */}
             <div className="bk-hero-visual">
-              <div className="bk-visual-center-ring" />
-              <div className="bk-books-stack">
-                {[
-                  { color:"#ff6b35", bg:"linear-gradient(135deg,#fff5f0,#ffe8d6)", label:"Abacus Junior",  sub:"UKG · Foundation · Jr 1–4", icon:"🔢", delay:"0s"   },
-                  { color:"#22c55e", bg:"linear-gradient(135deg,#f0fdf4,#dcfce7)", label:"Abacus Senior",  sub:"Senior 1–7 levels",         icon:"🏆", delay:"0.15s" },
-                  { color:"#c026d3", bg:"linear-gradient(135deg,#fdf4ff,#f5d0fe)", label:"Vedic Junior",   sub:"Junior 1–8 levels",          icon:"🧮", delay:"0.3s"  },
-                  { color:"#2563eb", bg:"linear-gradient(135deg,#eff6ff,#dbeafe)", label:"Vedic Senior",   sub:"Senior 1–8 levels",          icon:"📐", delay:"0.45s" },
-                ].map((b,i) => (
-                  <div key={i} className="bk-book-card-visual" style={{ "--bc": b.color, "--bd": b.delay, background: b.bg }}>
-                    <div className="bk-vis-icon-wrap" style={{ background: b.color }}>
-                      <span className="bk-vis-emoji">{b.icon}</span>
-                    </div>
-                    <div className="bk-vis-text">
-                      <span className="bk-vis-label" style={{ color: b.color }}>{b.label}</span>
-                      <span className="bk-vis-sub">{b.sub}</span>
-                    </div>
-                    <FaBookOpen className="bk-vis-decor" style={{ color: b.color }} />
-                  </div>
-                ))}
-              </div>
+              <img
+                src="https://res.cloudinary.com/dhix1afuq/image/upload/v1775287342/newbookkit2_j6cfwl.png"
+                alt="Shraddha Institute Books & Kits"
+                className="bk-hero-img"
+              />
             </div>
           </div>
         </section>

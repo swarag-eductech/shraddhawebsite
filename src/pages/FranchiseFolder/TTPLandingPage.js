@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { createClient } from '@supabase/supabase-js';
+import { supabase as supabaseClient } from '../../supabaseClient';
 import {
   FaCertificate,
   FaHandsHelping,
@@ -18,10 +18,7 @@ import {
 import "./TTPLandingPage.css";
 import { ttpTranslations } from "./TTPLandingPageTranslations";
 
-const supabaseClient = createClient(
-  'https://hmoodwzpkwblbymzpmxx.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhtb29kd3pwa3dibGJ5bXpwbXh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxMDYyMTksImV4cCI6MjA4ODY4MjIxOX0.qMY6NY-BeqsrudAK0SwNcQttPBMdLQmv6PGcDUcfOaY'
-);
+
 
 const BOOK_SLIDES = [
   { src: 'https://res.cloudinary.com/dhix1afuq/image/upload/v1773573436/Abacus_Foundation_aa0xej.jpg', alt: 'Abacus Foundation' },
@@ -89,19 +86,16 @@ const TTPLandingPage = () => {
     setFormLoading(true);
     setFormError('');
     try {
-      const { error } = await supabaseClient.from('leads').insert([
+      const { error } = await supabaseClient.from('ttp_leads').insert([
         {
           name: formData.name,
           phone: formData.phone,
           email: formData.email || null,
           city: formData.city,
-          program: formData.program,
-          notes: formData.message || null,
+          lead_program: 'ttp_teacher_training',
+          campaign_name: formData.program,
           source: 'TTP Landing Page',
-          priority: 'warm',
           status: 'new',
-          assigned_to: 'Unassigned',
-          created_at: new Date().toISOString(),
         },
       ]);
       if (error) {
