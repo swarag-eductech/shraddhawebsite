@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { supabase as supabaseClient } from '../../supabaseClient';
+import { supabase } from '../../supabaseClient';
 import {
   FaCertificate,
   FaHandsHelping,
@@ -86,16 +86,14 @@ const TTPLandingPage = () => {
     setFormLoading(true);
     setFormError('');
     try {
-      const { error } = await supabaseClient.from('ttp_leads').insert([
+      const { error } = await supabase.from('ttp_leads').insert([
         {
           name: formData.name,
           phone: formData.phone,
           email: formData.email || null,
           city: formData.city,
-          lead_program: 'ttp_teacher_training',
-          campaign_name: formData.program,
-          source: 'TTP Landing Page',
           status: 'new',
+          source: 'TTP Landing Page',
         },
       ]);
       if (error) {
