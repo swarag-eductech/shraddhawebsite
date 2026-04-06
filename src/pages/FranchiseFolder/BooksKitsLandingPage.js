@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet";
-import { FaWhatsapp, FaPhone, FaEnvelope, FaArrowRight, FaCheckCircle, FaBookOpen, FaStar, FaShoppingCart, FaFileAlt } from "react-icons/fa";
+import { FaWhatsapp, FaPhone, FaEnvelope, FaArrowRight, FaCheckCircle, FaShoppingCart, FaFileAlt } from "react-icons/fa";
 import "./BooksKitsLandingPage.css";
 import {
   booksKitsTranslations,
