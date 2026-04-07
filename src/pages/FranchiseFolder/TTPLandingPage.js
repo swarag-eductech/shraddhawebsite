@@ -92,6 +92,7 @@ const TTPLandingPage = () => {
           phone: formData.phone,
           email: formData.email || null,
           city: formData.city,
+          program: formData.program,
           status: 'new',
           source: 'TTP Landing Page',
         },

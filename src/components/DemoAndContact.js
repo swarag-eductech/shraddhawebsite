@@ -30,7 +30,7 @@ const DemoAndContact = () => {
     phone: '',
     email: '',
     city: '',
-    program: 'Abacus Teacher Training',
+    program: 'Abacus Course',
     message: ''
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -53,8 +53,9 @@ const DemoAndContact = () => {
           phone: formData.phone,
           email: formData.email || null,
           city: formData.city,
+          program: formData.program,
           status: 'new',
-          source: 'Contact Form',
+          source: 'Website Contact Form',
         },
       ]);
       if (error) {
@@ -76,7 +77,7 @@ const DemoAndContact = () => {
       window.open(`https://wa.me/918446889966?text=${encodeURIComponent(waText)}`, '_blank');
 
       setFormSubmitted(true);
-      setFormData({ name: '', phone: '', email: '', city: '', program: 'Abacus Teacher Training', message: '' });
+      setFormData({ name: '', phone: '', email: '', city: '', program: 'Abacus Course', message: '' });
       setTimeout(() => setFormSubmitted(false), 5000);
     } catch (err) {
       console.error('Unexpected error details:', err);
@@ -153,10 +154,10 @@ const DemoAndContact = () => {
               <div className="ttp-form-group">
                 <label>Interested Program *</label>
                 <select name="program" value={formData.program} onChange={handleFormChange}>
-                  <option value="Abacus Teacher Training">Abacus Teacher Training</option>
-                  <option value="Vedic Math Teacher Training">Vedic Math Teacher Training</option>
-                  <option value="Both Abacus & Vedic Math">Both Abacus &amp; Vedic Math</option>
-                  <option value="Franchise Opportunity">Franchise Opportunity</option>
+                  <option value="Abacus Course">Abacus Course</option>
+                  <option value="Vedic Math Course">Vedic Math Course</option>
+                  <option value="Both Abacus & Vedic Math Course">Both Abacus &amp; Vedic Math Course</option>
+                  <option value="Free Demo Class">Free Demo Class</option>
                 </select>
               </div>
               <div className="ttp-form-group">
