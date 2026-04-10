@@ -53,7 +53,7 @@ const DemoAndContact = () => {
           phone: formData.phone,
           email: formData.email || null,
           city: formData.city,
-          program: formData.program,
+          lead_program: formData.program,
           status: 'new',
           source: 'Website Contact Form',
         },
