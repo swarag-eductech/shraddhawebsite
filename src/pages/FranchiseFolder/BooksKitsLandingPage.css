@@ -25,6 +25,13 @@
   min-height: 100vh;
   overflow-x: hidden;
 }
+.bk-page img {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  pointer-events: none;
+}
 
 /* ── Utility ── */
 .bk-container {
@@ -510,16 +517,18 @@
 .bk-books-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 24px;
+  gap: 28px;
 }
 .bk-book-card {
   background: #ffffff;
-  border: 1.5px solid rgba(255,107,53,0.12);
-  border-radius: 20px;
+  border: 1px solid #eee;
+  border-radius: 18px;
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  box-shadow: 0 2px 12px rgba(255,107,53,0.06);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
 }
 .bk-book-card::before {
   content: '';
@@ -531,26 +540,26 @@
   transition: opacity 0.3s;
 }
 .bk-book-card:hover {
-  transform: translateY(-6px);
-  border-color: var(--accent);
-  box-shadow: 0 16px 48px rgba(255,107,53,0.18);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.10), 0 0 0 1px var(--accent);
 }
 .bk-book-card:hover::before { opacity: 1; }
 
 .bk-book-header {
-  padding: 24px 20px 16px;
+  padding: 20px 20px 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255,107,53,0.08);
+  border-bottom: 1px solid #f3f4f6;
 }
 .bk-book-level-badge {
   color: #fff;
   font-weight: 800;
-  font-size: 0.8rem;
-  padding: 4px 14px;
+  font-size: 0.78rem;
+  padding: 5px 16px;
   border-radius: 20px;
   letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 .bk-book-emoji { font-size: 2rem; }
 .bk-book-age-badge {
@@ -561,42 +570,79 @@
   padding: 3px 10px;
   border-radius: 10px;
 }
-.bk-book-body { padding: 20px; }
+.bk-book-body {
+  padding: 16px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.bk-book-body img {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  background: #fafafa;
+  border: 1px solid #f0f0f0;
+}
 .bk-book-title {
   font-size: 1.1rem;
   font-weight: 800;
-  color: #2c3e50;
-  margin-bottom: 8px;
+  color: #1a202c;
+  margin-bottom: 6px;
+  line-height: 1.3;
 }
 .bk-book-desc {
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   color: #6b7280;
   line-height: 1.6;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 .bk-book-topics {
   list-style: none;
   padding: 0;
-  margin: 0 0 20px 0;
+  margin: 0 0 16px 0;
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 6px;
+  flex: 1;
 }
 .bk-book-topics li {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
   font-size: 0.82rem;
   color: #555;
+  line-height: 1.4;
 }
-.bk-check { font-size: 0.75rem; flex-shrink: 0; }
+.bk-check { font-size: 0.75rem; flex-shrink: 0; margin-top: 2px; }
 .bk-book-footer {
-  border-top: 1px solid rgba(255,107,53,0.08);
-  padding-top: 16px;
+  border-top: 1px solid #f3f4f6;
+  padding-top: 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
+}
+.bk-order-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 22px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  white-space: nowrap;
+}
+.bk-order-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
 }
 .bk-book-meta {
   display: flex;
@@ -605,9 +651,7 @@
   margin-bottom: 12px;
 }
 .bk-book-pages { font-size: 0.78rem; color: #9ca3af; }
-.bk-book-price {
-  display: none; /* Removed as requested */
-}
+.bk-book-price { display: none; }
 
 /* Quantity Selector */
 .bk-qty-selector {
@@ -961,7 +1005,8 @@
   .bk-top-bar { display: none; }
   .bk-hero { padding: 56px 16px 40px; min-height: unset; }
   .bk-hero-stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-  .bk-books-grid, .bk-kits-grid { grid-template-columns: 1fr; }
+  .bk-books-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .bk-kits-grid { grid-template-columns: 1fr; }
   .bk-order-steps { grid-template-columns: 1fr; }
   .bk-step-arrow { display: none; }
   .bk-nav-btn { padding: 14px 16px; font-size: 0.82rem; }
@@ -1034,69 +1079,169 @@
 /* ══ PRACTICE PAPER CARDS ══ */
 .bk-papers-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
   margin-bottom: 8px;
 }
 .bk-paper-card {
   background: #fff;
-  border: 1.5px solid rgba(255,107,53,0.12);
+  border: 1px solid #eee;
   border-radius: 16px;
-  padding: 20px 16px;
+  padding: 0;
   text-align: center;
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  box-shadow: 0 2px 10px rgba(255,107,53,0.05);
-  transition: all 0.3s;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 0;
 }
 .bk-paper-card::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 3px;
+  height: 4px;
   background: var(--accent);
   border-radius: 16px 16px 0 0;
+  z-index: 1;
 }
-.bk-paper-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 10px 28px rgba(255,107,53,0.14); }
+.bk-paper-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(0,0,0,0.10), 0 0 0 1px var(--accent);
+}
 .bk-paper-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
   color: #fff;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 800;
   padding: 4px 14px;
   border-radius: 20px;
   letter-spacing: 0.4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
-.bk-paper-icon { font-size: 1.8rem; margin: 4px 0; }
+.bk-paper-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+.bk-paper-icon {
+  font-size: 2.5rem;
+  margin: 32px 0;
+}
 .bk-paper-desc {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   color: #6b7280;
   line-height: 1.55;
   margin: 0;
   flex: 1;
+  padding: 0 16px;
+}
+.bk-paper-footer {
+  margin-top: auto;
+  width: 100%;
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 .bk-paper-btn {
   width: 100%;
   background: linear-gradient(135deg, #ff6b35, #f97316);
   color: #fff;
   border: none;
-  padding: 9px 14px;
-  border-radius: 20px;
+  padding: 10px 14px;
+  border-radius: 22px;
   font-family: 'Outfit', sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.84rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 4px 12px rgba(255,107,53,0.25);
+  transition: all 0.25s;
+  box-shadow: 0 4px 14px rgba(255,107,53,0.25);
 }
-.bk-paper-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(255,107,53,0.35); }
+.bk-paper-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255,107,53,0.35);
+}
 
 /* ── Extra responsive ── */
+@media (max-width: 768px) {
+  .bk-papers-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .bk-paper-img { height: 160px; }
+}
 @media (max-width: 600px) {
-  .bk-papers-grid { grid-template-columns: repeat(2, 1fr); }
+  .bk-container { padding: 0 12px; }
+  .bk-books-section { padding: 48px 0; }
+  .bk-section-header { margin-bottom: 32px; }
+  
+  /* Book cards: 2 columns on mobile */
+  .bk-books-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .bk-book-card { border-radius: 14px; }
+  .bk-book-header { padding: 12px 12px 10px; }
+  .bk-book-level-badge { font-size: 0.68rem; padding: 3px 10px; }
+  .bk-book-emoji { font-size: 1.4rem; }
+  .bk-book-age-badge { font-size: 0.65rem; padding: 2px 8px; }
+  .bk-book-body { padding: 10px 12px 14px; }
+  .bk-book-body img { height: 130px; margin-bottom: 10px; }
+  .bk-book-title { font-size: 0.88rem; margin-bottom: 4px; }
+  .bk-book-desc { font-size: 0.75rem; margin-bottom: 10px; line-height: 1.5; }
+  .bk-book-topics { gap: 4px; margin-bottom: 12px; }
+  .bk-book-topics li { font-size: 0.72rem; gap: 5px; }
+  .bk-check { font-size: 0.65rem; }
+  .bk-book-footer {
+    padding-top: 10px;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .bk-order-btn { padding: 8px 14px; font-size: 0.76rem; width: 100%; justify-content: center; }
+  
+  /* Practice papers: 2 columns on mobile */
+  .bk-papers-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .bk-paper-card { border-radius: 12px; }
+  .bk-paper-img { height: 120px; }
+  .bk-paper-badge { font-size: 0.65rem; padding: 3px 10px; top: 10px; left: 10px; }
+  .bk-paper-desc { font-size: 0.72rem; padding: 0 10px; }
+  .bk-paper-footer { padding: 10px 10px 12px; gap: 8px; }
+  .bk-paper-btn { font-size: 0.76rem; padding: 8px 10px; }
+  
+  /* Qty selector compact */
+  .bk-qty-btn { width: 28px; height: 28px; font-size: 0.85rem; }
+  .bk-qty-num { font-size: 0.88rem; min-width: 18px; }
+  .bk-qty-selector { gap: 6px; padding: 3px; }
+  
+  .bk-added-badge { font-size: 0.78rem; }
   .bk-level-chips { justify-content: flex-start; }
   .bk-vedic-filter { flex-direction: column; align-items: center; }
   .bk-subsection-title { font-size: 1rem; }
+  
+  /* Cart bar compact */
+  .bk-cart-bar { padding: 10px 18px; gap: 16px; bottom: 16px; border-radius: 50px; }
+  .bk-cart-count { font-size: 1rem; }
+  .bk-cart-order-btn { padding: 10px 18px; font-size: 0.84rem; }
+}
+
+@media (max-width: 380px) {
+  .bk-container { padding: 0 8px; }
+  .bk-book-body img { height: 100px; }
+  .bk-book-title { font-size: 0.82rem; }
+  .bk-book-desc { font-size: 0.7rem; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .bk-book-topics li { font-size: 0.68rem; }
+  .bk-paper-img { height: 100px; }
+  .bk-paper-desc { font-size: 0.68rem; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .bk-qty-btn { width: 26px; height: 26px; }
+  .bk-qty-num { font-size: 0.82rem; }
 }

@@ -271,7 +271,7 @@ const TTPLandingPage = () => {
         `}</script>
       </Helmet>
 
-      <div className="ttp-page">
+      <div className="ttp-page" onContextMenu={e => { if (e.target.tagName === 'IMG') e.preventDefault(); }}>
         {/* ── Announcement Bar + Language Selector ── */}
         <div className="ttp-announcement-bar">
           <div className="ttp-announcement-center">

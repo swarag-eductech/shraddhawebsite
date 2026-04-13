@@ -165,7 +165,6 @@ const BooksKitsLandingPage = () => {
             <img
               src={imgUrl}
               alt={book.titleEn}
-              style={{ width: "100%", height: "180px", objectFit: "contain", marginBottom: "10px", borderRadius: "8px", border: "1px solid #e5e7eb" }}
               loading="lazy"
               onError={() => {
                 const currentIndex = candidates.indexOf(imgUrl);
@@ -207,17 +206,31 @@ const BooksKitsLandingPage = () => {
   const PaperCard = ({ paper }) => (
     <div className="bk-paper-card" style={{ "--accent": paper.color }}>
       <div className="bk-paper-badge" style={{ background: paper.color }}>{paper.label}</div>
-      <FaFileAlt className="bk-paper-icon" style={{ color: paper.color }} />
-      <div className="bk-paper-footer" style={{ marginTop: "15px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px" }}>
+      {paper.image ? (
+        <img
+          src={paper.image}
+          alt={paper.label}
+          className="bk-paper-img"
+          loading="lazy"
+        />
+      ) : (
+        <FaFileAlt className="bk-paper-icon" style={{ color: paper.color }} />
+      )}
+      <p className="bk-paper-desc">{paper.descEn}</p>
+      <div className="bk-paper-footer">
         <div className="bk-qty-selector">
           <button className="bk-qty-btn" onClick={() => updateQty(paper.id, -1, `Paper: ${paper.label}`)}>−</button>
           <span className="bk-qty-num">{cart[paper.id]?.qty || 0}</span>
           <button className="bk-qty-btn" onClick={() => updateQty(paper.id, 1, `Paper: ${paper.label}`)}>+</button>
         </div>
-        {!(cart[paper.id]?.qty > 0) && (
-          <button className="bk-paper-btn" style={{ "--bc": paper.color, padding: "8px 15px", fontSize: "0.8rem" }} onClick={() => updateQty(paper.id, 1, `Paper: ${paper.label}`)}>
+        {!(cart[paper.id]?.qty > 0) ? (
+          <button className="bk-paper-btn" style={{ "--bc": paper.color }} onClick={() => updateQty(paper.id, 1, `Paper: ${paper.label}`)}>
             {t("","orderPaperBtn") || "Add"}
           </button>
+        ) : (
+          <div className="bk-added-badge" style={{ color: paper.color }}>
+            <FaCheckCircle className="me-1" /> Added
+          </div>
         )}
       </div>
     </div>
@@ -236,7 +249,7 @@ const BooksKitsLandingPage = () => {
         <meta name="description" content="Buy official Shraddha Institute Abacus books (UKG, Foundation, Junior 1–4, Senior 1–7), Vedic Math books (Junior 1–8, Senior 1–8) and practice papers. Pan-India delivery." />
       </Helmet>
 
-      <div className="bk-page">
+      <div className="bk-page" onContextMenu={e => { if (e.target.tagName === 'IMG') e.preventDefault(); }}>
         {/* ── Top Bar ── */}
         <div className="bk-top-bar">
           <div className="bk-ticker-wrap">

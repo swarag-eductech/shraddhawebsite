@@ -7,6 +7,13 @@
   font-family: "Segoe UI", sans-serif;
   color: #333;
 }
+.ttp-page img {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  pointer-events: none;
+}
 
 .ttp-container {
   max-width: 1140px;

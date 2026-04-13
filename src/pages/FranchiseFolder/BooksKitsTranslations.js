@@ -254,27 +254,30 @@ export const vedicBooks = [
 
 // ── PRACTICE PAPERS ──────────────────────────────────────────
 export const abacusPracticeColors = ["#e91e63","#9c27b0","#3f51b5","#2196f3","#ff6b35","#f97316","#eab308","#22c55e","#0ea5e9","#6366f1","#8b5cf6"];
+const PP_AB = "https://fetvqggubxedatdryesz.supabase.co/storage/v1/object/public/practice%20paper/Abacus/";
+const PP_VM = "https://fetvqggubxedatdryesz.supabase.co/storage/v1/object/public/practice%20paper/Vedic%20Math/";
+
 export const abacusPractice = [
-  { id:"pp-ukg",  label:"UKG",     color:"#e91e63", descEn:"Pre-number & basic counting practice paper for UKG level." },
-  { id:"pp-k1",   label:"K1",      color:"#9c27b0", descEn:"Foundation-level practice paper — bead basics and single-column sums." },
-  { id:"pp-k2",   label:"K2",      color:"#3f51b5", descEn:"Junior 1 level practice — Small Friend formula and two-column problems." },
-  { id:"pp-k3",   label:"K3",      color:"#2196f3", descEn:"Junior 2 level practice — Big Friend formula and three-column problems." },
-  { id:"pp-l1",   label:"Level 1", color:"#ff6b35", descEn:"Practice paper covering Junior 3 — four-column mixed operations." },
-  { id:"pp-l2",   label:"Level 2", color:"#f97316", descEn:"Practice paper covering Junior 4 — five-column ops and multiplication intro." },
-  { id:"pp-l3",   label:"Level 3", color:"#eab308", descEn:"Senior 1 level — two-digit multiplication and division basics." },
-  { id:"pp-l4",   label:"Level 4", color:"#22c55e", descEn:"Senior 2 level — three-digit multiplication and long division." },
-  { id:"pp-l5",   label:"Level 5", color:"#0ea5e9", descEn:"Senior 3–4 level — decimals, large numbers and competition drills." },
-  { id:"pp-l6",   label:"Level 6", color:"#6366f1", descEn:"Senior 5–6 level — advanced speed and mental abacus practice." },
-  { id:"pp-l7",   label:"Level 7", color:"#8b5cf6", descEn:"Senior 7 level — full Anzan mental math and final exam-style paper." },
+  { id:"pp-ukg",  label:"UKG",     color:"#e91e63", image:`${PP_AB}Abacus%20UKG.jpg`,     descEn:"Pre-number & basic counting practice paper for UKG level." },
+  { id:"pp-k1",   label:"K1",      color:"#9c27b0", image:`${PP_AB}Abacus%20K1.jpg`,      descEn:"Foundation-level practice paper — bead basics and single-column sums." },
+  { id:"pp-k2",   label:"K2",      color:"#3f51b5", image:`${PP_AB}Abacus%20K2.jpg`,      descEn:"Junior 1 level practice — Small Friend formula and two-column problems." },
+  { id:"pp-k3",   label:"K3",      color:"#2196f3", image:`${PP_AB}Abacus%20K3.jpg`,      descEn:"Junior 2 level practice — Big Friend formula and three-column problems." },
+  { id:"pp-l1",   label:"Level 1", color:"#ff6b35", image:`${PP_AB}Abacus%20level%201.jpg`, descEn:"Practice paper covering Junior 3 — four-column mixed operations." },
+  { id:"pp-l2",   label:"Level 2", color:"#f97316", image:`${PP_AB}Abacus%20level%202.jpg`, descEn:"Practice paper covering Junior 4 — five-column ops and multiplication intro." },
+  { id:"pp-l3",   label:"Level 3", color:"#eab308", image:`${PP_AB}Abacus%20level%203.jpg`, descEn:"Senior 1 level — two-digit multiplication and division basics." },
+  { id:"pp-l4",   label:"Level 4", color:"#22c55e", image:`${PP_AB}Abacus%20level%204.jpg`, descEn:"Senior 2 level — three-digit multiplication and long division." },
+  { id:"pp-l5",   label:"Level 5", color:"#0ea5e9", image:`${PP_AB}Abacus%20level%205.jpg`, descEn:"Senior 3–4 level — decimals, large numbers and competition drills." },
+  { id:"pp-l6",   label:"Level 6", color:"#6366f1", image:`${PP_AB}Abacus%20level%206.jpg`, descEn:"Senior 5–6 level — advanced speed and mental abacus practice." },
+  { id:"pp-l7",   label:"Level 7", color:"#8b5cf6", image:`${PP_AB}Abacus%20level%207.jpg`, descEn:"Senior 7 level — full Anzan mental math and final exam-style paper." },
 ];
 export const vedicPractice = [
-  { id:"vpp-j1", label:"Junior 1", color:"#e11d48", descEn:"Vedic Math Junior 1 practice — 16 sutras overview and basic mental sums." },
-  { id:"vpp-j2", label:"Junior 2", color:"#db2777", descEn:"Junior 2–3 level — Nikhilam multiplication and Anurupyena exercises." },
-  { id:"vpp-j3", label:"Junior 3", color:"#c026d3", descEn:"Junior 4–5 level — division sutras and squaring practice paper." },
-  { id:"vpp-j4", label:"Junior 4", color:"#7c3aed", descEn:"Junior 6–8 level — square roots, cube roots and Vinculum exercises." },
-  { id:"vpp-s1", label:"Senior 1", color:"#4f46e5", descEn:"Senior 1–2 level — advanced multiplication, Dhvajanka division." },
-  { id:"vpp-s2", label:"Senior 2", color:"#2563eb", descEn:"Senior 3–5 level — powers, Navashesh mastery and algebra problems." },
-  { id:"vpp-s3", label:"Senior 3", color:"#0284c7", descEn:"Senior 6–8 level — complete revision, all sutras and mock test paper." },
+  { id:"vpp-j1", label:"Junior 1", color:"#e11d48", image:`${PP_VM}VM%20junior%20level%201.jpg`, descEn:"Vedic Math Junior 1 practice — 16 sutras overview and basic mental sums." },
+  { id:"vpp-j2", label:"Junior 2", color:"#db2777", image:`${PP_VM}VM%20junior%20level%202.jpg`, descEn:"Junior 2–3 level — Nikhilam multiplication and Anurupyena exercises." },
+  { id:"vpp-j3", label:"Junior 3", color:"#c026d3", image:`${PP_VM}VM%20Junior%20level%203.jpg`, descEn:"Junior 4–5 level — division sutras and squaring practice paper." },
+  { id:"vpp-j4", label:"Junior 4", color:"#7c3aed", image:`${PP_VM}VM%20junior%20level%204.jpg`, descEn:"Junior 6–8 level — square roots, cube roots and Vinculum exercises." },
+  { id:"vpp-s1", label:"Senior 1", color:"#4f46e5", image:`${PP_VM}VM%20senior%20level%201.jpg`, descEn:"Senior 1–2 level — advanced multiplication, Dhvajanka division." },
+  { id:"vpp-s2", label:"Senior 2", color:"#2563eb", image:`${PP_VM}VM%20senior%20level%202.jpg`, descEn:"Senior 3–5 level — powers, Navashesh mastery and algebra problems." },
+  { id:"vpp-s3", label:"Senior 3", color:"#0284c7", image:`${PP_VM}VM%20senior%20level%203.jpg`, descEn:"Senior 6–8 level — complete revision, all sutras and mock test paper." },
 ];
 
 // ── KITS ──────────────────────────────────────────────────────
