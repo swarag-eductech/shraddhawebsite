@@ -2,6 +2,8 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet";
 import { FaWhatsapp, FaPhone, FaEnvelope, FaArrowRight, FaCheckCircle, FaShoppingCart, FaFileAlt } from "react-icons/fa";
 import "./BooksKitsLandingPage.css";
+import "../../components/DemoAndContact.css";
+import { supabase } from "../../supabaseClient";
 import {
   booksKitsTranslations,
   abacusBooks, vedicBooks,
@@ -14,6 +16,17 @@ const BooksKitsLandingPage = () => {
   const [openFaq, setOpenFaq] = useState(null);
   const [vedicFilter, setVedicFilter] = useState("junior"); // 'junior' | 'senior'
   const [cart, setCart] = useState({});
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    city: "",
+    program: "Books & Kits Inquiry",
+    message: "",
+  });
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
+  const [formError, setFormError] = useState("");
 
   const t = (section, key) =>
     booksKitsTranslations[lang]?.[section]?.[key] ||
@@ -33,6 +46,57 @@ const BooksKitsLandingPage = () => {
   }, []);
 
   const changeLang = (l) => { setLang(l); localStorage.setItem("bk_lang", l); };
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setFormLoading(true);
+    setFormError("");
+
+    try {
+      const { error } = await supabase.from("ttp_leads").insert([
+        {
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email || null,
+          city: formData.city,
+          lead_program: formData.program,
+          status: "new",
+          source: "Books Inquiry",
+        },
+      ]);
+
+      if (error) {
+        console.error("Supabase insert error details:", error);
+        setFormError("Supabase error: " + error.message);
+        return;
+      }
+
+      const waText = [
+        `🎓 *New Books Inquiry*`,
+        `👤 Name: ${formData.name}`,
+        `📞 Phone: ${formData.phone}`,
+        `📧 Email: ${formData.email || 'Not provided'}`,
+        `🏙️ City: ${formData.city}`,
+        `📚 Inquiry: ${formData.program}`,
+        formData.message ? `💬 Message: ${formData.message}` : '',
+      ].filter(Boolean).join('\n');
+
+      window.open(`https://wa.me/918446889966?text=${encodeURIComponent(waText)}`, '_blank');
+      setFormSubmitted(true);
+      setFormData({ name: "", phone: "", email: "", city: "", program: "Books & Kits Inquiry", message: "" });
+      setTimeout(() => setFormSubmitted(false), 5000);
+    } catch (err) {
+      console.error("Unexpected error details:", err);
+      setFormError("Unexpected error: " + err.message);
+    } finally {
+      setFormLoading(false);
+    }
+  };
 
   const updateQty = (id, delta, title) => {
     setCart(prev => {
@@ -492,6 +556,86 @@ const BooksKitsLandingPage = () => {
                 <span className="bk-sec-badge">{t("contact","badge")}</span>
                 <h2 className="bk-contact-title">{t("contact","title")}</h2>
                 <p className="bk-contact-sub">{t("contact","sub")}</p>
+              </div>
+              <div className="bk-contact-form-wrap">
+                {formSubmitted ? (
+                  <div className="ttp-form-success">
+                    ✅ Thank you! Your inquiry has been submitted. We will contact you shortly.
+                  </div>
+                ) : (
+                  <form className="ttp-reg-form" onSubmit={handleFormSubmit}>
+                    <div className="ttp-form-group">
+                      <label>Full Name *</label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleFormChange}
+                        placeholder="Enter your name"
+                        required
+                      />
+                    </div>
+                    <div className="ttp-form-group">
+                      <label>Phone Number *</label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleFormChange}
+                        placeholder="Enter phone number"
+                        required
+                      />
+                    </div>
+                    <div className="ttp-form-group">
+                      <label>Email Address</label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleFormChange}
+                        placeholder="Enter email address"
+                      />
+                    </div>
+                    <div className="ttp-form-group">
+                      <label>City *</label>
+                      <input
+                        type="text"
+                        name="city"
+                        value={formData.city}
+                        onChange={handleFormChange}
+                        placeholder="Enter your city"
+                        required
+                      />
+                    </div>
+                    <div className="ttp-form-group">
+                      <label>Inquiry Type *</label>
+                      <select name="program" value={formData.program} onChange={handleFormChange}>
+                        <option value="Books & Kits Inquiry">Books & Kits Inquiry</option>
+                        <option value="Abacus Books">Abacus Books</option>
+                        <option value="Vedic Math Books">Vedic Math Books</option>
+                        <option value="Practice Papers">Practice Papers</option>
+                        <option value="Other Materials">Other Materials</option>
+                      </select>
+                    </div>
+                    <div className="ttp-form-group">
+                      <label>Message (Optional)</label>
+                      <textarea
+                        name="message"
+                        value={formData.message}
+                        onChange={handleFormChange}
+                        placeholder="Any questions or comments..."
+                        rows="3"
+                      />
+                    </div>
+                    <button type="submit" className="ttp-form-submit" disabled={formLoading}>
+                      {formLoading ? "⏳ Submitting..." : "📝 Submit Inquiry"}
+                    </button>
+                    {formError && (
+                      <p className="ttp-form-error">⚠️ {formError}</p>
+                    )}
+                    <p className="ttp-form-privacy">🔒 Your information is 100% safe.</p>
+                  </form>
+                )}
               </div>
               <div className="bk-contact-btns">
                 <a href="tel:+918446889966" className="bk-contact-btn bk-contact-call"><FaPhone /> {t("contact","callBtn")}</a>
